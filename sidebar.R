@@ -7,16 +7,17 @@ sidebar <- bs4DashSidebar(
      elevation = 0,
      opacity = 1,
      bs4SidebarMenu(
-          bs4SidebarHeader("Header 1"),
+          id = "asa_sidebar",
+          bs4SidebarHeader("Profiles"),
           bs4SidebarMenuItem(
-               "Item 1",
-               tabName = "item1",
-               icon = "sliders"
+               "Players",
+               tabName = "profile_player",
+               icon = "user"
           ),
           bs4SidebarMenuItem(
-               "Item 2",
-               tabName = "item2",
-               icon = "id-card"
+               "Teams",
+               tabName = "profile_teams",
+               icon = "shield-alt"
           ),
           bs4SidebarHeader("Header 1"),
           bs4SidebarMenuItem(

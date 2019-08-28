@@ -100,3 +100,92 @@ button.label-primary:focus {
 .nav_league {
      float: left;
 }
+
+.card, .card-box {
+     margin-top: 0.5rem !important;
+     border-radius: 0 !important;
+     box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2) !important;
+}
+
+body {
+     font-family: proxima-nova, sans-serif;
+     font-size: 0.95rem;
+}
+
+.brand-link {
+     padding: 0.85rem 0.5rem;
+     font-size: 1.2rem;
+}
+
+.card-title {
+     font-size: 1.2rem;
+     font-weight: 600;
+}
+
+.players_dropdown_wrapper {
+     width: 40px;
+    height: 40px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+    background-color: white;
+    border: 1pt #ededed solid;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.players_dropdown_img {
+     display: inline;
+  margin: 0 auto;
+  margin-left: 15%;
+  height: 105%;
+  width: auto;
+}
+
+.players_dropdown_txt {
+     position: relative;
+     bottom: 14px;
+     display: inline-block;
+}
+
+.profile_player_headshot {
+     width: 110px;
+    height: 110px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+    background-color: white;
+    border: 1pt #ededed solid;
+    display: inline-block;
+    margin-right: 25px;
+    float: left;
+}
+
+.profile_player_headshot img {
+     display: inline;
+  margin: 0 auto;
+  margin-left: 15%;
+  height: 105%;
+  width: auto;
+}
+
+.profile_player_background {
+     float: left;
+     padding-top: 15px;
+}
+
+#player_profile_basic_info .card-header {
+     padding: 0;
+}
+
+.profile_player_background h3, .profile_player_background p {
+     margin-bottom: 0;
+}
+
+.form-group {
+    margin-bottom: 0.5rem;
+}
+
+#asa_controlbar h4 {
+     margin-bottom: 15px;
+}
