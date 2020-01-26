@@ -10,7 +10,7 @@ shinyServer(function(input, output, session) {
                                           selected = 3281,
                                           width = "100%",
                                           options = list(placeholder = 'Start typing a player\'s name...', 
-                                                         maxOptions = 5)),
+                                                         maxOptions = 25)),
                            selectizeInput(inputId = "profile_player_season",
                                           label = "Season",
                                           choices = sort(unique(all_players_seasons$season_name)),
