@@ -1,6 +1,6 @@
 #' @param id The unique identifier of the player(s).
 #' @serializer unboxedJSON
-#' @get /api/players
+#' @get /players
 function(id){
     if (missing(id)) {
         dbGetQuery(pool, "SELECT * FROM mls.players ORDER BY player_id")
