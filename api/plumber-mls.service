@@ -1,9 +1,0 @@
-[Unit]
-Description=Plumber API
-
-[Service]
-ExecStart=/usr/bin/Rscript -e "library(plumber); library(pool); library(RPostgres); library(DBI); pool <- dbPool(Postgres(), user = getOption('asa_user'), password = getOption('asa_password'), host = getOption('asa_host'), port = 25060, dbname = getOption('asa_db_name'), sslmode = 'require'); pr <- plumber::plumb('/var/plumber/mls/plumber.R'); pr$registerHooks(list('exit' = function(){poolClose(pool)})); pr$run(port=8001, swagger=TRUE)"
-Restart=on-abnormal
-
-[Install]
-WantedBy=multi-user.target
