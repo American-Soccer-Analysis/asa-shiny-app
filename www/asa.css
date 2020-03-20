@@ -1,3 +1,7 @@
+/************************/
+/*****  NAVIGATION  *****/
+/************************/
+
 .main-sidebar, .main-sidebar:before {
         width: 300px;
 }
@@ -101,6 +105,19 @@ button.label-primary:focus {
      float: left;
 }
 
+.form-group {
+    margin-bottom: 0.5rem;
+}
+
+#asa_controlbar h4 {
+     margin-bottom: 15px;
+}
+
+
+/************************/
+/*******  GENERAL  ******/
+/************************/
+
 .card, .card-box {
      margin-top: 0.5rem !important;
      border-radius: 0 !important;
@@ -122,8 +139,13 @@ body {
      font-weight: 600;
 }
 
+
+/************************/
+/*******  PLAYERS  ******/
+/************************/
+
 .players_dropdown_wrapper {
-     width: 40px;
+    width: 40px;
     height: 40px;
     position: relative;
     overflow: hidden;
@@ -135,11 +157,11 @@ body {
 }
 
 .players_dropdown_img {
-     display: inline;
-  margin: 0 auto;
-  margin-left: 15%;
-  height: 105%;
-  width: auto;
+    display: inline;
+    margin: 0 auto;
+    margin-left: 15%;
+    height: 105%;
+    width: auto;
 }
 
 .players_dropdown_txt {
@@ -149,30 +171,26 @@ body {
 }
 
 .profile_player_headshot {
-    width: 175px;
-    height: 175px;
+    width: 190px;
+    height: 190px;
     position: relative;
-    overflow: hidden;
-    border-radius: 50%;
-    background-color: white;
-    border: 2pt #ededed solid;
     display: inline-block;
     margin-right: 30px;
     float: left;
-    top: 30px;
+    bottom: 10px;
 }
 
 .profile_player_headshot img {
     display: inline;
     margin: 0 auto;
-    margin-left: 13%;
+    margin-left: 10%;
     height: 105%;
     width: auto;
 }
 
 .profile_player_background {
     background-image: url(asa_player_profile_background.png);
-    height: 185px;
+    height: 200px;
     margin: -20px;
     padding: 10px 35px;
     overflow: visible;
@@ -181,7 +199,7 @@ body {
 
 .profile_player_demographics {
     float: left;
-    padding-top: 65px;
+    padding-top: 50px;
     color: white;
 }
 
@@ -194,17 +212,67 @@ body {
 }
 
 .profile_player_demographics h3 {
-    font-size: 2rem;
+    font-size: 2.75rem;
 }
 
 .profile_player_demographics p {
-    font-size: 1rem;
+    font-size: 1.25rem;
+    line-height: 1.65rem;
 }
 
-.form-group {
-    margin-bottom: 0.5rem;
+#player_profile_basic_info > div > div > div.card-body:nth-child(2) {
+    padding-bottom: 0px !important;
 }
 
-#asa_controlbar h4 {
-     margin-bottom: 15px;
+
+@media (max-width: 991px) {
+	.profile_player_headshot {
+        position: relative;
+        overflow: hidden;
+        border-radius: 50%;
+        background-color: white;
+        border: 2pt #ededed solid;
+        display: block;
+        margin: auto;
+        top: 30px;
+        float: none;
+    }
+
+    .profile_player_headshot img {
+        margin-left: 13%;
+    }
+
+    .profile_player_demographics {
+        padding-top: 55px;
+        color: black;
+        text-align: center;
+        float: none;
+    }
+
+    #player_profile_basic_info > div > div > div.card-body:nth-child(2) {
+        min-height: 400px !important;
+    }
+}
+
+
+@media (max-width: 475px) {
+    .profile_player_background {
+        background-size: 135%;
+    }
+
+    .profile_player_demographics h3 {
+        font-size: 2rem;
+        line-height: 2.25rem;
+        margin-bottom: 15px;
+    }
+
+    .profile_player_demographics p {
+        font-size: 1rem;
+        line-height: 1.25rem;
+        margin-bottom: 10px;
+    }
+
+    #player_profile_basic_info > div > div > div.card-body:first-child {
+        min-height: 450px !important;
+    }
 }
