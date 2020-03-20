@@ -190,11 +190,16 @@ body {
 
 .profile_player_background {
     background-image: url(asa_player_profile_background.png);
-    height: 200px;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-attachment: fixed;
     margin: -20px;
-    padding: 10px 35px;
-    overflow: visible;
-    background-size: 100%;
+    padding: 10px 35px 0 35px;
+    overflow: hidden;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 
 .profile_player_demographics {
@@ -220,8 +225,8 @@ body {
     line-height: 1.65rem;
 }
 
-#player_profile_basic_info > div > div > div.card-body:nth-child(2) {
-    padding-bottom: 0px !important;
+div.card-body {
+    max-height: 2000px !important;
 }
 
 
@@ -238,6 +243,13 @@ body {
         float: none;
     }
 
+    .profile_player_background {
+        background-size: 100% 200px;
+        background-image: url(asa_player_profile_background.png);
+        background-attachment: scroll;
+        margin: -20px -20px 0 -20px;
+    }
+
     .profile_player_headshot img {
         margin-left: 13%;
     }
@@ -247,19 +259,21 @@ body {
         color: black;
         text-align: center;
         float: none;
+        margin-bottom: 10px;
     }
 
-    #player_profile_basic_info > div > div > div.card-body:nth-child(2) {
-        min-height: 400px !important;
+    .profile_player_demographics h3 {
+        font-size: 2.5rem;
+        margin-bottom: 5px;
+    }
+
+    .profile_player_demographics p {
+        font-size: 1.1rem;
     }
 }
 
 
 @media (max-width: 475px) {
-    .profile_player_background {
-        background-size: 135%;
-    }
-
     .profile_player_demographics h3 {
         font-size: 2rem;
         line-height: 2.25rem;
@@ -270,9 +284,5 @@ body {
         font-size: 1rem;
         line-height: 1.25rem;
         margin-bottom: 10px;
-    }
-
-    #player_profile_basic_info > div > div > div.card-body:first-child {
-        min-height: 450px !important;
     }
 }
