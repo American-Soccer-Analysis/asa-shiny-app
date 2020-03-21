@@ -78,7 +78,7 @@ shinyServer(function(input, output, session) {
                     img(src = all_players$headshot_url[all_players$player_id == players_reactive_values$profile_player_name])),
                 div(class = "profile_player_demographics",
                     h3(all_players$player_name[all_players$player_id == players_reactive_values$profile_player_name]),
-                    p(HTML(paste0("POS",
+                    p(HTML(paste0(all_players$broad_position[all_players$player_id == players_reactive_values$profile_player_name],
                                   " &nbsp;|&nbsp; Age: ", floor(age_calc(all_players$birth_date[all_players$player_id == players_reactive_values$profile_player_name], units = "years")),
                                   " &nbsp;|&nbsp; Height: ", all_players$height_ft[all_players$player_id == players_reactive_values$profile_player_name], "'", all_players$height_in[all_players$player_id == players_reactive_values$profile_player_name], "\"",
                                   " &nbsp;|&nbsp; Weight: ", all_players$weight_lb[all_players$player_id == players_reactive_values$profile_player_name], " lbs"))),
