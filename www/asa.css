@@ -120,6 +120,7 @@ button.label-primary:focus {
 
 .card, .card-box {
      margin-top: 0.5rem !important;
+     margin-bottom: 0.5rem !important;
      border-radius: 0 !important;
      box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2) !important;
 }
@@ -227,6 +228,26 @@ body {
 
 div.card-body {
     max-height: 2000px !important;
+}
+
+h3.card_header {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: -1rem;
+    margin-bottom: 0.5rem;
+}
+
+.nav-pills {
+    margin-bottom: 1rem;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #27aae1;
+}
+
+.nav-pills .nav-link:not(.active):hover {
+    color: #27aae1;
 }
 
 

@@ -88,7 +88,90 @@ shinyServer(function(input, output, session) {
         )
     })
 
+    player_profile_violin_plots_reactive <- reactive({
+        violin_d3_xg_p96 <- reshape_for_violin_d3(data_frame = all_players_xgoals,
+                                                  season = players_reactive_values$profile_player_season,
+                                                  metric = "xg_p96",
+                                                  precision = 2,
+                                                  current_player_id = players_reactive_values$profile_player_name)
+
+        bs4Box(
+            h3("Comparative Performance Metrics (per 96 Minutes Played)", class = "card_header"),
+            bs4TabSetPanel(
+                id = "player_profile_violin_tabs",
+                side = "left",
+                bs4TabPanel(
+                    tabName = "xGoals",
+                    active = TRUE,
+                    if (nrow(violin_d3_xg_p96) > 0) {
+                        if (sum(violin_d3_xg_p96$current_player) > 0) {
+                            r2d3(data = violin_d3_xg_p96,
+                                 width = "100%",
+                                 script = "www/d3_violin_dots.js",
+                                 css = "www/d3_violin_dots.css",
+                                 options = list(x_axis_title = "xGoals per 96 Minutes Played"))
+                        } else {
+                            p("This player either did not meet the minimum threshold for playing time (500 minutes), or had a near-zero xG total for this season.")
+                        }
+                    } else {
+                        p("Not enough data yet for this season.")
+                    }
+                ),
+                bs4TabPanel(
+                    tabName = "xAssists",
+                    active = FALSE,
+                    p("Coming soon.")
+                ),
+                bs4TabPanel(
+                    tabName = "Involvement",
+                    active = FALSE,
+                    p("Coming soon.")
+                ),
+                bs4TabPanel(
+                    tabName = "Pass Quality",
+                    active = FALSE,
+                    p("Coming soon.")
+                ),
+                bs4TabPanel(
+                    tabName = "Progressive Passes",
+                    active = FALSE,
+                    p("Coming soon.")
+                ),
+                bs4TabPanel(
+                    tabName = "Dribbling",
+                    active = FALSE,
+                    p("Coming soon.")
+                ),
+                bs4TabPanel(
+                    tabName = "Ball Security",
+                    active = FALSE,
+                    p("Coming soon.")
+                ),
+                bs4TabPanel(
+                    tabName = "Defensive Actions",
+                    active = FALSE,
+                    p("Coming soon.")
+                ),
+                bs4TabPanel(
+                    tabName = "Tackle Success",
+                    active = FALSE,
+                    p("Coming soon.")
+                ),
+                bs4TabPanel(
+                    tabName = "Recoveries",
+                    active = FALSE,
+                    p("Coming soon.")
+                )
+            ),
+            width = 12
+        )
+    })
+
     output$player_profile_basic_info <- renderUI({
         player_profile_basic_info_reactive()
+    })
+
+    output$player_profile_violin_plots <- renderUI({
+        player_profile_violin_plots_reactive()
     })
 })
