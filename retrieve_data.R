@@ -23,7 +23,7 @@ all_games <- dbGetQuery(pool, "SELECT * FROM mls.games
 
 
 # Import player stats by season -----------------
-future({
+# future({
     all_players_stats <- dbGetQuery(pool, "SELECT player_stats_per_game.*, xg
                                            FROM mls.player_stats_per_game
                                                 LEFT JOIN mls.player_xgoals_per_game USING (player_id, game_id)") %>%
@@ -97,4 +97,4 @@ future({
          ungroup() %>%
          mutate(recoveries_p96 = recoveries / expanded_minutes_played * 96) %>%
          left_join(all_players %>% select(player_id, player_name, broad_position), "player_id")
-})
+# })

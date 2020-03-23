@@ -89,7 +89,7 @@ shinyServer(function(input, output, session) {
     })
 
     player_profile_violin_plots_reactive <- reactive({
-        future({
+        # future({
             violin_d3_xg_p96 <- reshape_for_violin_d3(data_frame = all_players_xgoals,
                                                       season = players_reactive_values$profile_player_season,
                                                       metric = "xg_p96",
@@ -286,7 +286,7 @@ shinyServer(function(input, output, session) {
                 ),
                 width = 12
             )
-        })
+        # })
     })
 
     output$player_profile_basic_info <- renderUI({
