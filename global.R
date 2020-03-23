@@ -1,7 +1,7 @@
 # Import libraries ------------------------------
 library(shiny)
-library(promises)
-library(future)
+# library(promises)
+# library(future)
 library(bs4Dash)
 library(shinyjs)
 library(shinyWidgets)
