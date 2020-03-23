@@ -1,7 +1,7 @@
 # Import player demographic data ----------------
 all_players <- dbGetQuery(pool, "SELECT * FROM mls.players
                                  LEFT JOIN mls.players_positions USING(player_id)
-                                 ORDER BY player_id")
+                                 ORDER BY player_name")
 
 # Reshape for dropdown menu ---------------------
 players_dropdown <- all_players %>%
