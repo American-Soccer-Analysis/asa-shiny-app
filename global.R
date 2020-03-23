@@ -21,6 +21,10 @@ pool <- dbPool(Postgres(),
                dbname = getOption("asa_db_name"),
                sslmode = "require")
 
+onStop(function() {
+     poolClose(pool)
+})
+
 # Custom functions ------------------------------
 jitter_violin <- function(n, rn) {
     max = (n / 2) - 0.5
