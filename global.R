@@ -1,16 +1,25 @@
 # Import libraries ------------------------------
 library(shiny)
+library(promises)
+library(future)
 library(bs4Dash)
 library(shinyjs)
 library(shinyWidgets)
 library(eeptools)
-library(jsonlite)
-library(httr)
+library(RPostgres)
+library(DBI)
+library(pool)
 library(r2d3)
 library(tidyverse)
 
 # Set global variables --------------------------
-API_PATH <- "http://68.183.201.252/api/v1"
+pool <- dbPool(Postgres(),
+               user = getOption("asa_user"),
+               password = getOption("asa_password"),
+               host = getOption("asa_host"),
+               port = 25060,
+               dbname = getOption("asa_db_name"),
+               sslmode = "require")
 
 # Custom functions ------------------------------
 jitter_violin <- function(n, rn) {
@@ -19,12 +28,13 @@ jitter_violin <- function(n, rn) {
     return(seq(max, min, length.out = n)[rn])
 }
 
-reshape_for_violin_d3 <- function(data_frame, season, metric, precision, current_player_id) {
+reshape_for_violin_d3 <- function(data_frame, season, metric, precision, tooltip_precision, current_player_id) {
     df <- data_frame %>%
         filter(season_name == season,
                expanded_minutes_played >= 500,
                broad_position != "GK") %>%
-        mutate(x_val = round(!!as.symbol(metric), precision),
+        mutate(x_val = round(!!as.symbol(metric) / precision) * precision,
+               x_tooltip = round(!!as.symbol(metric) / tooltip_precision) * tooltip_precision,
                broad_position = factor(broad_position, levels = c("FW", "MF", "DF"))) %>%
         group_by(x_val) %>%
         arrange(broad_position) %>%

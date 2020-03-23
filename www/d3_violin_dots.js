@@ -36,7 +36,13 @@ var svg = svg.append("svg")
 r2d3.onRender(function(data, s, w, h, options) {
 
   // Scale the range of the data
-  x.domain([0, d3.max(data, function(d) { return d.x_val; })]);
+  if (options.x_axis_absolute === true) {
+     x.domain([0, d3.max(data, function(d) { return d.x_val; })]);
+  } else {
+     x.domain([d3.min(data, function(d) { return d.x_val; }),
+               d3.max(data, function(d) { return d.x_val; })]);
+  }
+
   y.domain([d3.min(data, function(d) { return d.y_val; }) - 1,
             d3.max(data, function(d) { return d.y_val; }) + 1]);
 
@@ -52,26 +58,28 @@ r2d3.onRender(function(data, s, w, h, options) {
   // Add the x-axis
   svg.append("g")
       .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x));
+      .call(d3.axisBottom(x).tickFormat(d => d + options.x_axis_suffix));
 
   // Add the dots with tooltips
   svg.selectAll("dot")
      .data(data)
    .enter().append("circle")
-     .attr("r", 3.5)
+     .attr("r", function(d) {
+          if (d.current_player === true) { return 6 }
+          else 	{ return 3.5 } })
      .attr("cx", function(d) { return x(d.x_val); })
      .attr("cy", function(d) { return y(d.y_val); })
      .attr("fill", function(d) {
-          if (d.current_player === true) {return "yellow"}
+          if (d.current_player === true) { return "yellow" }
           else 	{ return color(d.broad_position) } })
      .attr("stroke", function(d) {
-          if (d.current_player === true) {return "black"}
+          if (d.current_player === true) { return "black" }
           else 	{ return "none" } })
      .on("mouseover", function(d) {
        div.transition()
          .duration(200)
          .style("opacity", 1);
-       div.html("<strong>" + d.x_val + " xG</strong><br/>" + d.player_name)
+       div.html("<strong>" + d.x_tooltip + options.annotation_suffix + "</strong><br/>" + d.player_name)
          .style("left", (d3.event.pageX + 5) + "px")
          .style("top", (d3.event.pageY + 5) + "px")
          .style("text-align", "center")
@@ -157,7 +165,7 @@ r2d3.onRender(function(data, s, w, h, options) {
      .attr("font-size", "0.7em")
      .attr("font-weight", "bold")
      .attr("font-family", "proxima-nova, sans-serif")
-     .text(function(d) { return d.player_name + " (" + d.x_val + " xG)" });
+     .text(function(d) { return d.player_name + " (" + d.x_tooltip + options.annotation_suffix + ")" });
 
   // Axis title
    svg.append("text")

@@ -89,82 +89,204 @@ shinyServer(function(input, output, session) {
     })
 
     player_profile_violin_plots_reactive <- reactive({
-        violin_d3_xg_p96 <- reshape_for_violin_d3(data_frame = all_players_xgoals,
-                                                  season = players_reactive_values$profile_player_season,
-                                                  metric = "xg_p96",
-                                                  precision = 2,
-                                                  current_player_id = players_reactive_values$profile_player_name)
+        future({
+            violin_d3_xg_p96 <- reshape_for_violin_d3(data_frame = all_players_xgoals,
+                                                      season = players_reactive_values$profile_player_season,
+                                                      metric = "xg_p96",
+                                                      precision = 0.01,
+                                                      tooltip_precision = 0.01,
+                                                      current_player_id = players_reactive_values$profile_player_name)
 
-        bs4Box(
-            h3("Comparative Performance Metrics (per 96 Minutes Played)", class = "card_header"),
-            bs4TabSetPanel(
-                id = "player_profile_violin_tabs",
-                side = "left",
-                bs4TabPanel(
-                    tabName = "xGoals",
-                    active = TRUE,
-                    if (nrow(violin_d3_xg_p96) > 0) {
-                        if (sum(violin_d3_xg_p96$current_player) > 0) {
-                            r2d3(data = violin_d3_xg_p96,
-                                 width = "100%",
-                                 script = "www/d3_violin_dots.js",
-                                 css = "www/d3_violin_dots.css",
-                                 options = list(x_axis_title = "xGoals per 96 Minutes Played"))
+            violin_d3_involvement <- reshape_for_violin_d3(data_frame = all_players_involvement,
+                                                           season = players_reactive_values$profile_player_season,
+                                                           metric = "involvement",
+                                                           precision = 0.15,
+                                                           tooltip_precision = 0.1,
+                                                           current_player_id = players_reactive_values$profile_player_name)
+
+            violin_d3_progressive_passes <- reshape_for_violin_d3(data_frame = all_players_progressive_passes,
+                                                                  season = players_reactive_values$profile_player_season,
+                                                                  metric = "progressive_passes_p96",
+                                                                  precision = 0.1,
+                                                                  tooltip_precision = 0.01,
+                                                                  current_player_id = players_reactive_values$profile_player_name)
+
+            violin_d3_defensive_actions <- reshape_for_violin_d3(data_frame = all_players_defensive_actions,
+                                                                 season = players_reactive_values$profile_player_season,
+                                                                 metric = "defensive_actions_p96",
+                                                                 precision = 0.25,
+                                                                 tooltip_precision = 0.1,
+                                                                 current_player_id = players_reactive_values$profile_player_name)
+
+            violin_d3_tackle_success <- reshape_for_violin_d3(data_frame = all_players_tackle_success,
+                                                              season = players_reactive_values$profile_player_season,
+                                                              metric = "tackle_success",
+                                                              precision = 1,
+                                                              tooltip_precision = 0.1,
+                                                              current_player_id = players_reactive_values$profile_player_name)
+
+            violin_d3_recoveries <- reshape_for_violin_d3(data_frame = all_players_recoveries,
+                                                          season = players_reactive_values$profile_player_season,
+                                                          metric = "recoveries_p96",
+                                                          precision = 0.1,
+                                                          tooltip_precision = 0.1,
+                                                          current_player_id = players_reactive_values$profile_player_name)
+
+            bs4Box(
+                h3("Comparative Performance Metrics (per 96 Minutes Played)", class = "card_header"),
+                bs4TabSetPanel(
+                    id = "player_profile_violin_tabs",
+                    side = "left",
+                    bs4TabPanel(
+                        tabName = "xGoals",
+                        active = TRUE,
+                        if (nrow(violin_d3_xg_p96) > 0) {
+                            if (sum(violin_d3_xg_p96$current_player) > 0) {
+                                r2d3(data = violin_d3_xg_p96,
+                                     width = "96%",
+                                     height = "450px",
+                                     script = "www/d3_violin_dots.js",
+                                     css = "www/d3_violin_dots.css",
+                                     options = list(x_axis_title = "xGoals per 96 Minutes Played",
+                                                    x_axis_suffix = "",
+                                                    x_axis_absolute = TRUE,
+                                                    annotation_suffix = " xG"))
+                            } else {
+                                p("This player either did not meet the minimum threshold for playing time (500 minutes), or had a near-zero xG total for this season.")
+                            }
                         } else {
-                            p("This player either did not meet the minimum threshold for playing time (500 minutes), or had a near-zero xG total for this season.")
+                            p("Not enough data yet for this season.")
                         }
-                    } else {
-                        p("Not enough data yet for this season.")
-                    }
+                    ),
+                    bs4TabPanel(
+                        tabName = "xAssists",
+                        active = FALSE,
+                        p("Coming soon.")
+                    ),
+                    bs4TabPanel(
+                        tabName = "Involvement",
+                        active = FALSE,
+                        if (nrow(violin_d3_involvement) > 0) {
+                             if (sum(violin_d3_involvement$current_player) > 0) {
+                                  r2d3(data = violin_d3_involvement,
+                                       width = "96%",
+                                       height = "450px",
+                                       script = "www/d3_violin_dots.js",
+                                       css = "www/d3_violin_dots.css",
+                                       options = list(x_axis_title = "Share of Team's Touches (%)",
+                                                      x_axis_suffix = "%",
+                                                      x_axis_absolute = FALSE,
+                                                      annotation_suffix = "%"))
+                             } else {
+                                  p("This player either did not meet the minimum threshold for playing time (500 minutes), or had a near-zero xG total for this season.")
+                             }
+                        } else {
+                             p("Not enough data yet for this season.")
+                        }
+                    ),
+                    bs4TabPanel(
+                        tabName = "Pass Quality",
+                        active = FALSE,
+                        p("Coming soon.")
+                    ),
+                    bs4TabPanel(
+                        tabName = "Progressive Passes",
+                        active = FALSE,
+                        if (nrow(violin_d3_progressive_passes) > 0) {
+                             if (sum(violin_d3_progressive_passes$current_player) > 0) {
+                                  r2d3(data = violin_d3_progressive_passes,
+                                       width = "96%",
+                                       height = "450px",
+                                       script = "www/d3_violin_dots.js",
+                                       css = "www/d3_violin_dots.css",
+                                       options = list(x_axis_title = "Progressive Passes per 96 Minutes Played",
+                                                      x_axis_suffix = "",
+                                                      x_axis_absolute = TRUE,
+                                                      annotation_suffix = " passes"))
+                             } else {
+                                  p("This player either did not meet the minimum threshold for playing time (500 minutes), or had a near-zero xG total for this season.")
+                             }
+                        } else {
+                             p("Not enough data yet for this season.")
+                        }
+                    ),
+                    bs4TabPanel(
+                        tabName = "Dribbling",
+                        active = FALSE,
+                        p("Coming soon.")
+                    ),
+                    bs4TabPanel(
+                        tabName = "Ball Security",
+                        active = FALSE,
+                        p("Coming soon.")
+                    ),
+                    bs4TabPanel(
+                        tabName = "Defensive Actions",
+                        active = FALSE,
+                        if (nrow(violin_d3_defensive_actions) > 0) {
+                             if (sum(violin_d3_defensive_actions$current_player) > 0) {
+                                  r2d3(data = violin_d3_defensive_actions,
+                                       width = "96%",
+                                       height = "450px",
+                                       script = "www/d3_violin_dots.js",
+                                       css = "www/d3_violin_dots.css",
+                                       options = list(x_axis_title = "Defensive Actions per 96 Minutes Played",
+                                                      x_axis_suffix = "",
+                                                      x_axis_absolute = TRUE,
+                                                      annotation_suffix = " actions"))
+                             } else {
+                                  p("This player either did not meet the minimum threshold for playing time (500 minutes), or had a near-zero xG total for this season.")
+                             }
+                        } else {
+                             p("Not enough data yet for this season.")
+                        }
+                    ),
+                    bs4TabPanel(
+                        tabName = "Tackle Success",
+                        active = FALSE,
+                        if (nrow(violin_d3_tackle_success) > 0) {
+                             if (sum(violin_d3_tackle_success$current_player) > 0) {
+                                  r2d3(data = violin_d3_tackle_success,
+                                       width = "96%",
+                                       height = "450px",
+                                       script = "www/d3_violin_dots.js",
+                                       css = "www/d3_violin_dots.css",
+                                       options = list(x_axis_title = "Tackle Win Rate (%)",
+                                                      x_axis_suffix = "%",
+                                                      x_axis_absolute = FALSE,
+                                                      annotation_suffix = "%"))
+                             } else {
+                                  p("This player either did not meet the minimum threshold for playing time (500 minutes), or had a near-zero xG total for this season.")
+                             }
+                        } else {
+                             p("Not enough data yet for this season.")
+                        }
+                    ),
+                    bs4TabPanel(
+                        tabName = "Recoveries",
+                        active = FALSE,
+                        if (nrow(violin_d3_recoveries) > 0) {
+                             if (sum(violin_d3_recoveries$current_player) > 0) {
+                                  r2d3(data = violin_d3_recoveries,
+                                       width = "96%",
+                                       height = "450px",
+                                       script = "www/d3_violin_dots.js",
+                                       css = "www/d3_violin_dots.css",
+                                       options = list(x_axis_title = "Loose Balls Recovered per 96 Minutes Played",
+                                                      x_axis_suffix = "",
+                                                      x_axis_absolute = TRUE,
+                                                      annotation_suffix = " recoveries"))
+                             } else {
+                                  p("This player either did not meet the minimum threshold for playing time (500 minutes), or had a near-zero xG total for this season.")
+                             }
+                        } else {
+                             p("Not enough data yet for this season.")
+                        }
+                    )
                 ),
-                bs4TabPanel(
-                    tabName = "xAssists",
-                    active = FALSE,
-                    p("Coming soon.")
-                ),
-                bs4TabPanel(
-                    tabName = "Involvement",
-                    active = FALSE,
-                    p("Coming soon.")
-                ),
-                bs4TabPanel(
-                    tabName = "Pass Quality",
-                    active = FALSE,
-                    p("Coming soon.")
-                ),
-                bs4TabPanel(
-                    tabName = "Progressive Passes",
-                    active = FALSE,
-                    p("Coming soon.")
-                ),
-                bs4TabPanel(
-                    tabName = "Dribbling",
-                    active = FALSE,
-                    p("Coming soon.")
-                ),
-                bs4TabPanel(
-                    tabName = "Ball Security",
-                    active = FALSE,
-                    p("Coming soon.")
-                ),
-                bs4TabPanel(
-                    tabName = "Defensive Actions",
-                    active = FALSE,
-                    p("Coming soon.")
-                ),
-                bs4TabPanel(
-                    tabName = "Tackle Success",
-                    active = FALSE,
-                    p("Coming soon.")
-                ),
-                bs4TabPanel(
-                    tabName = "Recoveries",
-                    active = FALSE,
-                    p("Coming soon.")
-                )
-            ),
-            width = 12
-        )
+                width = 12
+            )
+        })
     })
 
     output$player_profile_basic_info <- renderUI({
