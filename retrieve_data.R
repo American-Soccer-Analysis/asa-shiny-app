@@ -1,5 +1,5 @@
 # Import player demographic data ----------------
-all_players_tmp <- fromJSON(content(GET(paste0(API_PATH, "/mls/players")), as = "text"))
+all_players_tmp <- fromJSON(content(GET(paste0(API_PATH, "/mls/players")), as = "text", encoding = "UTF-8"))
 
 all_players <- all_players_tmp %>%
     select(-season_name) %>%
@@ -19,9 +19,9 @@ all_players_seasons <- all_players_tmp %>%
 
 
 # Import game data ------------------------------
-all_games <- fromJSON(content(GET(paste0(API_PATH, "/mls/games")), as = "text"))
+all_games <- fromJSON(content(GET(paste0(API_PATH, "/mls/games")), as = "text", encoding = "UTF-8"))
 
 
 # Import player stats by season -----------------
-all_players_stats <- fromJSON(content(GET(paste0(API_PATH, "/mls/players/stats")), as = "text")) %>%
+all_players_stats <- fromJSON(content(GET(paste0(API_PATH, "/mls/players/stats")), as = "text", encoding = "UTF-8")) %>%
     left_join(all_players %>% select(player_id, player_name, broad_position), "player_id")
