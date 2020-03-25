@@ -17,11 +17,6 @@ VIOLIN_MINUTES_CUTOFF <- 500
 VIOLIN_HEIGHT <- "450px"
 VIOLIN_WIDTH <- "96%"
 
-# Set reactive values ---------------------------
-START_PLAYER <- 31740   # Dax
-players_reactive_values <- reactiveValues(profile_player_name = START_PLAYER,
-                                          profile_player_season = max(all_players_seasons$season_name[all_players_seasons$player_id == START_PLAYER]))
-
 # Custom functions ------------------------------
 jitter_violin <- function(n, rn) {
     max = (n / 2) - 0.5
@@ -76,3 +71,8 @@ source("sidebar.R")
 source("navbar.R")
 source("controlbar.R")
 source("profile_player.R")
+
+# Set reactive values ---------------------------
+START_PLAYER <- 31740   # Dax
+players_reactive_values <- reactiveValues(profile_player_name = START_PLAYER,
+                                          profile_player_season = max(all_players_seasons$season_name[all_players_seasons$player_id == START_PLAYER]))
