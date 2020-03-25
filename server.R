@@ -1,9 +1,4 @@
 shinyServer(function(input, output, session) {
-    start_player <- 31740   # Dax
-
-    players_reactive_values <- reactiveValues(profile_player_name = start_player,
-                                              profile_player_season = max(all_players_seasons$season_name[all_players_seasons$player_id == start_player]))
-
     controlbar_reactive <- eventReactive(input$asa_sidebar, {
         if(input$asa_sidebar == "profile_player") {
             div(
