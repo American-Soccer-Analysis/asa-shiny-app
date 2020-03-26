@@ -9,9 +9,10 @@ all_players <- all_players_tmp %>%
 
 # Reshape for dropdown menu ---------------------
 players_dropdown <- all_players %>%
+     mutate(url = paste0("player_headshots/", player_id, ".png")) %>%
      select(value = player_id,
             label = player_name,
-            url = headshot_url)
+            url)
 
 all_players_seasons <- all_players_tmp %>%
     select(player_id, season_name) %>%

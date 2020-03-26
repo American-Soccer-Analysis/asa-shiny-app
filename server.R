@@ -48,7 +48,15 @@ shinyServer(function(input, output, session) {
     })
 
     observeEvent(input$profile_player_name, {
-        if(input$profile_player_name != "") {
+        if (input$profile_player_name == players_reactive_values$profile_player_name) {
+            updateSelectizeInput(session,
+                                 "profile_player_season",
+                                 server = TRUE,
+                                 choices = all_players_seasons$season_name[all_players_seasons$player_id == input$profile_player_name],
+                                 selected = players_reactive_values$profile_player_season)
+        }
+
+        else if (input$profile_player_name != "") {
             updateSelectizeInput(session,
                                  "profile_player_season",
                                  server = TRUE,
@@ -74,7 +82,7 @@ shinyServer(function(input, output, session) {
         bs4Box(
             div(class = "profile_player_background",
                 div(class = "profile_player_headshot",
-                    img(src = all_players$headshot_url[all_players$player_id == players_reactive_values$profile_player_name])),
+                    img(src = paste0("player_headshots/", players_reactive_values$profile_player_name, ".png"))),
                 div(class = "profile_player_demographics",
                     h3(all_players$player_name[all_players$player_id == players_reactive_values$profile_player_name]),
                     p(HTML(paste0(all_players$broad_position[all_players$player_id == players_reactive_values$profile_player_name],
