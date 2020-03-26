@@ -1,4 +1,10 @@
 shinyServer(function(input, output, session) {
+    source("retrieve_data.R")
+
+    hide(id = "loader_page", anim = TRUE, animType = "fade", time = 1)
+    addClass(selector = "body", class = "sidebar-open")
+    removeClass(selector = "body", class = "sidebar-collapse")
+
     START_PLAYER <- 31740   # Dax
     players_reactive_values <- reactiveValues(profile_player_name = START_PLAYER,
                                               profile_player_season = max(all_players_seasons$season_name[all_players_seasons$player_id == START_PLAYER]))

@@ -66,7 +66,7 @@ violin_d3 <- function(data_frame, metric, metric_percentage, precision, tooltip_
 }
 
 # Source data and dashboard components ----------
-source("retrieve_data.R")
+# source("retrieve_data.R")
 source("sidebar.R")
 source("navbar.R")
 source("controlbar.R")
