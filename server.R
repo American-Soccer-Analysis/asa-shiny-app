@@ -130,7 +130,17 @@ shinyServer(function(input, output, session) {
                 bs4TabPanel(
                     tabName = "xAssists",
                     active = FALSE,
-                    p("Coming soon.")
+                    violin_d3(data_frame = all_players_stats,
+                              metric = "xa_p96",
+                              metric_percentage = FALSE,
+                              precision = 0.005,
+                              tooltip_precision = 0.01,
+                              x_axis_title = "xAssists per 96 Minutes Played",
+                              x_axis_suffix = "",
+                              x_axis_absolute = TRUE,
+                              annotation_suffix = " xA",
+                              player = players_reactive_values$profile_player_name,
+                              season = players_reactive_values$profile_player_season)
                 ),
                 bs4TabPanel(
                     tabName = "Involvement",
