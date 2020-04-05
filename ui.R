@@ -5,8 +5,11 @@ shinyUI(
             HTML('<link rel="stylesheet" href="https://use.typekit.net/zmt3hir.css">'),
             includeCSS("www/asa.css"),
             tags$script("$(document).ready(function() {
-                                     $('.fa-th').removeClass('fa-th').addClass('fa-cog');
-                                     });")
+                             $('.fa-th').removeClass('fa-th').addClass('fa-cog');
+                          });"),
+            tags$script("$(function() {
+                            $('input#client_timezone').Intl.DateTimeFormat().resolvedOptions().timeZone
+                          });")
         ),
         div(id = "loader_page",
             div(class = "lds-ripple",
@@ -21,8 +24,8 @@ shinyUI(
             title = "American Soccer Analysis | Major League Soccer",
             navbar = navbar,
             sidebar = sidebar,
-            footer = bs4DashFooter(),
-            body = bs4DashBody(profile_player),
+            footer = footer,
+            body = body,
             controlbar = controlbar
         )
     )
