@@ -18,6 +18,7 @@ VIOLIN_WIDTH <- "96%"
 START_PLAYER <- 31740   # Dax
 FIELD_WIDTH <- 80
 FIELD_LENGTH <- 115
+DATABASE_TIMEZONE <- "America/Los_Angeles"
 
 # Custom functions ------------------------------
 api_request <- function(path = API_PATH, endpoint) {
