@@ -37,8 +37,10 @@ shinyServer(function(input, output, session) {
     })
 
     # Footer settings -------------------------------
-    output$asa_footer <- renderUI({
-        footer_reactive(all_games, input$client_timezone)
+    observeEvent(input$client_timezone, {
+        output$asa_footer <- renderUI({
+            footer_reactive(all_games, input$client_timezone)
+        })
     })
 
 

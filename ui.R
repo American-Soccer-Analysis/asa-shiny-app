@@ -7,9 +7,9 @@ shinyUI(
             tags$script("$(document).ready(function() {
                              $('.fa-th').removeClass('fa-th').addClass('fa-cog');
                           });"),
-            tags$script("$(function() {
-                             var time_now = new Date()
-                             $('input#client_timezone_offset').val(time_now.getTimezoneOffset())
+            tags$script("$(document).on('shiny:connected', function(event) {
+                             var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+                             Shiny.setInputValue('client_timezone', timezone);
                           });")
         ),
         div(id = "loader_page",

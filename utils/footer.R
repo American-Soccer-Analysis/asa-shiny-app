@@ -5,8 +5,8 @@ footer <- bs4DashFooter(
 
 # Get data last updated date --------------------
 footer_reactive <- function(all_games, client_timezone) {
-    last_updated <- as.POSIXct(max(all_games$last_updated_et, na.rm = TRUE))
-    last_updated <- last_updated + client_timezone * 60
+    last_updated <- as.POSIXct(max(all_games$last_updated_et, na.rm = TRUE), tz = "America/New_York")
+    attributes(last_updated)$tzone <- client_timezone
 
     last_updated_date <- format(last_updated, "%B %M, %Y")
     last_update_hour <- as.numeric(format(last_updated, "%H"))
