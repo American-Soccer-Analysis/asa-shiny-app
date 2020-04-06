@@ -47,11 +47,11 @@
 }
 
 nav.main-header {
-  background-color: #343a40 !important;
+    background-color: #343a40 !important;
 }
 
 .nav-link .fa {
-  color: white;
+    color: white;
 }
 
 .bg-primary, .label-primary {
@@ -75,34 +75,34 @@ button.label-primary:focus {
 }
 
 .main-sidebar .brand-link,  .main-sidebar .brand-link:hover {
-     background-color: #13181e !important;
+    background-color: #13181e !important;
 }
 
 .nav_league a {
-     padding: 0 20px;
-     margin: -8px 0;
-     height: 56px;
-     display: inline-block;
-     transition: linear 0.33s;
+    padding: 0 20px;
+    margin: -8px 0;
+    height: 56px;
+    display: inline-block;
+    transition: linear 0.33s;
 }
 
 #nav_mls a, .nav_league a:hover {
-     background-color: #13181e;
-     border-bottom: 2pt solid #27aae1;
+    background-color: #13181e;
+    border-bottom: 2pt solid #27aae1;
 }
 
 .nav_league a img {
-     margin-top: 11px;
-     opacity: 0.65;
-     transition: linear 0.33s;
+    margin-top: 11px;
+    opacity: 0.65;
+    transition: linear 0.33s;
 }
 
 #nav_mls a img, .nav_league a:hover img {
-     opacity: 1;
+    opacity: 1;
 }
 
 .nav_league {
-     float: left;
+    float: left;
 }
 
 .form-group {
@@ -110,7 +110,11 @@ button.label-primary:focus {
 }
 
 #asa_controlbar h4 {
-     margin-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+#asa_body {
+    padding-bottom: 15px;
 }
 
 

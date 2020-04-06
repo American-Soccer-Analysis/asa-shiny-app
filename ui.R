@@ -8,7 +8,8 @@ shinyUI(
                              $('.fa-th').removeClass('fa-th').addClass('fa-cog');
                           });"),
             tags$script("$(function() {
-                            $('input#client_timezone').Intl.DateTimeFormat().resolvedOptions().timeZone
+                             var time_now = new Date()
+                             $('input#client_timezone_offset').val(time_now.getTimezoneOffset())
                           });")
         ),
         div(id = "loader_page",
