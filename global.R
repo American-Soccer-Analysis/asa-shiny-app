@@ -11,7 +11,7 @@ library(ggplot2)
 library(tidyverse)
 
 # Set global variables --------------------------
-API_PATH <- "http://68.183.201.252/api/v1"
+API_PATH <- "https://app.americansocceranalysis.com/api/v1"
 VIOLIN_MINUTES_CUTOFF <- 500
 VIOLIN_HEIGHT <- "450px"
 VIOLIN_WIDTH <- "96%"
