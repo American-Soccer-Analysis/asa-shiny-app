@@ -1,7 +1,6 @@
-Package: asa-shiny-app
+Title: American Soccer Analysis App
 Version: 1.0.0
 Date: TK
-Title: American Soccer Analysis App
 Authors@R: c(person("Matthias", "Kullowatz", role = c("aut", "cre"),
                      email = "mkullowatz@gmail.com"),
               person("Rory", "Pulvino", role = "aut")
@@ -11,10 +10,9 @@ Author: Matthias Kullowatz [aut, cre],
   Rory Pulvino [aut],
   Tyler Richardett [aut]
 Maintainer: Matthias Kullowatz <mkullowatz@gmail.com>
-Depends: R (>= 3.6.0), shiny
-Suggests: bs4Dash, shinyjs, shinyWidgets, eeptools,  jsonlite, httr, r2d3, ggplot2, tidyverse
 Description: An interactive web application to give ASA's loyal readers more autonomy to sort,
   filter, and download our data.
-License: GPL (>= 2)
+License: GPL-3
+Type: Shiny
 URL: https://app.americansocceranalysis.com/mls
 BugReports: https://github.com/American-Soccer-Analysis/asa-shiny-app/issues
