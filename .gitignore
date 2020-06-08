@@ -2,8 +2,8 @@
 # Edit at https://www.gitignore.io/?templates=r,macos
 
 ### ASA ###
-club_logos/*
-player_headshots/*
+*/club_logos/*
+*/player_headshots/*
 
 ### macOS ###
 # General
