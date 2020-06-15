@@ -1,10 +1,33 @@
-# Controlbar settings ---------------------------
-controlbar <- bs4DashControlbar(
-     skin = "light",
-     title = NULL,
-     width = 350,
-     uiOutput("asa_controlbar")
-)
+# TABLES: XGOALS --------------------------------
+controlbar_tables <- function(header, subheader, tables_rv) {
+
+    if (grepl("xgoals", header)) {
+        if (grepl("Players", subheader)) {
+            div(
+                column(12,
+                       h4("Player Settings"),
+                       tables_cb_slider(header, subheader, tables_rv, MAX_MINUTES,
+                                        "Minimum Minutes Played", "minimum_minutes"),
+                       tables_cb_slider(header, subheader, tables_rv, MAX_SHOTS_TAKEN_FACED,
+                                        "Minimum Shots Taken", "minimum_shots"),
+                       tables_cb_slider(header, subheader, tables_rv, MAX_KEY_PASSES,
+                                        "Minimum Key Passes", "minimum_key_passes"),
+                       tables_cb_date_filter(header, subheader, tables_rv, all_seasons),
+                       tables_cb_picker(header, subheader, tables_rv, "Teams", "team_id",
+                                        all_teams$team_id, all_teams$team_abbreviation),
+                       tables_cb_picker(header, subheader, tables_rv, "Seasons", "season_name", all_seasons),
+                       tables_cb_picker(header, subheader, tables_rv, "Patterns of Play", "shot_pattern", PATTERNS_OF_PLAY),
+                       p(class = "control-label", "Group Results"),
+                       tables_cb_switch(header, subheader, tables_rv, "Split by Teams", "split_by_teams"),
+                       tables_cb_switch(header, subheader, tables_rv, "Split by Seasons", "split_by_seasons"),
+                       tables_cb_refresh(header, subheader)
+                )
+            )
+        }
+    }
+
+}
+
 
 # PROFILES: PLAYERS -----------------------------
 controlbar_profile_player <- function(players_dropdown, players_reactive_values, all_players_seasons) {
