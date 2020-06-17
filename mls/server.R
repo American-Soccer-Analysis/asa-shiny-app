@@ -67,17 +67,114 @@ shinyServer(function(input, output, session) {
     }
 
     lapply(table_refreshes, function(x) {
-
         observeEvent(input[[x]], {
+            shinyjs::disable(x)
+
             matching_inputs <- names(input)
             matching_inputs <- matching_inputs[grepl(gsub("_refresh$", "", x), matching_inputs) & !grepl("refresh", matching_inputs)]
 
             rv_key <- gsub("(^tables_|_refresh$)", "", x)
 
-            lapply(matching_inputs, function(y) {
-                rv_secondary_key <- gsub(paste0("tables_", rv_key, "_"), "", y)
-                tables_rv[[rv_key]][[rv_secondary_key]] <- input[[y]]
-            })
+            if (any(grepl("date_type", matching_inputs))) {
+
+                if (sum(is.na(c(input[[gsub("_refresh$", "_date_range", x)]][1], input[[gsub("_refresh$", "_date_range", x)]][2]))) == 1) {
+
+                    sendSweetAlert(
+                        session,
+                        title = "Error: Date Filter",
+                        text = "If filtering by date range, both a start and end date must be included.",
+                        type = "error"
+                    )
+
+                    shinyjs::enable(x)
+
+                } else if (sum(is.na(c(input[[gsub("_refresh$", "_date_range", x)]][1], input[[gsub("_refresh$", "_date_range", x)]][2]))) == 0 &
+                           input[[gsub("_refresh$", "_date_range", x)]][2] < input[[gsub("_refresh$", "_date_range", x)]][1]) {
+
+                    sendSweetAlert(
+                        session,
+                        title = "Error: Date Filter",
+                        text = "If filtering by date range, the end date must be greater than or equal to the start date.",
+                        type = "error"
+                    )
+
+                    shinyjs::enable(x)
+
+                } else {
+
+                    lapply(matching_inputs, function(y) {
+                        if (grepl("date_range", y)) {
+                            tables_rv[[rv_key]][["start_date"]] <- input[[y]][1]
+                            tables_rv[[rv_key]][["end_date"]] <- input[[y]][2]
+                        } else {
+                            rv_secondary_key <- gsub(paste0("tables_", rv_key, "_"), "", y)
+                            tables_rv[[rv_key]][[rv_secondary_key]] <- input[[y]]
+                        }
+                    })
+
+                    subheader <- gsub("^_", "", stri_extract_last_regex(rv_key, "_[a-z]+$"))
+                    header <- stri_replace_last_regex(rv_key, "_[a-z]+$", "")
+
+                    tables_rv[[rv_key]][["data_frame"]] <- tables_rv_to_df(header, subheader)
+
+                    shinyjs::enable(x)
+
+                }
+
+            } else if (grepl("salaries_teams", x)) {
+
+                if (sum(is.na(c(input[[gsub("_refresh$", "_split_by_teams", x)]], input[[gsub("_refresh$", "_split_by_seasons", x)]], input[[gsub("_refresh$", "_split_by_positions", x)]]))) == 3) {
+
+                    sendSweetAlert(
+                        session,
+                        title = "Error: Grouping Results",
+                        text = "Results must be grouped by at least one of teams, positions, or seasons.",
+                        type = "error"
+                    )
+
+                    shinyjs::enable(x)
+
+                } else {
+
+                    lapply(matching_inputs, function(y) {
+                        if (grepl("date_range", y)) {
+                            tables_rv[[rv_key]][["start_date"]] <- input[[y]][1]
+                            tables_rv[[rv_key]][["end_date"]] <- input[[y]][2]
+                        } else {
+                            rv_secondary_key <- gsub(paste0("tables_", rv_key, "_"), "", y)
+                            tables_rv[[rv_key]][[rv_secondary_key]] <- input[[y]]
+                        }
+                    })
+
+                    subheader <- gsub("^_", "", stri_extract_last_regex(rv_key, "_[a-z]+$"))
+                    header <- stri_replace_last_regex(rv_key, "_[a-z]+$", "")
+
+                    tables_rv[[rv_key]][["data_frame"]] <- tables_rv_to_df(header, subheader)
+
+                    shinyjs::enable(x)
+
+                }
+
+            } else {
+
+                lapply(matching_inputs, function(y) {
+                    if (grepl("date_range", y)) {
+                        tables_rv[[rv_key]][["start_date"]] <- input[[y]][1]
+                        tables_rv[[rv_key]][["end_date"]] <- input[[y]][2]
+                    } else {
+                        rv_secondary_key <- gsub(paste0("tables_", rv_key, "_"), "", y)
+                        tables_rv[[rv_key]][[rv_secondary_key]] <- input[[y]]
+                    }
+                })
+
+                subheader <- gsub("^_", "", stri_extract_last_regex(rv_key, "_[a-z]+$"))
+                header <- stri_replace_last_regex(rv_key, "_[a-z]+$", "")
+
+                tables_rv[[rv_key]][["data_frame"]] <- tables_rv_to_df(header, subheader)
+
+                shinyjs::enable(x)
+
+            }
         })
     })
 
@@ -97,6 +194,15 @@ shinyServer(function(input, output, session) {
 
     output$tables_subheader <- renderUI({
         tables_subheader_reactive()
+    })
+
+    # Tables body -----------------------------------
+    tables_body_reactive <- reactive({
+        tables_body(input$asa_sidebar, input$tables_subheader)
+    })
+
+    output$tables_body <- renderUI({
+        tables_body_reactive()
     })
 
     # xGoals body -----------------------------------

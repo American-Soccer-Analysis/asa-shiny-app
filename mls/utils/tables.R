@@ -20,7 +20,7 @@ tables_menu_items <-
 # Control bar -----------------------------------
 tables_cb_slider <- function(header, subheader, tables_rv, max_value, label_name, variable_name) {
     header <- gsub("^tables_", "", header)
-    subheader <- tolower(gsub("(^<span.+'>|</span>$)", "", subheader))
+    subheader <- tolower(subheader)
 
     sliderInput(inputId = paste("tables", header, subheader, variable_name, sep = "_"),
                 label = label_name,
@@ -34,7 +34,7 @@ tables_cb_slider <- function(header, subheader, tables_rv, max_value, label_name
 
 tables_cb_date_filter <- function(header, subheader, tables_rv, all_seasons) {
     header <- gsub("^tables_", "", header)
-    subheader <- tolower(gsub("(^<span.+'>|</span>$)", "", subheader))
+    subheader <- tolower(subheader)
 
     div(
         radioGroupButtons(inputId = paste("tables", header, subheader, "date_type", sep = "_"),
@@ -64,7 +64,7 @@ tables_cb_date_filter <- function(header, subheader, tables_rv, all_seasons) {
 
 tables_cb_picker <- function(header, subheader, tables_rv, label_name, variable_name, available_values, available_names = NULL) {
     header <- gsub("^tables_", "", header)
-    subheader <- tolower(gsub("(^<span.+'>|</span>$)", "", subheader))
+    subheader <- tolower(subheader)
 
     if (!is.null(available_names)) {
         names(available_values) <- available_names
@@ -81,7 +81,7 @@ tables_cb_picker <- function(header, subheader, tables_rv, label_name, variable_
 
 tables_cb_switch <- function(header, subheader, tables_rv, label_name, variable_name) {
     header <- gsub("^tables_", "", header)
-    subheader <- tolower(gsub("(^<span.+'>|</span>$)", "", subheader))
+    subheader <- tolower(subheader)
 
     prettyCheckbox(inputId = paste("tables", header, subheader, variable_name, sep = "_"),
                    label = label_name,
@@ -91,7 +91,7 @@ tables_cb_switch <- function(header, subheader, tables_rv, label_name, variable_
 
 tables_cb_home_away <- function(header, subheader, tables_rv) {
     header <- gsub("^tables_", "", header)
-    subheader <- tolower(gsub("(^<span.+'>|</span>$)", "", subheader))
+    subheader <- tolower(subheader)
 
     selected_options <- c()
     for (s in c("home_only", "away_only")) {
@@ -109,7 +109,7 @@ tables_cb_home_away <- function(header, subheader, tables_rv) {
 
 tables_cb_refresh <- function(header, subheader) {
     header <- gsub("^tables_", "", header)
-    subheader <- tolower(gsub("(^<span.+'>|</span>$)", "", subheader))
+    subheader <- tolower(subheader)
 
     actionButton(paste("tables", header, subheader, "refresh", sep = "_"), "Refresh Results", width = "100%")
 }
@@ -118,7 +118,8 @@ tables_cb_refresh <- function(header, subheader) {
 # Wrapper div -----------------------------------
 tables_div <- div(
     uiOutput("tables_header"),
-    uiOutput("tables_subheader")
+    uiOutput("tables_subheader"),
+    uiOutput("tables_body")
 )
 
 # Header ----------------------------------------
@@ -134,14 +135,84 @@ tables_header <- function(tab) {
 tables_subheader <- function(tab) {
     bs4Box(
         radioGroupButtons(inputId = "tables_subheader",
-                          choices = paste0("<span class='tables_subheader_text'>",
-                                           tables_menu_items[[tab]][["subheaders"]],
-                                           "</span>")),
+                          choices = tables_menu_items[[tab]][["subheaders"]]),
         width = 12
     )
 }
 
 # Interactive tables ----------------------------
-tables_xgoals_ui <- function() {
+tables_rv_to_df <- function(header, subheader) {
+    header <- gsub("^tables_", "", header)
+    subheader <- tolower(subheader)
 
+    endpoint <- paste("/mls", subheader, header, sep = "/")
+    rv_key <- paste(header, subheader, sep = "_")
+
+    parameters <- tables_rv[[rv_key]]
+    parameters <- parameters[!(grepl("data_frame", names(parameters)))]
+
+    false_parameters <- which(sapply(parameters, isFALSE))
+
+    if (length(false_parameters) > 0) {
+        parameters <- parameters[-false_parameters]
+    }
+
+    if ("date_type" %in% names(parameters)) {
+        if (parameters[["date_type"]] == "Season") {
+            parameters <- parameters[!(grepl("start_date", names(parameters)))]
+            parameters <- parameters[!(grepl("end_date", names(parameters)))]
+        } else if (parameters[["date_type"]] == "Date Range") {
+            parameters <- parameters[-(names(parameters) == "season_name")]
+        }
+        parameters <- parameters[!(grepl("date_type", names(parameters)))]
+    }
+
+    df <- api_request(endpoint = endpoint, parameters = parameters)
+
+    return(df)
+}
+
+tables_body <- function(header, subheader) {
+    header <- gsub("^tables_", "", header)
+    subheader <- tolower(subheader)
+
+    rv_key <- paste(header, subheader, sep = "_")
+    df <- tables_rv[[rv_key]][["data_frame"]]
+
+    if (!is.data.frame(df)) {
+        bs4Box(
+            p("Search yielded zero results."),
+            width = 12
+        )
+    } else {
+        bs4Box(
+            DT::datatable(
+                df,
+                extensions = "Buttons",
+                options = list(pageLength = 50,
+                               autoWidth = TRUE,
+                               dom = 'Bfrtip',
+                               buttons = list('copy',
+                                              list(extend = 'csv',
+                                                   filename = paste0('EPPDashboard_WebTraffic__', format(Sys.Date(), "%m_%d_%Y"))),
+                                              list(extend = 'excel',
+                                                   filename = paste0('EPPDashboard_WebTraffic__', format(Sys.Date(), "%m_%d_%Y")),
+                                                   title = "Test",
+                                                   messageTop = paste0('Exported ', format(Sys.time(), "%H:%M %p"), ' on ', format(Sys.Date(), "%B %d, %Y"), '.')),
+                                              list(extend = 'pdf',
+                                                   filename = paste0('EPPDashboard_WebTraffic__', format(Sys.Date(), "%m_%d_%Y")),
+                                                   title = "Test",
+                                                   messageTop = paste0('Exported ', format(Sys.time(), "%H:%M %p"), ' on ', format(Sys.Date(), "%B %d, %Y"), '.')),
+                                              list(extend = 'print',
+                                                   title = "Test",
+                                                   messageTop = paste0('Exported ', format(Sys.time(), "%H:%M %p"), ' on ', format(Sys.Date(), "%B %d, %Y"), '.')))),
+                rownames = FALSE,
+                style = "bootstrap",
+                autoHideNavigation = TRUE,
+                escape = FALSE,
+                selection = "none"
+            ),
+            width = 12
+        )
+    }
 }

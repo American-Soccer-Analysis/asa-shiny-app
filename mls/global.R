@@ -9,6 +9,8 @@ library(httr)
 library(r2d3)
 library(ggplot2)
 library(tools)
+library(DT)
+library(stringi)
 library(tidyverse)
 
 # Set global variables --------------------------
@@ -31,12 +33,15 @@ MAX_KEY_PASSES <- 125
 api_request <- function(path = API_PATH, endpoint, parameters = NULL) {
     parameters_array <- c()
 
-    if (!is.null(parameters)) {
+    if (length(parameters) > 0) {
         for (i in 1:length(parameters)) {
             tmp_name <- names(parameters[i])
             tmp_value <- parameters[[tmp_name]]
 
-            if (!is.na(tmp_value) & !is.null(tmp_value)) {
+            if (all(!is.na(tmp_value)) & all(!is.null(tmp_value))) {
+                if (length(tmp_value) > 1) {
+                    tmp_value <- gsub("\\s+", "%20", paste0(tmp_value, collapse = ","))
+                }
                 parameters_array <- c(parameters_array, paste0(tmp_name, "=", tmp_value))
             }
         }
