@@ -17,7 +17,7 @@ tables_menu_items <-
                                 icon = "usd",
                                 subheaders = c("Players", "Teams")))
 
-# Control bar -----------------------------------
+# Control bar inputs ----------------------------
 tables_cb_slider <- function(header, subheader, tables_rv, max_value, label_name, variable_name) {
     header <- gsub("^tables_", "", header)
     subheader <- tolower(subheader)
@@ -115,11 +115,41 @@ tables_cb_refresh <- function(header, subheader) {
 }
 
 
+# Control bar -----------------------------------
+controlbar_tables <- function(header, subheader, tables_rv) {
+
+    if (grepl("xgoals", header)) {
+        if (grepl("Players", subheader)) {
+            div(
+                column(12,
+                       h4("Player Settings"),
+                       tables_cb_slider(header, subheader, tables_rv, MAX_MINUTES,
+                                        "Minimum Minutes Played", "minimum_minutes"),
+                       tables_cb_slider(header, subheader, tables_rv, MAX_SHOTS_TAKEN_FACED,
+                                        "Minimum Shots Taken", "minimum_shots"),
+                       tables_cb_slider(header, subheader, tables_rv, MAX_KEY_PASSES,
+                                        "Minimum Key Passes", "minimum_key_passes"),
+                       tables_cb_picker(header, subheader, tables_rv, "Teams", "team_id",
+                                        all_teams$team_id, all_teams$team_abbreviation),
+                       tables_cb_picker(header, subheader, tables_rv, "Patterns of Play", "shot_pattern", PATTERNS_OF_PLAY),
+                       tables_cb_date_filter(header, subheader, tables_rv, all_seasons),
+                       p(class = "control-label", "Group Results"),
+                       tables_cb_switch(header, subheader, tables_rv, "Split by Teams", "split_by_teams"),
+                       tables_cb_switch(header, subheader, tables_rv, "Split by Seasons", "split_by_seasons"),
+                       tables_cb_refresh(header, subheader)
+                )
+            )
+        }
+    }
+
+}
+
+
 # Wrapper div -----------------------------------
 tables_div <- div(
     uiOutput("tables_header"),
     uiOutput("tables_subheader"),
-    uiOutput("tables_body")
+    uiOutput("tables_body") %>% withSpinner()
 )
 
 # Header ----------------------------------------
@@ -162,12 +192,45 @@ tables_rv_to_df <- function(header, subheader) {
             parameters <- parameters[!(grepl("start_date", names(parameters)))]
             parameters <- parameters[!(grepl("end_date", names(parameters)))]
         } else if (parameters[["date_type"]] == "Date Range") {
-            parameters <- parameters[-(names(parameters) == "season_name")]
+            parameters <- parameters[!(grepl("season_name", names(parameters)))]
         }
         parameters <- parameters[!(grepl("date_type", names(parameters)))]
     }
 
     df <- api_request(endpoint = endpoint, parameters = parameters)
+
+    if ("player_id" %in% names(df) & "team_id" %in% names(df)) {
+
+        player_teams <- df %>%
+            select(player_id, team_id) %>%
+            unnest(team_id) %>%
+            mutate(team_id = all_teams$team_abbreviation[match(team_id, all_teams$team_id)]) %>%
+            group_by(player_id) %>%
+            summarize(team_id = paste0(team_id, collapse = ", ")) %>%
+            ungroup()
+
+        df$team_id <- player_teams$team_id[match(df$player_id, player_teams$player_id)]
+
+    } else if ("team_id" %in% names(df)) {
+
+        df$team_id <- all_teams$team_abbreviation[match(df$team_id, all_teams$team_id)]
+
+    } else if ("home_team_id" %in% names(df)) {
+
+        df$home_team_id <- all_teams$team_abbreviation[match(df$home_team_id, all_teams$team_id)]
+        df$away_team_id <- all_teams$team_abbreviation[match(df$away_team_id, all_teams$team_id)]
+
+    }
+
+    if ("player_id" %in% names(df)) {
+        df$player_id <- player_lookup$player_name[match(df$player_id, player_lookup$player_id)]
+    }
+
+    if ("game_id" %in% names(df)) {
+        df <- df %>% select(-game_id)
+    }
+
+    names(df) <- tables_column_name_map$app_name[match(names(df), tables_column_name_map$api_name)]
 
     return(df)
 }
@@ -177,6 +240,11 @@ tables_body <- function(header, subheader) {
     subheader <- tolower(subheader)
 
     rv_key <- paste(header, subheader, sep = "_")
+
+    if (is.null(tables_rv[[rv_key]][["data_frame"]])) {
+        tables_rv[[rv_key]][["data_frame"]] <- try(tables_rv_to_df(header, subheader), silent = TRUE)
+    }
+
     df <- tables_rv[[rv_key]][["data_frame"]]
 
     if (!is.data.frame(df)) {
@@ -191,21 +259,14 @@ tables_body <- function(header, subheader) {
                 extensions = "Buttons",
                 options = list(pageLength = 50,
                                autoWidth = TRUE,
-                               dom = 'Bfrtip',
-                               buttons = list('copy',
-                                              list(extend = 'csv',
-                                                   filename = paste0('EPPDashboard_WebTraffic__', format(Sys.Date(), "%m_%d_%Y"))),
+                               dom = "Bfrtip",
+                               buttons = list("copy",
+                                              list(extend = "csv",
+                                                   filename = paste("american_soccer_analysis__mls_", header, subheader, Sys.Date(), sep = "_")),
                                               list(extend = 'excel',
-                                                   filename = paste0('EPPDashboard_WebTraffic__', format(Sys.Date(), "%m_%d_%Y")),
-                                                   title = "Test",
-                                                   messageTop = paste0('Exported ', format(Sys.time(), "%H:%M %p"), ' on ', format(Sys.Date(), "%B %d, %Y"), '.')),
-                                              list(extend = 'pdf',
-                                                   filename = paste0('EPPDashboard_WebTraffic__', format(Sys.Date(), "%m_%d_%Y")),
-                                                   title = "Test",
-                                                   messageTop = paste0('Exported ', format(Sys.time(), "%H:%M %p"), ' on ', format(Sys.Date(), "%B %d, %Y"), '.')),
-                                              list(extend = 'print',
-                                                   title = "Test",
-                                                   messageTop = paste0('Exported ', format(Sys.time(), "%H:%M %p"), ' on ', format(Sys.Date(), "%B %d, %Y"), '.')))),
+                                                   filename = paste("american_soccer_analysis__mls_", header, subheader, Sys.Date(), sep = "_"),
+                                                   title = paste0("American Soccer Analysis  |  MLS  |  ", gsub("^Xp", "xP", gsub("^Xg", "xG", toTitleCase(header))), "  |  ", toTitleCase(subheader)),
+                                                   messageTop = paste0("Exported on ", format(Sys.Date(), "%B %d, %Y"), ".")))),
                 rownames = FALSE,
                 style = "bootstrap",
                 autoHideNavigation = TRUE,
@@ -216,3 +277,39 @@ tables_body <- function(header, subheader) {
         )
     }
 }
+
+# Column name mapping ---------------------------
+tables_column_name_map <- list(
+    player_id = "Player",
+    team_id = "Team",
+    season_name = "Season",
+    minutes_played = "Minutes",
+    shots = "Shots",
+    shots_on_target = "SoT",
+    avg_distance_from_goal_yds = "Dist",
+    share_unassisted_shots = "Solo",
+    goals = "G",
+    xgoals = "xG",
+    xplace = "xPlace",
+    goals_minus_xgoals = "G-xG",
+    key_passes = "KeyP",
+    primary_assists = "A",
+    xassists = "xA",
+    primary_assists_minus_xassists = "A-xA",
+    xgoals_plus_xassists = "xG+xA",
+    points_added = "PA",
+    xpoints_added = "xPA",
+    attempted_passes = "Passes",
+    pass_completion_percentage = "Pass %",
+    xpass_completion_percentage = "xPass %",
+    passes_completed_over_expected = "Score",
+    passes_completed_over_expected_p100 = "Per100",
+    avg_distance_yds = "Distance",
+    avg_vertical_distance_yds = "Vertical",
+    share_team_touches = "Touch %"
+)
+
+tables_column_name_map <- data.frame(api_name = names(tables_column_name_map),
+                                     app_name = unlist(tables_column_name_map, use.names = FALSE),
+                                     stringsAsFactors = FALSE)
+

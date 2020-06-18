@@ -3,6 +3,7 @@ library(bs4Dash)
 library(shiny)
 library(shinyjs)
 library(shinyWidgets)
+library(shinycssloaders)
 library(eeptools)
 library(jsonlite)
 library(httr)
@@ -30,6 +31,8 @@ MAX_SHOTS_TAKEN_FACED <- 125
 MAX_KEY_PASSES <- 125
 
 # Custom functions ------------------------------
+dummy_function <- function() {}
+
 api_request <- function(path = API_PATH, endpoint, parameters = NULL) {
     parameters_array <- c()
 

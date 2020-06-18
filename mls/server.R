@@ -102,26 +102,13 @@ shinyServer(function(input, output, session) {
 
                 } else {
 
-                    lapply(matching_inputs, function(y) {
-                        if (grepl("date_range", y)) {
-                            tables_rv[[rv_key]][["start_date"]] <- input[[y]][1]
-                            tables_rv[[rv_key]][["end_date"]] <- input[[y]][2]
-                        } else {
-                            rv_secondary_key <- gsub(paste0("tables_", rv_key, "_"), "", y)
-                            tables_rv[[rv_key]][[rv_secondary_key]] <- input[[y]]
-                        }
-                    })
-
-                    subheader <- gsub("^_", "", stri_extract_last_regex(rv_key, "_[a-z]+$"))
-                    header <- stri_replace_last_regex(rv_key, "_[a-z]+$", "")
-
-                    tables_rv[[rv_key]][["data_frame"]] <- tables_rv_to_df(header, subheader)
-
-                    shinyjs::enable(x)
+                    dummy_function()
 
                 }
 
-            } else if (grepl("salaries_teams", x)) {
+            }
+
+            if (grepl("salaries_teams", x)) {
 
                 if (sum(is.na(c(input[[gsub("_refresh$", "_split_by_teams", x)]], input[[gsub("_refresh$", "_split_by_seasons", x)]], input[[gsub("_refresh$", "_split_by_positions", x)]]))) == 3) {
 
@@ -136,45 +123,29 @@ shinyServer(function(input, output, session) {
 
                 } else {
 
-                    lapply(matching_inputs, function(y) {
-                        if (grepl("date_range", y)) {
-                            tables_rv[[rv_key]][["start_date"]] <- input[[y]][1]
-                            tables_rv[[rv_key]][["end_date"]] <- input[[y]][2]
-                        } else {
-                            rv_secondary_key <- gsub(paste0("tables_", rv_key, "_"), "", y)
-                            tables_rv[[rv_key]][[rv_secondary_key]] <- input[[y]]
-                        }
-                    })
-
-                    subheader <- gsub("^_", "", stri_extract_last_regex(rv_key, "_[a-z]+$"))
-                    header <- stri_replace_last_regex(rv_key, "_[a-z]+$", "")
-
-                    tables_rv[[rv_key]][["data_frame"]] <- tables_rv_to_df(header, subheader)
-
-                    shinyjs::enable(x)
+                    dummy_function()
 
                 }
 
-            } else {
-
-                lapply(matching_inputs, function(y) {
-                    if (grepl("date_range", y)) {
-                        tables_rv[[rv_key]][["start_date"]] <- input[[y]][1]
-                        tables_rv[[rv_key]][["end_date"]] <- input[[y]][2]
-                    } else {
-                        rv_secondary_key <- gsub(paste0("tables_", rv_key, "_"), "", y)
-                        tables_rv[[rv_key]][[rv_secondary_key]] <- input[[y]]
-                    }
-                })
-
-                subheader <- gsub("^_", "", stri_extract_last_regex(rv_key, "_[a-z]+$"))
-                header <- stri_replace_last_regex(rv_key, "_[a-z]+$", "")
-
-                tables_rv[[rv_key]][["data_frame"]] <- tables_rv_to_df(header, subheader)
-
-                shinyjs::enable(x)
-
             }
+
+            lapply(matching_inputs, function(y) {
+                if (grepl("date_range", y)) {
+                    tables_rv[[rv_key]][["start_date"]] <- input[[y]][1]
+                    tables_rv[[rv_key]][["end_date"]] <- input[[y]][2]
+                } else {
+                    rv_secondary_key <- gsub(paste0("tables_", rv_key, "_"), "", y)
+                    tables_rv[[rv_key]][[rv_secondary_key]] <- input[[y]]
+                }
+            })
+
+            subheader <- gsub("^_", "", stri_extract_last_regex(rv_key, "_[a-z]+$"))
+            header <- stri_replace_last_regex(rv_key, "_[a-z]+$", "")
+
+            tables_rv[[rv_key]][["data_frame"]] <- tables_rv_to_df(header, subheader)
+
+            shinyjs::enable(x)
+
         })
     })
 
