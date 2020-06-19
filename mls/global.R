@@ -1,3 +1,5 @@
+source("renv/activate.R")
+
 # Import libraries ------------------------------
 library(bs4Dash)
 library(shiny)
