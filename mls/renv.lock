@@ -130,22 +130,17 @@
     },
     "bs4Dash": {
       "Package": "bs4Dash",
-      "Version": "0.6.0.9000",
-      "Source": "GitHub",
-      "RemoteType": "github",
-      "RemoteHost": "api.github.com",
-      "RemoteRepo": "bs4Dash",
-      "RemoteUsername": "RinteRface",
-      "RemoteRef": "master",
-      "RemoteSha": "5dfbc155d8f32f4d5e0f27aee2740da295f2ffe0",
-      "Hash": "461e62eea4913f5dc36c0996b9d18576"
+      "Version": "0.4.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "b5c539e7ca1f6e753a4919c5b15fd262"
     },
     "callr": {
       "Package": "callr",
-      "Version": "3.3.0",
+      "Version": "3.4.0",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "b3c10a6b94482a227ba11e245c194884"
+      "Hash": "f73f76ba9c2c23cbe3a7657f7411ddc4"
     },
     "cellranger": {
       "Package": "cellranger",
@@ -310,10 +305,10 @@
     },
     "glue": {
       "Package": "glue",
-      "Version": "1.3.1",
+      "Version": "1.4.1",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "d4e25697c450c01b202c79ef35694a83"
+      "Hash": "f43e0d5e85ccb0a4045670c0607ee504"
     },
     "gtable": {
       "Package": "gtable",
@@ -345,10 +340,10 @@
     },
     "htmltools": {
       "Package": "htmltools",
-      "Version": "0.4.0",
+      "Version": "0.5.0",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "2d7691222f82f41e93f6d30f169bd5e1"
+      "Hash": "7d651b7131794fe007b1ad6f21aaa401"
     },
     "htmlwidgets": {
       "Package": "htmlwidgets",
@@ -700,16 +695,10 @@
     },
     "shinycssloaders": {
       "Package": "shinycssloaders",
-      "Version": "0.3.0.9004",
-      "Source": "GitHub",
-      "Remotes": "daattali/shinydisconnect",
-      "RemoteType": "github",
-      "RemoteHost": "api.github.com",
-      "RemoteRepo": "shinycssloaders",
-      "RemoteUsername": "daattali",
-      "RemoteRef": "master",
-      "RemoteSha": "684f63edae42842378f8ed76c53b7932fe974b6e",
-      "Hash": "0a4ee2d364535c6e1e7d5050445ab107"
+      "Version": "0.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "5b3c3722d8f548f1b8e095533d0a8e30"
     },
     "shinyjs": {
       "Package": "shinyjs",
