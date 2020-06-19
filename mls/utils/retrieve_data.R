@@ -2,6 +2,11 @@
 all_seasons <- api_request(endpoint = "/mls/games", parameters = list(distinct_seasons = TRUE))
 all_seasons <- sort(all_seasons$season_name)
 
+# Get distinct seasons for salary releases ------
+salaries_distinct <- api_request(endpoint = "/mls/players/salaries", parameters = list(distinct_releases = TRUE))
+salaries_seasons <- sort(unique(salaries_distinct$season_name))
+salaries_most_recent <- max(salaries_distinct$mlspa_release)
+
 # Import player ID lookup -----------------------
 player_lookup <- api_request(endpoint = "/mls/players", parameters = list(lookup_only = TRUE))
 

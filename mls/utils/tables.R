@@ -149,7 +149,7 @@ controlbar_tables <- function(header, subheader, tables_rv) {
 tables_div <- div(
     uiOutput("tables_header"),
     uiOutput("tables_subheader"),
-    uiOutput("tables_body") %>% withSpinner()
+    uiOutput("tables_body") %>% withSpinner(color = "#27aae1")
 )
 
 # Header ----------------------------------------
@@ -199,7 +199,7 @@ tables_rv_to_df <- function(header, subheader) {
 
     df <- api_request(endpoint = endpoint, parameters = parameters)
 
-    if ("player_id" %in% names(df) & "team_id" %in% names(df)) {
+    if ("player_id" %in% names(df) & "team_id" %in% names(df) & !grepl("salaries", rv_key)) {
 
         player_teams <- df %>%
             select(player_id, team_id) %>%
@@ -254,24 +254,28 @@ tables_body <- function(header, subheader) {
         )
     } else {
         bs4Box(
-            DT::datatable(
-                df,
-                extensions = "Buttons",
-                options = list(pageLength = 50,
-                               autoWidth = TRUE,
-                               dom = "Bfrtip",
-                               buttons = list("copy",
-                                              list(extend = "csv",
-                                                   filename = paste("american_soccer_analysis__mls_", header, subheader, Sys.Date(), sep = "_")),
-                                              list(extend = 'excel',
-                                                   filename = paste("american_soccer_analysis__mls_", header, subheader, Sys.Date(), sep = "_"),
-                                                   title = paste0("American Soccer Analysis  |  MLS  |  ", gsub("^Xp", "xP", gsub("^Xg", "xG", toTitleCase(header))), "  |  ", toTitleCase(subheader)),
-                                                   messageTop = paste0("Exported on ", format(Sys.Date(), "%B %d, %Y"), ".")))),
-                rownames = FALSE,
-                style = "bootstrap",
-                autoHideNavigation = TRUE,
-                escape = FALSE,
-                selection = "none"
+            div(class = "datatable_wrapper",
+                DT::datatable(
+                    df,
+                    extensions = "Buttons",
+                    options = list(pageLength = 50,
+                                   autoWidth = TRUE,
+                                   dom = "Bfrtip",
+                                   buttons = list("copy",
+                                                  list(extend = "csv",
+                                                       filename = paste("american_soccer_analysis_mls", header, subheader, Sys.Date(), sep = "_")),
+                                                  list(extend = 'excel',
+                                                       filename = paste("american_soccer_analysis_mls", header, subheader, Sys.Date(), sep = "_"),
+                                                       title = paste0("American Soccer Analysis  |  MLS  |  ", gsub("^Xp", "xP", gsub("^Xg", "xG", toTitleCase(header))), "  |  ", toTitleCase(subheader)),
+                                                       messageTop = paste0("Exported on ", format(Sys.Date(), "%B %d, %Y"), ".")))),
+                    rownames = FALSE,
+                    style = "bootstrap4",
+                    autoHideNavigation = TRUE,
+                    escape = FALSE,
+                    selection = "none",
+                    width = "100%",
+                    height = "auto"
+                )
             ),
             width = 12
         )
@@ -306,10 +310,64 @@ tables_column_name_map <- list(
     passes_completed_over_expected_p100 = "Per100",
     avg_distance_yds = "Distance",
     avg_vertical_distance_yds = "Vertical",
-    share_team_touches = "Touch %"
+    share_team_touches = "Touch %",
+    position = "Position",
+    base_salary = "Base",
+    guaranteed_compensation = "Guaranteed",
+    mlspa_release = "Date",
+    shots_faced = "Shots",
+    goals_conceded = "Goals",
+    saves = "Saves",
+    share_headed_shots = "Header %",
+    avg_distance_from_goal_yds = "Dist",
+    xgoals_gk_faced = "xG",
+    goals_minus_xgoals_gk = "G-xG",
+    count_games = "Games",
+    shots_for = "ShtF",
+    shots_against = "ShtA",
+    goals_for = "GF",
+    goals_against = "GA",
+    goal_difference = "GD",
+    xgoals_for = "xGF",
+    xgoals_against = "xGA",
+    xgoal_difference = "xGD",
+    goal_difference_minus_xgoal_difference = "GD-xGD",
+    points = "Pts",
+    xpoints = "xPts",
+    attempted_passes_for = "PassF",
+    pass_completion_percentage_for = "PctF",
+    xpass_completion_percentage_for = "xPctF",
+    passes_completed_over_expected_for = "ScoreF",
+    passes_completed_over_expected_p100_for = "Per100F",
+    avg_vertical_distance_for = "VertF",
+    attempted_passes_against = "PassA",
+    pass_completion_percentage_against = "PctA",
+    xpass_completion_percentage_against = "xPctA",
+    passes_completed_over_expected_against = "ScoreA",
+    passes_completed_over_expected_p100_against = "Per100A",
+    avg_vertical_distance_against = "VertA",
+    count_players = "N",
+    total_guaranteed_compensation = "TotalGuar",
+    avg_guaranteed_compensation = "AvgGuar",
+    median_guaranteed_compensation = "MedGuar",
+    std_dev_guaranteed_compensation = "StdDevGuar",
+    game_date = "Date",
+    home_team_id = "Home",
+    home_goals = "HG",
+    home_team_xgoals = "HxGt",
+    home_player_xgoals = "HxGp",
+    away_team_id = "Away",
+    away_goals = "AG",
+    away_team_xgoals = "AxGt",
+    away_player_xgoals = "AxGp",
+    goal_difference = "GD",
+    team_xgoal_difference = "xGDt",
+    player_xgoal_difference = "xGDp",
+    final_score_difference = "Final",
+    home_xpoints = "HxPts",
+    away_xpoints = "AxPts"
 )
 
 tables_column_name_map <- data.frame(api_name = names(tables_column_name_map),
                                      app_name = unlist(tables_column_name_map, use.names = FALSE),
                                      stringsAsFactors = FALSE)
-

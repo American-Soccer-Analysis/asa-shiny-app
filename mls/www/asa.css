@@ -381,6 +381,51 @@ body {
     padding: 1px 2px;
 }
 
+div.datatable_wrapper, div.datatable_wrapper table {
+    width: 100% !important;
+    overflow: scroll;
+}
+
+.dataTables_filter {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+div.dataTables_paginate {
+    position: absolute;
+    bottom: 15px;
+    right: 20px;
+}
+
+.dataTables_wrapper .btn-group {
+    margin-bottom: 0.5em;
+}
+
+.dataTables_wrapper .btn-group button {
+    background-color: #f8f9fa;
+    border-color: #ddd;
+    color: #444;
+}
+
+.dataTables_wrapper .btn-group button:hover {
+    background-color: #e9ecef;
+    color: #2b2b2b;
+}
+
+.dataTables_paginate .page-link {
+    color: #27aae1;
+}
+
+.dataTables_paginate .page-item.active .page-link {
+    background-color: #27aae1;
+    border-color: #27aae1;
+}
+
+.dataTables_wrapper .dataTables_info {
+    padding-top: 1em !important;
+}
+
 
 /************************/
 /*******  PLAYERS  ******/
@@ -475,7 +520,7 @@ body {
 }
 
 div.card-body {
-    max-height: 2000px !important;
+    max-height: none !important;
 }
 
 h3.card_header {
