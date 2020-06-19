@@ -1,11 +1,3 @@
-# Controlbar settings ---------------------------
-controlbar <- bs4DashControlbar(
-     skin = "light",
-     title = NULL,
-     width = 350,
-     uiOutput("asa_controlbar")
-)
-
 # PROFILES: PLAYERS -----------------------------
 controlbar_profile_player <- function(players_dropdown, players_reactive_values, all_players_seasons) {
     div(

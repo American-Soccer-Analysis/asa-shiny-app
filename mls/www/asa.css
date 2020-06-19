@@ -19,6 +19,12 @@
 	}
 }
 
+@media (min-width: 992px) {
+    .sidebar-mini.sidebar-collapse .main-sidebar:hover .brand-link, .sidebar-mini.sidebar-collapse .main-sidebar.sidebar-focused .brand-link {
+        width: 300px;
+    }
+}
+
 .sidebar-collapse .main-sidebar,
 .sidebar-collapse .main-sidebar:before {
 	margin-left: -300px;
@@ -78,6 +84,44 @@ button.label-primary:focus {
     background-color: #13181e !important;
 }
 
+.nav_league {
+    position: relative;
+    display: inline-block;
+}
+
+.coming_soon_tooltip {
+  visibility: hidden;
+  width: 120px;
+  background-color: #343a40;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+  top: 150%;
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.coming_soon_tooltip::after {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent #343a40 transparent;
+}
+
+#nav_nwsl:hover .coming_soon_tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
 .nav_league a {
     padding: 0 20px;
     margin: -8px 0;
@@ -110,7 +154,7 @@ button.label-primary:focus {
 }
 
 #asa_controlbar h4 {
-    margin-bottom: 15px;
+    margin-bottom: 0;
 }
 
 #asa_body {
@@ -123,10 +167,17 @@ button.label-primary:focus {
 /************************/
 
 .card, .card-box {
-     margin-top: 0.5rem !important;
      margin-bottom: 0.5rem !important;
      border-radius: 0 !important;
      box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2) !important;
+}
+
+.card-header.no-border {
+    border-bottom: none !important;
+}
+
+.content-wrapper {
+    padding-top: 1rem;
 }
 
 body {
@@ -142,6 +193,15 @@ body {
 .card-title {
      font-size: 1.2rem;
      font-weight: 600;
+}
+
+.card-header {
+    padding: 0 !important;
+}
+
+::selection {
+    background: #27aae1;
+    color: white;
 }
 
 
@@ -209,6 +269,165 @@ body {
 
 
 /************************/
+/*******  TABLES  *******/
+/************************/
+
+#tables_subheader input {
+    visibility: hidden;
+}
+
+#tables_subheader .btn-default {
+    background-color: transparent;
+    border: none;
+    font-size: 18px;
+    border-radius: 0px;
+    padding: 1.1rem 40px 1.1rem 18px;
+    position: relative;
+    transition: all .2s ease-in-out;
+}
+
+#tables_subheader .btn-default:before {
+    content: "";
+    width: 100%;
+    background: #27aae1;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transition: .2s;
+    display: block;
+    z-index: -1;
+    height: 0;
+}
+
+#tables_subheader .btn-default.active, #tables_subheader .btn-default:hover {
+    font-weight: bold;
+}
+
+#tables_subheader .btn-default.active:before, #tables_subheader .btn-default:hover:before {
+    height: 4px;
+    background: #27aae1;
+}
+
+#tables_subheader .card-body {
+    padding: 0;
+}
+
+#tables_subheader .form-group, #tables_subheader .shiny-bound-input {
+    margin-bottom: 0 !important;
+}
+
+#asa_controlbar .shiny-input-container {
+    margin-bottom: 0;
+}
+
+#asa_controlbar .control-label {
+    font-weight: 700;
+    margin-top: 1rem;
+    margin-bottom: 0.4rem !important;
+}
+
+#asa_controlbar .input-daterange .input-group-addon {
+    padding: 8px 15px !important;
+}
+
+#asa_controlbar button.action-button {
+    color: white;
+    font-weight: bold;
+    background-color: #27aae1;
+    border-color: #307b9c;
+    margin-top: 25px;
+}
+
+#asa_controlbar button.action-button:hover {
+    background-color: #2f8db5;
+}
+
+#asa_controlbar .irs-line {
+    background: #EEE;
+    border: none;
+}
+
+#asa_controlbar .irs-slider {
+    top: 20px;
+    width: 18px;
+    height: 18px;
+    box-shadow: none;
+    background: #27aae1;
+    border: none;
+}
+
+#asa_controlbar .irs-slider:hover {
+    border: none;
+    box-shadow: 0 0 0 3pt rgba(39, 170, 225, 0.5);
+    background: #27aae1;
+}
+
+#asa_controlbar .irs-bar, #asa_controlbar .irs-bar-edge {
+    border: none;
+    background: #27aae1;
+}
+
+#asa_controlbar .irs-min, #asa_controlbar .irs-max {
+    background: transparent;
+    top: 4px;
+    font-size: 11px;
+}
+
+#asa_controlbar .irs-from, #asa_controlbar .irs-to, #asa_controlbar .irs-single {
+    background: transparent;
+    color: #27aae1;
+    font-weight: bold;
+    font-size: 13px;
+    padding: 1px 2px;
+}
+
+div.datatable_wrapper, div.datatable_wrapper table {
+    width: 100% !important;
+    overflow: scroll;
+}
+
+.dataTables_filter {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+div.dataTables_paginate {
+    position: absolute;
+    bottom: 15px;
+    right: 20px;
+}
+
+.dataTables_wrapper .btn-group {
+    margin-bottom: 0.5em;
+}
+
+.dataTables_wrapper .btn-group button {
+    background-color: #f8f9fa;
+    border-color: #ddd;
+    color: #444;
+}
+
+.dataTables_wrapper .btn-group button:hover {
+    background-color: #e9ecef;
+    color: #2b2b2b;
+}
+
+.dataTables_paginate .page-link {
+    color: #27aae1;
+}
+
+.dataTables_paginate .page-item.active .page-link {
+    background-color: #27aae1;
+    border-color: #27aae1;
+}
+
+.dataTables_wrapper .dataTables_info {
+    padding-top: 1em !important;
+}
+
+
+/************************/
 /*******  PLAYERS  ******/
 /************************/
 
@@ -256,8 +475,8 @@ body {
     width: auto;
 }
 
-.profile_player_background {
-    background-image: url(asa_player_profile_background.png);
+.header_background {
+    background-image: url(asa_header_background.png);
     background-repeat: no-repeat;
     background-position: center top;
     background-attachment: fixed;
@@ -268,6 +487,13 @@ body {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+}
+
+#tables_header h2 {
+    color: white;
+    font-weight: bold;
+    font-size: 55px;
+    margin: 35px 0;
 }
 
 .profile_player_demographics {
@@ -294,7 +520,7 @@ body {
 }
 
 div.card-body {
-    max-height: 2000px !important;
+    max-height: none !important;
 }
 
 h3.card_header {
@@ -331,9 +557,9 @@ h3.card_header {
         float: none;
     }
 
-    .profile_player_background {
+    .header_background {
         background-size: 100% 200px;
-        background-image: url(asa_player_profile_background.png);
+        background-image: url(asa_header_background.png);
         background-attachment: scroll;
         margin: -20px -20px 0 -20px;
     }
