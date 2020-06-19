@@ -201,33 +201,68 @@ tables_rv_to_df <- function(header, subheader) {
 
     if ("player_id" %in% names(df) & "team_id" %in% names(df) & !grepl("salaries", rv_key)) {
 
-        player_teams <- df %>%
-            select(player_id, team_id) %>%
-            unnest(team_id) %>%
-            mutate(team_id = all_teams$team_abbreviation[match(team_id, all_teams$team_id)]) %>%
-            group_by(player_id) %>%
-            summarize(team_id = paste0(team_id, collapse = ", ")) %>%
-            ungroup()
+        if (class(df$team_id) == "list") {
 
-        df$team_id <- player_teams$team_id[match(df$player_id, player_teams$player_id)]
+            if ("season_name" %in% names(df)) {
+
+                player_teams <- df %>%
+                    select(player_id, season_name, team_id) %>%
+                    unnest(team_id) %>%
+                    mutate(team_id = all_teams$team_abbreviation[match(team_id, all_teams$team_id)]) %>%
+                    group_by(player_id, season_name) %>%
+                    summarize(team_id = paste0(team_id, collapse = ", ")) %>%
+                    ungroup()
+
+                df <- df %>%
+                    rowwise() %>%
+                    mutate(team_id = player_teams$team_id[player_teams$player_id == player_id & player_teams$season_name == season_name])
+
+            } else {
+
+                player_teams <- df %>%
+                    select(player_id, team_id) %>%
+                    unnest(team_id) %>%
+                    mutate(team_id = all_teams$team_abbreviation[match(team_id, all_teams$team_id)]) %>%
+                    group_by(player_id) %>%
+                    summarize(team_id = paste0(team_id, collapse = ", ")) %>%
+                    ungroup()
+
+                df <- df %>%
+                    mutate(team_id = player_teams$team_id[match(player_id, player_teams$player_id)])
+
+            }
+
+        } else {
+
+            df <- df %>%
+                mutate(team_id = all_teams$team_abbreviation[match(team_id, all_teams$team_id)])
+
+        }
 
     } else if ("team_id" %in% names(df)) {
 
-        df$team_id <- all_teams$team_abbreviation[match(df$team_id, all_teams$team_id)]
+        df <- df %>%
+            mutate(team_id = all_teams$team_abbreviation[match(team_id, all_teams$team_id)])
 
     } else if ("home_team_id" %in% names(df)) {
 
-        df$home_team_id <- all_teams$team_abbreviation[match(df$home_team_id, all_teams$team_id)]
-        df$away_team_id <- all_teams$team_abbreviation[match(df$away_team_id, all_teams$team_id)]
+        df <- df %>%
+            mutate(home_team_id = all_teams$team_abbreviation[match(home_team_id, all_teams$team_id)],
+                   away_team_id = all_teams$team_abbreviation[match(away_team_id, all_teams$team_id)])
 
     }
 
     if ("player_id" %in% names(df)) {
-        df$player_id <- player_lookup$player_name[match(df$player_id, player_lookup$player_id)]
+
+        df <- df %>%
+            mutate(player_id = player_lookup$player_name[match(player_id, player_lookup$player_id)])
+
     }
 
     if ("game_id" %in% names(df)) {
+
         df <- df %>% select(-game_id)
+
     }
 
     names(df) <- tables_column_name_map$app_name[match(names(df), tables_column_name_map$api_name)]
