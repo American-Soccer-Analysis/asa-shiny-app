@@ -209,6 +209,10 @@ body {
     padding-right: 15px !important;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 
 /************************/
 /*******  LOADER  *******/
