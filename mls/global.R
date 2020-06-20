@@ -29,10 +29,9 @@ MLSPA_POSITIONS <- c("GK", "D", "M", "F")
 MAX_MINUTES <- 3000
 MAX_SHOTS_TAKEN_FACED <- 125
 MAX_KEY_PASSES <- 125
+MAX_PASSES <- 2000
 
 # Custom functions ------------------------------
-dummy_function <- function() {}
-
 api_request <- function(path = API_PATH, endpoint, parameters = NULL) {
     parameters_array <- c()
 

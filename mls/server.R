@@ -113,7 +113,7 @@ shinyServer(function(input, output, session) {
 
             if (grepl("salaries_teams", x)) {
 
-                if (sum(is.na(c(input[[gsub("_refresh$", "_split_by_teams", x)]], input[[gsub("_refresh$", "_split_by_seasons", x)]], input[[gsub("_refresh$", "_split_by_positions", x)]]))) == 3) {
+                if (sum(c(input[[gsub("_refresh$", "_split_by_teams", x)]], input[[gsub("_refresh$", "_split_by_seasons", x)]], input[[gsub("_refresh$", "_split_by_positions", x)]])) == 0) {
 
                     sendSweetAlert(
                         session,
