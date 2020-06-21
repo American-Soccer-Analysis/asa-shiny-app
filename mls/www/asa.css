@@ -159,6 +159,7 @@ button.label-primary:focus {
 
 #asa_body {
     padding-bottom: 15px;
+    min-height: 1000px !important;
 }
 
 

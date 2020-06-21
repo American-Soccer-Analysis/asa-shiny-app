@@ -80,32 +80,36 @@ shinyServer(function(input, output, session) {
 
             if (any(grepl("date_type", matching_inputs))) {
 
-                if (sum(is.na(c(input[[gsub("_refresh$", "_date_range", x)]][1], input[[gsub("_refresh$", "_date_range", x)]][2]))) == 1) {
+                if (input[[gsub("_refresh$", "_date_type", x)]] == "Date Range") {
 
-                    sendSweetAlert(
-                        session,
-                        title = "Error: Date Filter",
-                        text = "If filtering by date range, both a start and end date must be included.",
-                        type = "error"
-                    )
+                    if (sum(is.na(c(input[[gsub("_refresh$", "_date_range", x)]][1], input[[gsub("_refresh$", "_date_range", x)]][2]))) == 1) {
 
-                    shinyjs::enable(x)
+                        sendSweetAlert(
+                            session,
+                            title = "Error: Date Filter",
+                            text = "If filtering by date range, both a start and end date must be included.",
+                            type = "error"
+                        )
 
-                    execute_api_call <- FALSE
+                        shinyjs::enable(x)
 
-                } else if (sum(is.na(c(input[[gsub("_refresh$", "_date_range", x)]][1], input[[gsub("_refresh$", "_date_range", x)]][2]))) == 0 &
-                           input[[gsub("_refresh$", "_date_range", x)]][2] < input[[gsub("_refresh$", "_date_range", x)]][1]) {
+                        execute_api_call <- FALSE
 
-                    sendSweetAlert(
-                        session,
-                        title = "Error: Date Filter",
-                        text = "If filtering by date range, the end date must be greater than or equal to the start date.",
-                        type = "error"
-                    )
+                    } else if (sum(is.na(c(input[[gsub("_refresh$", "_date_range", x)]][1], input[[gsub("_refresh$", "_date_range", x)]][2]))) == 0 &
+                               input[[gsub("_refresh$", "_date_range", x)]][2] < input[[gsub("_refresh$", "_date_range", x)]][1]) {
 
-                    shinyjs::enable(x)
+                        sendSweetAlert(
+                            session,
+                            title = "Error: Date Filter",
+                            text = "If filtering by date range, the end date must be greater than or equal to the start date.",
+                            type = "error"
+                        )
 
-                    execute_api_call <- FALSE
+                        shinyjs::enable(x)
+
+                        execute_api_call <- FALSE
+
+                    }
 
                 }
 
@@ -174,7 +178,7 @@ shinyServer(function(input, output, session) {
 
     # Tables body -----------------------------------
     tables_body_reactive <- reactive({
-        tables_body(input$asa_sidebar, input$tables_subheader)
+        tables_body(input$asa_sidebar, input$tables_subheader, input$client_timezone)
     })
 
     output$tables_body <- renderUI({
