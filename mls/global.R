@@ -43,7 +43,10 @@ api_request <- function(path = API_PATH, endpoint, parameters = NULL) {
             if (all(!is.na(tmp_value)) & all(!is.null(tmp_value))) {
                 if (length(tmp_value) > 1) {
                     tmp_value <- gsub("\\s+", "%20", paste0(tmp_value, collapse = ","))
+                } else {
+                    tmp_value <- gsub("\\s+", "%20", tmp_value)
                 }
+
                 parameters_array <- c(parameters_array, paste0(tmp_name, "=", tmp_value))
             }
         }

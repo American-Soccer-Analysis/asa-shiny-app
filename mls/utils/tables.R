@@ -73,6 +73,10 @@ tables_rv_to_df <- function(header, subheader) {
         parameters <- parameters[!(grepl("date_type", names(parameters)))]
     }
 
+    if ("sort_column" %in% names(parameters)) {
+        parameters <- parameters[!(grepl("sort_column", names(parameters)))]
+    }
+
     df <- api_request(endpoint = endpoint, parameters = parameters)
 
     if (class(df) == "list") {
