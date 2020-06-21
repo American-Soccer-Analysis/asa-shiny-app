@@ -283,6 +283,7 @@ body {
 
 #tables_subheader input {
     visibility: hidden;
+    width: 0;
 }
 
 #tables_subheader .btn-default {
@@ -290,7 +291,7 @@ body {
     border: none;
     font-size: 18px;
     border-radius: 0px;
-    padding: 1.1rem 40px 1.1rem 18px;
+    padding: 1.1rem 30px 1.1rem 28px;
     position: relative;
     transition: all .2s ease-in-out;
 }
@@ -323,6 +324,10 @@ body {
 
 #tables_subheader .form-group, #tables_subheader .shiny-bound-input {
     margin-bottom: 0 !important;
+}
+
+#tables_subheader .btn-group {
+    display: -webkit-box;
 }
 
 #asa_controlbar .shiny-input-container {
@@ -445,6 +450,47 @@ table.dataTable thead .sorting:before, table.dataTable thead .sorting:after, tab
 
 .btn {
     box-shadow: none !important;
+}
+
+@media screen and (max-width: 767px) {
+    .datatable_wrapper div.dt-buttons {
+        visibility: hidden;
+        height: 0;
+        margin-bottom: 0 !important;
+    }
+
+    div.dataTables_wrapper div.dataTables_info {
+        visibility: hidden;
+        height: 0;
+        padding-top: 0 !important;
+    }
+
+    div.dataTables_paginate {
+        position: static;
+    }
+
+    div.dataTables_paginate .pagination {
+        display: -webkit-inline-box;
+    }
+
+    .dataTables_filter {
+        position: static;
+        margin-top: -15px;
+        margin-bottom: 10px;
+        text-align: left;
+    }
+
+    .dataTables_filter label {
+        width: 100%;
+    }
+
+    .dataTables_filter label input {
+        width: 80% !important;
+    }
+
+    .header_background {
+        padding: 10px 25px 0 25px;
+    }
 }
 
 
@@ -576,13 +622,6 @@ h3.card_header {
         margin: auto;
         top: 30px;
         float: none;
-    }
-
-    .header_background {
-        background-size: 100% 200px;
-        background-image: url(asa_header_background.png);
-        background-attachment: scroll;
-        margin: -20px -20px 0 -20px;
     }
 
     .profile_player_headshot img {
