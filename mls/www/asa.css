@@ -453,6 +453,51 @@ table.dataTable thead .sorting:before, table.dataTable thead .sorting:after, tab
     box-shadow: none !important;
 }
 
+.tables_helper_tooltip {
+  visibility: hidden;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 1.15;
+  width: 175px;
+  background-color: #343a40;
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+  top: 125%;
+  left: 50%;
+  margin-left: -80px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tables_helper_tooltip::after {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent #343a40 transparent;
+}
+
+th:hover .tables_helper_tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.shiny-input-checkboxgroup label ~ .shiny-options-group, .shiny-input-radiogroup label ~ .shiny-options-group {
+    margin-top: 0 !important;
+}
+
+.shiny-options-group .radio label {
+    margin-bottom: 0 !important;
+    font-weight: normal !important;
+}
+
 @media screen and (max-width: 767px) {
     .datatable_wrapper div.dt-buttons {
         visibility: hidden;
