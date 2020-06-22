@@ -129,7 +129,8 @@ tables_rv_to_df <- function(header, subheader) {
 
                 df <- df %>%
                     rowwise() %>%
-                    mutate(team_id = player_teams$team_id[player_teams$player_id == player_id & player_teams$season_name == season_name])
+                    mutate(team_id = player_teams$team_id[player_teams$player_id == player_id & player_teams$season_name == season_name]) %>%
+                    ungroup()
 
             } else {
 
