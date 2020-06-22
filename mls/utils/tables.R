@@ -77,6 +77,13 @@ tables_rv_to_df <- function(header, subheader) {
         parameters <- parameters[!(grepl("sort_column", names(parameters)))]
     }
 
+    if ("normalize_by" %in% names(parameters)) {
+        parameters <- parameters[!(grepl("normalize_by", names(parameters)))]
+        normalize_variables <- tables_rv[[rv_key]][["normalize_by"]]
+    } else {
+        normalize_variables <- "None"
+    }
+
     df <- api_request(endpoint = endpoint, parameters = parameters)
 
     if (class(df) == "list") {
@@ -93,6 +100,16 @@ tables_rv_to_df <- function(header, subheader) {
         df <- df %>%
             mutate(total_goals_added_above_avg = rowSums(df %>% select(contains("goals_added"))),
                    total_count_actions = rowSums(df %>% select(contains("count_actions"))))
+
+        if (normalize_variables == "Action") {
+
+            gplus_variables <- names(df)[grepl("goals_added_above_avg", names(df))]
+
+            for (g in gplus_variables) {
+                df[[g]] <- df[[g]] / df[[gsub("goals_added_above_avg", "count_actions", g)]]
+            }
+
+        }
 
     }
 
@@ -164,6 +181,18 @@ tables_rv_to_df <- function(header, subheader) {
 
     names(df) <- tables_column_name_map$app_name[match(names(df), tables_column_name_map$api_name)]
 
+    if (normalize_variables == "96 Minutes") {
+
+        tmp_columns <- tables_normalize_columns[tables_normalize_columns %in% names(df)]
+        df <- df %>% mutate_at(tmp_columns, function(x) x * 96 / .$Minutes)
+
+    } else if (normalize_variables == "Game") {
+
+        tmp_columns <- tables_normalize_columns[tables_normalize_columns %in% names(df)]
+        df <- df %>% mutate_at(tmp_columns, function(x) x / .$Games)
+
+    }
+
     return(df)
 }
 
@@ -192,6 +221,14 @@ tables_body <- function(header, subheader, client_timezone) {
 
         sort_order <- tables_rv[[rv_key]][["sort_column"]][2]
 
+        for (i in 1:length(names(df))) {
+            tmp_match <- match(names(df)[i], tables_column_tooltip_text$app_name)
+
+            if (!is.na(tmp_match)) {
+                names(df)[i] <- paste0(names(df)[i], "<span class=\"tables_helper_tooltip\">", tables_column_tooltip_text$tooltip_text[tmp_match], "</span>")
+            }
+        }
+
         dt <- DT::datatable(
             df,
             extensions = "Buttons",
@@ -215,14 +252,19 @@ tables_body <- function(header, subheader, client_timezone) {
             height = "auto"
         )
 
-        if (any(tables_currency_columns %in% names(df))) {
-            tmp_columns <- tables_currency_columns[tables_currency_columns %in% names(df)]
+        if (any(gsub("<.*>$", "", names(df)) %in% tables_currency_columns)) {
+            tmp_columns <- which(gsub("<.*>$", "", names(df)) %in% tables_currency_columns)
             dt <- dt %>% formatCurrency(columns = tmp_columns)
         }
 
-        if (any(tables_percentage_columns %in% names(df))) {
-            tmp_columns <- tables_percentage_columns[tables_percentage_columns %in% names(df)]
+        if (any(gsub("<.*>$", "", names(df)) %in% tables_percentage_columns)) {
+            tmp_columns <- which(gsub("<.*>$", "", names(df)) %in% tables_percentage_columns)
             dt <- dt %>% formatPercentage(columns = tmp_columns, digits = 1)
+        }
+
+        if (any(unlist(lapply(df, class), use.names = FALSE) == "numeric")) {
+            tmp_columns <- which(unlist(lapply(df, class), use.names = FALSE) == "numeric")
+            dt <- dt %>% formatRound(columns = tmp_columns, digits = 2)
         }
 
         bs4Box(
@@ -323,6 +365,20 @@ tables_cb_home_away <- function(header, subheader, tables_rv) {
                          selected = selected_options)
 }
 
+tables_cb_radio <- function(header, subheader, tables_rv, label_name, variable_name, available_values, available_names = NULL) {
+    header <- gsub("^tables_", "", header)
+    subheader <- tolower(subheader)
+
+    if (!is.null(available_names)) {
+        names(available_values) <- available_names
+    }
+
+    radioButtons(inputId = paste("tables", header, subheader, variable_name, sep = "_"),
+                 label = label_name,
+                 choices = available_values,
+                 selected = tables_rv[[paste(header, subheader, sep = "_")]][[variable_name]])
+}
+
 tables_cb_refresh <- function(header, subheader) {
     header <- gsub("^tables_", "", header)
     subheader <- tolower(subheader)
@@ -352,6 +408,8 @@ controlbar_tables <- function(header, subheader, tables_rv) {
                        p(class = "control-label", "Group Results"),
                        tables_cb_switch(header, subheader, tables_rv, "Split by Teams", "split_by_teams"),
                        tables_cb_switch(header, subheader, tables_rv, "Split by Seasons", "split_by_seasons"),
+                       tables_cb_radio(header, subheader, tables_rv, "Normalize Results By", "normalize_by",
+                                       c("None", "96 Minutes")),
                        tables_cb_refresh(header, subheader)
                 )
             )
@@ -370,6 +428,8 @@ controlbar_tables <- function(header, subheader, tables_rv) {
                        tables_cb_switch(header, subheader, tables_rv, "Home Adjustment", "home_adjusted"),
                        p(class = "control-label", "Filter Results by Game State"),
                        tables_cb_switch(header, subheader, tables_rv, "Even Game State Only", "even_game_state"),
+                       tables_cb_radio(header, subheader, tables_rv, "Normalize Results By", "normalize_by",
+                                       c("None", "Game")),
                        tables_cb_refresh(header, subheader)
                 )
             )
@@ -388,6 +448,8 @@ controlbar_tables <- function(header, subheader, tables_rv) {
                        p(class = "control-label", "Group Results"),
                        tables_cb_switch(header, subheader, tables_rv, "Split by Teams", "split_by_teams"),
                        tables_cb_switch(header, subheader, tables_rv, "Split by Seasons", "split_by_seasons"),
+                       tables_cb_radio(header, subheader, tables_rv, "Normalize Results By", "normalize_by",
+                                       c("None", "96 Minutes")),
                        tables_cb_refresh(header, subheader)
                 )
             )
@@ -416,6 +478,8 @@ controlbar_tables <- function(header, subheader, tables_rv) {
                        p(class = "control-label", "Group Results"),
                        tables_cb_switch(header, subheader, tables_rv, "Split by Teams", "split_by_teams"),
                        tables_cb_switch(header, subheader, tables_rv, "Split by Seasons", "split_by_seasons"),
+                       tables_cb_radio(header, subheader, tables_rv, "Normalize Results By", "normalize_by",
+                                       c("None", "96 Minutes")),
                        tables_cb_refresh(header, subheader)
                 )
             )
@@ -430,6 +494,8 @@ controlbar_tables <- function(header, subheader, tables_rv) {
                        p(class = "control-label", "Filter Results by Venue"),
                        tables_cb_switch(header, subheader, tables_rv, "Home Only", "home_only"),
                        tables_cb_switch(header, subheader, tables_rv, "Away Only", "away_only"),
+                       tables_cb_radio(header, subheader, tables_rv, "Normalize Results By", "normalize_by",
+                                       c("None", "Game")),
                        tables_cb_refresh(header, subheader)
                 )
             )
@@ -447,6 +513,8 @@ controlbar_tables <- function(header, subheader, tables_rv) {
                        p(class = "control-label", "Group Results"),
                        tables_cb_switch(header, subheader, tables_rv, "Split by Teams", "split_by_teams"),
                        tables_cb_switch(header, subheader, tables_rv, "Split by Seasons", "split_by_seasons"),
+                       tables_cb_radio(header, subheader, tables_rv, "Normalize Results By", "normalize_by",
+                                       c("None", "96 Minutes", "Action")),
                        tables_cb_refresh(header, subheader)
                 )
             )
@@ -510,11 +578,11 @@ tables_column_name_map <- list(
     avg_vertical_distance_yds = "Vertical",
     share_team_touches = "Touch %",
     position = "Position",
-    base_salary = "Base",
-    guaranteed_compensation = "Guaranteed",
+    base_salary = "Base Salary",
+    guaranteed_compensation = "Guaranteed Compensation",
     mlspa_release = "Date",
-    shots_faced = "Shots",
-    goals_conceded = "Goals",
+    shots_faced = "Shots Faced",
+    goals_conceded = "Goals Conceded",
     saves = "Saves",
     share_headed_shots = "Header %",
     avg_distance_from_goal_yds = "Dist",
@@ -566,19 +634,19 @@ tables_column_name_map <- list(
     final_score_difference = "Final",
     home_xpoints = "HxPts",
     away_xpoints = "AxPts",
-    Dribbling_goals_added_above_avg = "Dribbling g+",
+    Dribbling_goals_added_above_avg = "Dribbling",
     Dribbling_count_actions = "Dribbling Actions",
-    Fouling_goals_added_above_avg = "Fouling g+",
+    Fouling_goals_added_above_avg = "Fouling",
     Fouling_count_actions = "Fouling Actions",
-    Interrupting_goals_added_above_avg = "Interrupting g+",
+    Interrupting_goals_added_above_avg = "Interrupting",
     Interrupting_count_actions = "Interrupting Actions",
-    Passing_goals_added_above_avg = "Passing g+",
+    Passing_goals_added_above_avg = "Passing",
     Passing_count_actions = "Passing Actions",
-    Receiving_goals_added_above_avg = "Receiving g+",
+    Receiving_goals_added_above_avg = "Receiving",
     Receiving_count_actions = "Receiving Actions",
-    Shooting_goals_added_above_avg = "Shooting g+",
+    Shooting_goals_added_above_avg = "Shooting",
     Shooting_count_actions = "Shooting Actions",
-    total_goals_added_above_avg = "Total g+",
+    total_goals_added_above_avg = "Total",
     total_count_actions = "All Actions"
 )
 
@@ -586,9 +654,82 @@ tables_column_name_map <- data.frame(api_name = names(tables_column_name_map),
                                      app_name = unlist(tables_column_name_map, use.names = FALSE),
                                      stringsAsFactors = FALSE)
 
+# Column tooltip text ---------------------------
+tables_column_tooltip_text <- list(
+    Minutes = "Includes stoppage time.",
+    SoT = "Shots on Target",
+    Dist = "Average distance from the center of goal, measured in yards. Assumes 115x80 field dimensions.",
+    Solo = "Share of unassisted shots.",
+    G = "Goals",
+    xG = "xGoals",
+    xPlace = "Difference between post- and pre-shot xG models.",
+    KeyP = "Key Passes",
+    A = "Primary Assists",
+    xA = "xAssists",
+    PA = "Expected points added through scoring goals.",
+    xPA = "Expected points added through taking shots.",
+    `Pass %` = "Pass Completion",
+    `xPass %` = "Expected pass completion percentage.",
+    Score = "Number of passes completed over/under expected.",
+    Per100 = "Passes completed over/under expected, measured per 100 passes.",
+    Distance = "Average distance of completed passes, measured in yards. Assumes 115x80 field dimensions.",
+    Vertical = "Average vertical distance of completed passes, measured in yards. Assumes 115x80 field dimensions.",
+    `Touch %` = "Players' share of their team's number of touches.",
+    `Header %` = "Share of shots faced that were headed.",
+    ShtF = "Shots For",
+    ShtA = "Shots Against",
+    GF = "Goals For (Own goals excluded.)",
+    GA = "Goals Against (Own goals excluded.)",
+    GD = "Goal Difference (Own goals excluded.)",
+    xGF = "xGoals For (Own goals excluded.)",
+    xGA = "xGoals Against (Own goals excluded.)",
+    xGD = "xGoal Difference (Own goals excluded.)",
+    xPts = "Expected points earned, given the same sample of shots over 1,000 simulations.",
+    PctF = "Pass Completion",
+    xPctF = "Expected pass completion percentage.",
+    ScoreF = "Number of passes completed over/under expected.",
+    Per100F = "Passes completed over/under expected, measured per 100 passes.",
+    VertF = "Average vertical distance of completed passes, measured in yards. Assumes 115x80 field dimensions.",
+    PctA = "Pass Completion",
+    xPctA = "Expected pass completion percentage.",
+    ScoreA = "Number of passes completed over/under expected.",
+    Per100A = "Passes completed over/under expected, measured per 100 passes.",
+    VertA = "Average vertical distance of completed passes, measured in yards. Assumes 115x80 field dimensions.",
+    ScoreDiff = "Number of passes completed over/under expected.",
+    VertDiff = "Average vertical distance of completed passes, measured in yards. Assumes 115x80 field dimensions.",
+    TotalGuar = "Sum of Guaranteed Compensation",
+    AvgGuar = "Average Guaranteed Compensation",
+    MedGuar = "Median Guaranteed Compensation",
+    StdDevGuar = "Standard Deviation of Guaranteed Compensation",
+    HxGt = "Team xGoals (Conditional probabilities are applied to ensure the xGoals value of a single possession never exceeds 1.)",
+    HxGp = "Player xGoals",
+    AxGt = "Team xGoals (Conditional probabilities are applied to ensure the xGoals value of a single possession never exceeds 1.)",
+    AxGp = "Player xGoals",
+    xGDt = "Team xGoals (Conditional probabilities are applied to ensure the xGoals value of a single possession never exceeds 1.)",
+    xGDp = "Player xGoals",
+    Final = "Final Score (Own goals included.)",
+    HxPts = "Expected points earned, given the same sample of shots over 1,000 simulations.",
+    AxPts = "Expected points earned, given the same sample of shots over 1,000 simulations.",
+    Total = "Goals added above the average player, normalized by position."
+)
+
+tables_column_tooltip_text <- data.frame(app_name = names(tables_column_tooltip_text),
+                                         tooltip_text = unlist(tables_column_tooltip_text, use.names = FALSE),
+                                         stringsAsFactors = FALSE)
+
+
 # Column type mapping ---------------------------
 tables_percentage_columns <- c("Solo", "Pass %", "xPass %", "Touch %", "Header %",
                                "PctF", "xPctF", "PctA", "xPctA")
 
-tables_currency_columns <- c("Base", "Guaranteed", "TotalGuar", "AvgGuar", "MedGuar", "StdDevGuar")
+tables_currency_columns <- c("Base Salary", "Guaranteed Compensation",
+                             "TotalGuar", "AvgGuar", "MedGuar", "StdDevGuar")
 
+tables_normalize_columns <- c("Shots", "SoT", "G", "xG", "xPlace", "G-xG", "KeyP",
+                              "A", "xA", "A-xA", "xG+xA", "PA", "xPA", "Passes",
+                              "Score", "Shots Faced", "Goals Conceded", "Saves",
+                              "xG", "G-xG", "ShtF", "ShtA", "GF", "GA", "GD",
+                              "xGF", "xGA", "xGD", "GD-xGD", "Pts", "xPts",
+                              "PassF", "ScoreF", "PassA", "ScoreA", "ScoreDiff",
+                              "Dribbling", "Fouling", "Interrupting", "Passing",
+                              "Receiving", "Shooting", "Total")
