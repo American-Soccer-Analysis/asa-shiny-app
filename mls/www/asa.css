@@ -214,6 +214,32 @@ body {
   display: none;
 }
 
+#home_wrapper .jumbotron {
+    background-image: url(asa_header_background.png);
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-attachment: fixed;
+    overflow: hidden;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+#home_wrapper .jumbotron a.btn {
+    visibility: hidden;
+    height: 0;
+    padding: 0;
+}
+
+#home_wrapper .card-header {
+    padding: 1.75rem 1.75rem 0.25rem 1.75rem !important;
+}
+
+#home_wrapper .card-header h3 {
+    font-size: 24px !important;
+}
+
 
 /************************/
 /*******  LOADER  *******/

@@ -253,6 +253,11 @@ tables_body <- function(header, subheader, client_timezone) {
             height = "auto"
         )
 
+        if (any(unlist(lapply(df, class), use.names = FALSE) == "numeric")) {
+            tmp_columns <- which(unlist(lapply(df, class), use.names = FALSE) == "numeric")
+            dt <- dt %>% formatRound(columns = tmp_columns, digits = 2)
+        }
+
         if (any(gsub("<.*>$", "", names(df)) %in% tables_currency_columns)) {
             tmp_columns <- which(gsub("<.*>$", "", names(df)) %in% tables_currency_columns)
             dt <- dt %>% formatCurrency(columns = tmp_columns)
@@ -261,11 +266,6 @@ tables_body <- function(header, subheader, client_timezone) {
         if (any(gsub("<.*>$", "", names(df)) %in% tables_percentage_columns)) {
             tmp_columns <- which(gsub("<.*>$", "", names(df)) %in% tables_percentage_columns)
             dt <- dt %>% formatPercentage(columns = tmp_columns, digits = 1)
-        }
-
-        if (any(unlist(lapply(df, class), use.names = FALSE) == "numeric")) {
-            tmp_columns <- which(unlist(lapply(df, class), use.names = FALSE) == "numeric")
-            dt <- dt %>% formatRound(columns = tmp_columns, digits = 2)
         }
 
         bs4Box(
