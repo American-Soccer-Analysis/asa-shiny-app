@@ -10,7 +10,8 @@ shinyUI(
             tags$script("$(document).on('shiny:connected', function(event) {
                              var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
                              Shiny.setInputValue('client_timezone', timezone);
-                          });")
+                          });"),
+            tags$link(rel = "shortcut icon", href = "favicon.ico")
         ),
         div(id = "loader_page",
             div(class = "lds-ripple",
