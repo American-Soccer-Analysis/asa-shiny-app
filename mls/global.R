@@ -14,15 +14,20 @@ library(DT)
 library(stringi)
 library(tidyverse)
 
+
 # Set global variables --------------------------
 API_PATH <- "https://app.americansocceranalysis.com/api/v1"
-VIOLIN_MINUTES_CUTOFF <- 500
-VIOLIN_HEIGHT <- "450px"
-VIOLIN_WIDTH <- "96%"
-START_PLAYER <- 31740   # Dax
+
+# VIOLIN_MINUTES_CUTOFF <- 500
+# VIOLIN_HEIGHT <- "450px"
+# VIOLIN_WIDTH <- "96%"
+# START_PLAYER <- NA   # Dax
+
 FIELD_WIDTH <- 80
 FIELD_LENGTH <- 115
+
 DATABASE_TIMEZONE <- "America/New_York"
+
 PATTERNS_OF_PLAY <- c("Corner", "Fastbreak", "Free kick", "Penalty", "Regular", "Set piece")
 THIRDS_OF_FIELD <- c("Attacking", "Middle", "Defensive")
 MLSPA_POSITIONS <- c("GK", "D", "M", "F")
@@ -31,7 +36,8 @@ MAX_SHOTS_TAKEN_FACED <- 125
 MAX_KEY_PASSES <- 125
 MAX_PASSES <- 2000
 
-# Custom functions ------------------------------
+
+# Utility functions -----------------------------
 api_request <- function(path = API_PATH, endpoint, parameters = NULL) {
     parameters_array <- c()
 
