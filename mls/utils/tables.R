@@ -260,7 +260,7 @@ tables_body <- function(header, subheader, client_timezone) {
 
         if (any(gsub("<.*>$", "", names(df)) %in% tables_currency_columns)) {
             tmp_columns <- which(gsub("<.*>$", "", names(df)) %in% tables_currency_columns)
-            dt <- dt %>% formatCurrency(columns = tmp_columns)
+            dt <- dt %>% formatCurrency(columns = tmp_columns, digits = 0)
         }
 
         if (any(gsub("<.*>$", "", names(df)) %in% tables_percentage_columns)) {
@@ -557,8 +557,6 @@ tables_column_name_map <- list(
     minutes_played = "Minutes",
     shots = "Shots",
     shots_on_target = "SoT",
-    avg_distance_from_goal_yds = "Dist",
-    share_unassisted_shots = "Solo",
     goals = "G",
     xgoals = "xG",
     xplace = "xPlace",
@@ -586,7 +584,6 @@ tables_column_name_map <- list(
     goals_conceded = "Goals Conceded",
     saves = "Saves",
     share_headed_shots = "Header %",
-    avg_distance_from_goal_yds = "Dist",
     xgoals_gk_faced = "xG",
     goals_minus_xgoals_gk = "G-xG",
     count_games = "Games",
@@ -659,8 +656,6 @@ tables_column_name_map <- data.frame(api_name = names(tables_column_name_map),
 tables_column_tooltip_text <- list(
     Minutes = "Includes stoppage time.",
     SoT = "Shots on Target",
-    Dist = "Average distance from the center of goal, measured in yards. Assumes 115x80 field dimensions.",
-    Solo = "Share of unassisted shots.",
     G = "Goals",
     xG = "xGoals",
     xPlace = "Difference between post- and pre-shot xG models.",
