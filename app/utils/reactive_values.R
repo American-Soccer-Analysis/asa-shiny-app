@@ -73,16 +73,20 @@ tables_rv <-
                                               split_by_teams = FALSE,
                                               split_by_seasons = TRUE,
                                               normalize_by = "None",
-                                              sort_column = c("Total", "desc")),
-                   salaries_players = list(date_type = "Date Range",
-                                           season_name = max(salaries_seasons),
-                                           start_date = salaries_most_recent,
-                                           end_date = salaries_most_recent,
-                                           team_id = all_teams$team_id,
-                                           position = MLSPA_POSITIONS,
-                                           sort_column = c("Guaranteed Compensation", "desc")),
-                   salaries_teams = list(season_name = max(salaries_seasons),
-                                         split_by_teams = TRUE,
-                                         split_by_seasons = FALSE,
-                                         split_by_positions = FALSE,
-                                         sort_column = c("TotalGuar", "desc")))
+                                              sort_column = c("Total", "desc")))
+
+if (LEAGUE_SCHEMA == "mls") {
+    tables_rv[["salaries_players"]] <- list(date_type = "Date Range",
+                                            season_name = max(salaries_seasons),
+                                            start_date = salaries_most_recent,
+                                            end_date = salaries_most_recent,
+                                            team_id = all_teams$team_id,
+                                            position = MLSPA_POSITIONS,
+                                            sort_column = c("Guaranteed Compensation", "desc"))
+
+    tables_rv[["salaries_teams"]] <- list(season_name = max(salaries_seasons),
+                                          split_by_teams = TRUE,
+                                          split_by_seasons = FALSE,
+                                          split_by_positions = FALSE,
+                                          sort_column = c("TotalGuar", "desc"))
+}

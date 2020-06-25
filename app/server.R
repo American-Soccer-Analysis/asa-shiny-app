@@ -1,12 +1,12 @@
-shinyServer(function(input, output, session) {
+server <- function(input, output, session) {
 
     # -----------------------------------------------
     # GLOBAL SETTINGS -------------------------------
     # -----------------------------------------------
 
     # Source data -----------------------------------
-    source("utils/retrieve_data.R")
-    source("utils/reactive_values.R")
+    source("../app/utils/retrieve_data.R")
+    source("../app/utils/reactive_values.R")
 
     # Hide loading page -----------------------------
     hide(id = "loader_page", anim = TRUE, animType = "fade", time = 2)
@@ -293,4 +293,4 @@ shinyServer(function(input, output, session) {
     # output$player_profile_touch_heatmap <- renderUI({
     #     player_profile_touch_heatmap_reactive()
     # })
-})
+}

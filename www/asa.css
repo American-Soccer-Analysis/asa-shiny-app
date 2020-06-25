@@ -130,7 +130,7 @@ button.label-primary:focus {
     transition: linear 0.33s;
 }
 
-#nav_mls a, .nav_league a:hover {
+.nav_league_active a, .nav_league a:hover {
     background-color: #13181e;
     border-bottom: 2pt solid #27aae1;
 }
@@ -141,7 +141,7 @@ button.label-primary:focus {
     transition: linear 0.33s;
 }
 
-#nav_mls a img, .nav_league a:hover img {
+.nav_league_active a img, .nav_league a:hover img {
     opacity: 1;
 }
 

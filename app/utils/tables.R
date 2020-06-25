@@ -1,23 +1,3 @@
-# Menu items and options ------------------------
-tables_menu_items <-
-    list(tables_xgoals = list(name = "xGoals",
-                              tabName = "tables_xgoals",
-                              icon = "futbol-o",
-                              subheaders = c("Players", "Teams", "Goalkeepers", "Games")),
-         tables_xpass = list(name = "xPass",
-                             tabName = "tables_xpass",
-                             icon = "bullseye",
-                             subheaders = c("Players", "Teams")),
-         tables_goals_added = list(name = "Goals Added (g+)",
-                                   tabName = "tables_goals_added",
-                                   icon = "google-plus",
-                                   subheaders = c("Players")),
-         tables_salaries = list(name = "Salaries",
-                                tabName = "tables_salaries",
-                                icon = "usd",
-                                subheaders = c("Players", "Teams")))
-
-
 # Wrapper div -----------------------------------
 tables_div <- div(
     uiOutput("tables_header"),
@@ -51,7 +31,7 @@ tables_rv_to_df <- function(header, subheader) {
     header <- gsub("^tables_", "", header)
     subheader <- tolower(subheader)
 
-    endpoint <- paste("/mls", subheader, header, sep = "/")
+    endpoint <- paste(subheader, header, sep = "/")
     rv_key <- paste(header, subheader, sep = "_")
 
     parameters <- tables_rv[[rv_key]]
@@ -239,10 +219,10 @@ tables_body <- function(header, subheader, client_timezone) {
                            order = list(list(sort_column_int, sort_order)),
                            buttons = list("copy",
                                           list(extend = "csv",
-                                               filename = paste("american_soccer_analysis_mls", header, subheader, format(Sys.time(), "%Y-%m-%d", tz = client_timezone), sep = "_")),
+                                               filename = paste("american_soccer_analysis", LEAGUE_SCHEMA, header, subheader, format(Sys.time(), "%Y-%m-%d", tz = client_timezone), sep = "_")),
                                           list(extend = 'excel',
-                                               filename = paste("american_soccer_analysis_mls", header, subheader, format(Sys.time(), "%Y-%m-%d", tz = client_timezone), sep = "_"),
-                                               title = paste0("American Soccer Analysis  |  MLS  |  ", gsub("^Xp", "xP", gsub("^Xg", "xG", toTitleCase(gsub("_", " ", header)))), "  |  ", toTitleCase(subheader)),
+                                               filename = paste("american_soccer_analysis", LEAGUE_SCHEMA, header, subheader, format(Sys.time(), "%Y-%m-%d", tz = client_timezone), sep = "_"),
+                                               title = paste0("American Soccer Analysis  |  ", toupper(LEAGUE_SCHEMA), "  |  ", gsub("^Xp", "xP", gsub("^Xg", "xG", toTitleCase(gsub("_", " ", header)))), "  |  ", toTitleCase(subheader)),
                                                messageTop = paste0("Exported on ", format(Sys.time(), "%B %d, %Y", tz = client_timezone), ".")))),
             rownames = FALSE,
             style = "bootstrap4",

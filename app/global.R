@@ -1,22 +1,5 @@
-# Import libraries ------------------------------
-library(bs4Dash)
-library(shiny)
-library(shinyjs)
-library(shinyWidgets)
-library(shinycssloaders)
-library(eeptools)
-library(jsonlite)
-library(httr)
-library(r2d3)
-library(ggplot2)
-library(tools)
-library(DT)
-library(stringi)
-library(tidyverse)
-
-
-# Set global variables --------------------------
-API_PATH <- "https://app.americansocceranalysis.com/api/v1"
+# Set universal variables -----------------------
+API_PATH <- paste0("https://app.americansocceranalysis.com/api/v1/", LEAGUE_SCHEMA, "/")
 
 # VIOLIN_MINUTES_CUTOFF <- 500
 # VIOLIN_HEIGHT <- "450px"
@@ -30,11 +13,13 @@ DATABASE_TIMEZONE <- "America/New_York"
 
 PATTERNS_OF_PLAY <- c("Corner", "Fastbreak", "Free kick", "Penalty", "Regular", "Set piece")
 THIRDS_OF_FIELD <- c("Attacking", "Middle", "Defensive")
-MLSPA_POSITIONS <- c("GK", "D", "M", "F")
+
 MAX_MINUTES <- 3000
 MAX_SHOTS_TAKEN_FACED <- 125
 MAX_KEY_PASSES <- 125
 MAX_PASSES <- 2000
+
+MLSPA_POSITIONS <- c("GK", "D", "M", "F")
 
 
 # Utility functions -----------------------------
@@ -67,5 +52,5 @@ api_request <- function(path = API_PATH, endpoint, parameters = NULL) {
 }
 
 # Source dashboard utils ------------------------
-utils <- paste0("utils/", list.files("utils")[!grepl("retrieve_data|reactive_values", list.files("utils"))])
+utils <- paste0("../app/utils/", list.files("../app/utils")[!grepl("retrieve_data|reactive_values", list.files("../app/utils"))])
 lapply(utils, source)
