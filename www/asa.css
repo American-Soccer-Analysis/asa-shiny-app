@@ -610,6 +610,7 @@ th:hover .tables_helper_tooltip {
         margin-top: -15px;
         margin-bottom: 10px;
         text-align: left;
+        height: auto;
     }
 
     .dataTables_filter label {
