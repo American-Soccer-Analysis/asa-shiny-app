@@ -732,3 +732,51 @@ h3.card_header {
         margin-bottom: 10px;
     }
 }
+
+
+/************************/
+/******  LANDING  *******/
+/************************/
+
+
+.landing_wrapper {
+    background-color: #13181e;
+}
+
+.landing_wrapper a {
+    float: left;
+    opacity: 0.5;
+}
+
+.landing_wrapper a:hover {
+    opacity: 1;
+    transition: linear 0.33s;
+}
+
+.landing_wrapper a:hover .landing_button {
+    background-color: #27aae1;
+}
+
+.landing_button {
+    height: 150px;
+    width: 150px;
+    border-radius: 7px;
+    border: 1.5pt solid white;
+    margin: 0 30px;
+    position: inline;
+    vertical-align: middle;
+}
+
+.landing_button img {
+    height: 100px;
+    position: relative;
+    top: 17%;
+}
+
+.landing_center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
