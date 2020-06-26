@@ -762,7 +762,7 @@ h3.card_header {
     width: 150px;
     border-radius: 7px;
     border: 1.5pt solid white;
-    margin: 0 30px;
+    margin: 30px;
     position: inline;
     vertical-align: middle;
 }
@@ -779,4 +779,5 @@ h3.card_header {
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
+    max-width: 214px;
 }
