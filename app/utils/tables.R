@@ -192,7 +192,7 @@ tables_body <- function(header, subheader, client_timezone) {
     rv_key <- paste(header, subheader, sep = "_")
 
     if (is.null(tables_rv[[rv_key]][["data_frame"]])) {
-        tables_rv[[rv_key]][["data_frame"]] <- tables_rv_to_df(header, subheader)
+        tables_rv[[rv_key]][["data_frame"]] <- try(tables_rv_to_df(header, subheader))
     }
 
     df <- tables_rv[[rv_key]][["data_frame"]]
@@ -257,6 +257,9 @@ tables_body <- function(header, subheader, client_timezone) {
         }
 
         bs4Box(
+            panel("Click the settings icon in the top-right corner to tailor your results.",
+                  status = "info",
+                  heading = HTML("<span class=\"glyphicon\">&#xe086;</span>Filtering")),
             div(class = "datatable_wrapper", dt),
             width = 12
         )

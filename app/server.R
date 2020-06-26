@@ -11,14 +11,14 @@ server <- function(input, output, session) {
     # Hide loading page -----------------------------
     hide(id = "loader_page", anim = TRUE, animType = "fade", time = 2)
 
-    sendSweetAlert(
-        session,
-        title = "We've made some changes!",
-        text = "We gave things a fresh coat of paint, and we have a lot of exciting new updates in store. Plus, we've included our new metric, goals added (g+), in this latest update.
-
-        Start by selecting a set of tables from the sidebar on the left, and then use the settings icon in the top-right corner to tailor your results.",
-        type = "info"
-    )
+    # sendSweetAlert(
+    #     session,
+    #     title = "We've made some changes!",
+    #     text = "We gave things a fresh coat of paint, and we have a lot of exciting new updates in store. Plus, we've included our new metric, goals added (g+), in this latest update.
+    #
+    #     Start by selecting a set of tables from the sidebar on the left, and then use the settings icon in the top-right corner to tailor your results.",
+    #     type = "info"
+    # )
 
     # Set default reactive values -------------------
     # players_reactive_values <- reactiveValues(profile_player_name = START_PLAYER,

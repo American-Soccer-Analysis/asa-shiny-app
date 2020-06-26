@@ -240,6 +240,61 @@ body {
     font-size: 24px !important;
 }
 
+.panel-info>.panel-heading {
+    color: #31708f;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+}
+
+.panel-group .panel-heading {
+    border-bottom: 0;
+}
+
+.panel-heading {
+    padding: 10px 15px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.panel-heading h3 {
+    font-size: 1.35rem;
+    margin-bottom: 0;
+}
+
+.panel-heading h3 .glyphicon {
+    font-size: 1rem;
+    margin-right: 10px;
+}
+
+.panel-info .panel-heading {
+    border-bottom: 1px solid #bce8f1;
+}
+
+.panel-body {
+    padding: 15px;
+}
+
+.panel-group .panel+.panel {
+    margin-top: 5px;
+}
+
+.panel-group .panel {
+    margin-bottom: 0;
+    border-radius: 4px;
+}
+
+.panel-info {
+    border: 1px solid #bce8f1;
+}
+
+.panel {
+    margin-bottom: 30px;
+    background-color: #fff;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+
 
 /************************/
 /*******  LOADER  *******/
@@ -428,9 +483,14 @@ div.datatable_wrapper, div.datatable_wrapper table {
 }
 
 .dataTables_filter {
-    position: absolute;
-    top: 20px;
-    right: 20px;
+    position: relative;
+    bottom: 46px;
+    right: 0px;
+    height: 0;
+}
+
+.dataTables_filter input {
+    height: 38px;
 }
 
 div.dataTables_paginate {
