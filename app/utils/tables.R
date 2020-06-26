@@ -64,7 +64,15 @@ tables_rv_to_df <- function(header, subheader) {
         normalize_variables <- "None"
     }
 
-    df <- api_request(endpoint = endpoint, parameters = parameters)
+    bo <- 1
+
+    while (bo != 4) {
+        df <- try(api_request(endpoint = endpoint, parameters = parameters))
+
+        if (all(class(df) == "try-error")) {
+            bo <- bo + 1
+        } else break
+    }
 
     if (class(df) == "list") {
         return(df)
@@ -184,7 +192,7 @@ tables_body <- function(header, subheader, client_timezone) {
     rv_key <- paste(header, subheader, sep = "_")
 
     if (is.null(tables_rv[[rv_key]][["data_frame"]])) {
-        tables_rv[[rv_key]][["data_frame"]] <- try(tables_rv_to_df(header, subheader), silent = TRUE)
+        tables_rv[[rv_key]][["data_frame"]] <- tables_rv_to_df(header, subheader)
     }
 
     df <- tables_rv[[rv_key]][["data_frame"]]
