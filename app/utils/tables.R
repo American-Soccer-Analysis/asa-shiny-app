@@ -503,7 +503,7 @@ controlbar_tables <- function(header, subheader, tables_rv) {
                        tables_cb_switch(header, subheader, tables_rv, "Split by Teams", "split_by_teams"),
                        tables_cb_switch(header, subheader, tables_rv, "Split by Seasons", "split_by_seasons"),
                        tables_cb_radio(header, subheader, tables_rv, "Normalize Results By", "normalize_by",
-                                       c("None", "96 Minutes", "Action")),
+                                       c("None", "96 Minutes")),
                        tables_cb_refresh(header, subheader)
                 )
             )
