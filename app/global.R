@@ -47,7 +47,7 @@ api_request <- function(path = API_PATH, endpoint, parameters = NULL) {
                                paste0("?", paste0(parameters_array, collapse = "&")),
                                "")
 
-    return(fromJSON(content(GET(paste0(API_PATH, endpoint, parameters_array)),
+    return(fromJSON(content(RETRY("GET", url = paste0(API_PATH, endpoint, parameters_array), times = 7),
                             as = "text", encoding = "UTF-8")))
 }
 
