@@ -20,7 +20,8 @@ tables_header <- function(tab) {
 tables_subheader <- function(tab) {
     bs4Box(
         radioGroupButtons(inputId = "tables_subheader",
-                          choices = tables_menu_items[[tab]][["subheaders"]]),
+                          choices = tables_menu_items[[tab]][["subheaders"]],
+                          selected = tables_menu_items[[tab]][["subheaders"]][1]),
         width = 12
     )
 }
@@ -29,6 +30,11 @@ tables_subheader <- function(tab) {
 # Interactive tables ----------------------------
 tables_rv_to_df <- function(header, subheader) {
     header <- gsub("^tables_", "", header)
+
+    if (is_empty(subheader)) {
+        return(list())
+    }
+
     subheader <- tolower(subheader)
 
     endpoint <- paste(subheader, header, sep = "/")
