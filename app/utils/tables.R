@@ -37,13 +37,14 @@ tables_rv_to_df <- function(header, subheader) {
     parameters <- tables_rv[[rv_key]]
     parameters <- parameters[!(grepl("data_frame", names(parameters)))]
 
-    logical_parameters <- which(sapply(parameters, class) == "logical")
+    logical_parameters <- parameters[which(sapply(parameters, class) == "logical")]
 
     if (length(logical_parameters) > 0) {
         false_parameters <- which(sapply(logical_parameters, isFALSE))
     }
 
     if (length(false_parameters) > 0) {
+        false_parameters <- which(names(parameters) %in% names(false_parameters))
         parameters <- parameters[-false_parameters]
     }
 
