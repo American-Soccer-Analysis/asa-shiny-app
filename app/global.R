@@ -49,7 +49,7 @@ api_request <- function(path = API_PATH, endpoint, parameters = NULL) {
 
     print(paste0(API_PATH, endpoint, parameters_array))
 
-    return(fromJSON(content(RETRY("GET", url = paste0(API_PATH, endpoint, parameters_array), times = 7),
+    return(fromJSON(content(RETRY("GET", url = paste0(API_PATH, endpoint, parameters_array), times = 1),
                             as = "text", encoding = "UTF-8")))
 }
 
