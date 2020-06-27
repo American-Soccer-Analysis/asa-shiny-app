@@ -41,11 +41,11 @@ tables_rv_to_df <- function(header, subheader) {
 
     if (length(logical_parameters) > 0) {
         false_parameters <- which(sapply(logical_parameters, isFALSE))
-    }
 
-    if (length(false_parameters) > 0) {
-        false_parameters <- which(names(parameters) %in% names(false_parameters))
-        parameters <- parameters[-false_parameters]
+        if (length(false_parameters) > 0) {
+            false_parameters <- which(names(parameters) %in% names(false_parameters))
+            parameters <- parameters[-false_parameters]
+        }
     }
 
     if ("date_type" %in% names(parameters)) {
