@@ -25,7 +25,7 @@ home_div <- div(
                                "American Soccer Analysis",
                                type = "heading",
                                title = "Goals Added (g+)",
-                               src = "https://www.americansocceranalysis.com/home/2020/5/4/goals-added-deep-dive-methodology"
+                               src = "https://www.americansocceranalysis.com/what-are-goals-added"
                            ),
                            width = 12
                        ),

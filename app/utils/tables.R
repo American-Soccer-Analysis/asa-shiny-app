@@ -37,7 +37,11 @@ tables_rv_to_df <- function(header, subheader) {
     parameters <- tables_rv[[rv_key]]
     parameters <- parameters[!(grepl("data_frame", names(parameters)))]
 
-    false_parameters <- which(sapply(parameters, isFALSE))
+    logical_parameters <- which(sapply(parameters, class) == "logical")
+
+    if (length(logical_parameters) > 0) {
+        false_parameters <- which(sapply(logical_parameters, isFALSE))
+    }
 
     if (length(false_parameters) > 0) {
         parameters <- parameters[-false_parameters]
@@ -257,7 +261,7 @@ tables_body <- function(header, subheader, client_timezone) {
         }
 
         bs4Box(
-            panel("Click the settings icon in the top-right corner to tailor your results.",
+            panel("Click the settings option (the gear icon) in the top-right corner to tailor your results.",
                   status = "info",
                   heading = HTML("<span class=\"glyphicon\">&#xe086;</span>Filtering")),
             div(class = "datatable_wrapper", dt),
