@@ -47,11 +47,7 @@ api_request <- function(path = API_PATH, endpoint, parameters = NULL) {
                                paste0("?", paste0(parameters_array, collapse = "&")),
                                "")
 
-    cat(paste0(API_PATH, endpoint, parameters_array))
-
-    return(fromJSON(content(RETRY("GET", url = paste0(API_PATH, endpoint, parameters_array),
-                                  add_headers("Accept" = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"),
-                                  times = 5, terminate_on = c(400, 404, 500)),
+    return(fromJSON(content(GET(paste0(API_PATH, endpoint, parameters_array)),
                             as = "text", encoding = "UTF-8")))
 }
 
