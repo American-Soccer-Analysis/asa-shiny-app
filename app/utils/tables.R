@@ -85,7 +85,9 @@ tables_rv_to_df <- function(header, subheader) {
         } else break
     }
 
-    if (class(df) == "list") {
+    if (all(class(df) == "try-error")) {
+        stopApp()
+    } else if (class(df) == "list") {
         return(df)
     }
 

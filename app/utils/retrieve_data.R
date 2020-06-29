@@ -1,23 +1,45 @@
-# Get distinct seasons --------------------------
-all_seasons <- api_request(endpoint = "games", parameters = list(distinct_seasons = TRUE))
-all_seasons <- sort(all_seasons$season_name)
+bo <- 1
 
-# Get distinct seasons for salary releases ------
-if (LEAGUE_SCHEMA == "mls") {
-    salaries_distinct <- api_request(endpoint = "players/salaries", parameters = list(distinct_releases = TRUE))
-    salaries_seasons <- sort(unique(salaries_distinct$season_name))
-    salaries_most_recent <- max(salaries_distinct$mlspa_release)
+while (bo != 4) {
+
+    # Get distinct seasons --------------------------
+    all_seasons <- try(api_request(endpoint = "games", parameters = list(distinct_seasons = TRUE)))
+    all_seasons <- try(sort(all_seasons$season_name))
+
+    # Get distinct seasons for salary releases ------
+    if (LEAGUE_SCHEMA == "mls") {
+        salaries_distinct <- try(api_request(endpoint = "players/salaries", parameters = list(distinct_releases = TRUE)))
+        salaries_seasons <- try(sort(unique(salaries_distinct$season_name)))
+        salaries_most_recent <- try(max(salaries_distinct$mlspa_release))
+    }
+
+    # Import player ID lookup -----------------------
+    player_lookup <- try(api_request(endpoint = "players", parameters = list(lookup_only = TRUE)))
+
+    # Import teams ----------------------------------
+    all_teams <- try(api_request(endpoint = "teams") %>% arrange(team_abbreviation))
+
+    # Import game data ------------------------------
+    recent_games <- try(api_request(endpoint = "games", parameters = list(limit = 20)))
+
+
+    if (all(class(all_seasons) == "try-error") | all(class(salaries_distinct) == "try-error") |
+        all(class(player_lookup) == "try-error") | all(class(all_teams) == "try-error") |
+        all(class(recent_games) == "try-error")) {
+
+        bo <- bo + 1
+
+    } else break
+
 }
 
-# Import player ID lookup -----------------------
-player_lookup <- api_request(endpoint = "players", parameters = list(lookup_only = TRUE))
+if (all(class(all_seasons) == "try-error") | all(class(salaries_distinct) == "try-error") |
+    all(class(player_lookup) == "try-error") | all(class(all_teams) == "try-error") |
+    all(class(recent_games) == "try-error")) {
 
-# Import teams ----------------------------------
-all_teams <- api_request(endpoint = "teams") %>%
-    arrange(team_abbreviation)
+    stopApp()
 
-# Import game data ------------------------------
-recent_games <- api_request(endpoint = "games", parameters = list(limit = 20))
+}
 
 
 
