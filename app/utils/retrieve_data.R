@@ -11,6 +11,8 @@ while (bo != 4) {
         salaries_distinct <- try(api_request(endpoint = "players/salaries", parameters = list(distinct_releases = TRUE)))
         salaries_seasons <- try(sort(unique(salaries_distinct$season_name)))
         salaries_most_recent <- try(max(salaries_distinct$mlspa_release))
+    } else {
+        salaries_distinct <- NA
     }
 
     # Import player ID lookup -----------------------
