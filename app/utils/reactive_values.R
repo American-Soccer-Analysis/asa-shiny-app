@@ -1,4 +1,6 @@
 # TABLES ----------------------------------------
+stage_name_rv <- ifelse(LEAGUE_SCHEMA == "mls", "Regular Season", "NWSL Challenge Cup")
+
 tables_rv <-
     reactiveValues(xgoals_players = list(minimum_minutes = 0,
                                          minimum_shots = 0,
@@ -11,6 +13,7 @@ tables_rv <-
                                          shot_pattern = PATTERNS_OF_PLAY,
                                          split_by_teams = FALSE,
                                          split_by_seasons = TRUE,
+                                         stage_name = stage_name_rv,
                                          normalize_by = "None",
                                          sort_column = c("xG+xA", "desc")),
                    xgoals_teams = list(date_type = "Season",
@@ -23,6 +26,7 @@ tables_rv <-
                                        away_only = FALSE,
                                        home_adjusted = FALSE,
                                        even_game_state = FALSE,
+                                       stage_name = stage_name_rv,
                                        normalize_by = "None",
                                        sort_column = c("Pts", "desc")),
                    xgoals_goalkeepers = list(minimum_minutes = 0,
@@ -35,12 +39,14 @@ tables_rv <-
                                              shot_pattern = PATTERNS_OF_PLAY,
                                              split_by_teams = FALSE,
                                              split_by_seasons = TRUE,
+                                             stage_name = stage_name_rv,
                                              normalize_by = "None",
                                              sort_column = c("G-xG", "asc")),
                    xgoals_games = list(date_type = "Season",
                                        season_name = max(all_seasons),
                                        start_date = paste0(max(all_seasons), "-01-01"),
                                        end_date = paste0(max(all_seasons), "-12-31"),
+                                       stage_name = stage_name_rv,
                                        sort_column = c("Date", "desc")),
                    xpass_players = list(minimum_minutes = 0,
                                         minimum_passes = 0,
@@ -52,6 +58,7 @@ tables_rv <-
                                         pass_origin_third = THIRDS_OF_FIELD,
                                         split_by_teams = FALSE,
                                         split_by_seasons = TRUE,
+                                        stage_name = stage_name_rv,
                                         normalize_by = "None",
                                         sort_column = c("Score", "desc")),
                    xpass_teams = list(date_type = "Season",
@@ -62,6 +69,7 @@ tables_rv <-
                                       split_by_seasons = TRUE,
                                       home_only = FALSE,
                                       away_only = FALSE,
+                                      stage_name = stage_name_rv,
                                       normalize_by = "None",
                                       sort_column = c("ScoreDiff", "desc")),
                    goals_added_players = list(minimum_minutes = 0,
@@ -72,6 +80,7 @@ tables_rv <-
                                               team_id = all_teams$team_id,
                                               split_by_teams = FALSE,
                                               split_by_seasons = TRUE,
+                                              stage_name = stage_name_rv,
                                               normalize_by = "None",
                                               sort_column = c("Total", "desc")))
 

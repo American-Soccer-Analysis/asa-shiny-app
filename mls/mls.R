@@ -21,6 +21,8 @@ library(tidyverse)
 LEAGUE_SCHEMA <- "mls"
 LEAGUE_NAME <- "Major League Soccer"
 
+COMPETITION_STAGES <- c("Regular Season", "Playoffs", "NWSL Challenge Cup")
+
 # Menu items and options ------------------------
 tables_menu_items <-
     list(tables_xgoals = list(name = "xGoals",
