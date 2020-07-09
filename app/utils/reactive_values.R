@@ -1,5 +1,5 @@
 # TABLES ----------------------------------------
-stage_name_rv <- ifelse(LEAGUE_SCHEMA == "mls", "Regular Season", "NWSL Challenge Cup")
+stage_name_rv <- ifelse(LEAGUE_SCHEMA == "mls", "MLS is Back Tournament", "NWSL Challenge Cup")
 
 tables_rv <-
     reactiveValues(xgoals_players = list(minimum_minutes = 0,
