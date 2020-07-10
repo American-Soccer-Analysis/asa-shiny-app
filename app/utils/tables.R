@@ -598,6 +598,7 @@ tables_column_name_map <- list(
     share_headed_shots = "Header %",
     xgoals_gk_faced = "xG",
     goals_minus_xgoals_gk = "G-xG",
+    goals_divided_by_xgoals_gk = "G/xG",
     count_games = "Games",
     shots_for = "ShtF",
     shots_against = "ShtA",
