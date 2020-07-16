@@ -21,7 +21,7 @@ library(tidyverse)
 LEAGUE_SCHEMA <- "mls"
 LEAGUE_NAME <- "Major League Soccer"
 
-COMPETITION_STAGES <- c("Regular Season", "Playoffs", "MLS is Back Tournament")
+COMPETITION_STAGES <- c("Regular Season", "Playoffs", "MLS is Back Group Stage", "MLS is Back Knockout Round")
 
 # Menu items and options ------------------------
 tables_menu_items <-

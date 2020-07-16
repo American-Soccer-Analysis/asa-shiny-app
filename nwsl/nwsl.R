@@ -21,7 +21,7 @@ library(tidyverse)
 LEAGUE_SCHEMA <- "nwsl"
 LEAGUE_NAME <- "National Women's Soccer League"
 
-COMPETITION_STAGES <- c("Regular Season", "Playoffs", "NWSL Challenge Cup")
+COMPETITION_STAGES <- c("Regular Season", "Playoffs", "NWSL Challenge Cup Group Stage", "NWSL Challenge Cup Knockout Round")
 
 # Menu items and options ------------------------
 tables_menu_items <-
