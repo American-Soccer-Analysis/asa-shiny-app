@@ -480,7 +480,7 @@ controlbar_tables <- function(header, subheader, tables_rv) {
                        tables_cb_slider(header, subheader, tables_rv, MAX_MINUTES,
                                         "Minimum Minutes Played", "minimum_minutes"),
                        tables_cb_slider(header, subheader, tables_rv, MAX_PASSES,
-                                        "Minimum Key Passes", "minimum_passes"),
+                                        "Minimum Passes", "minimum_passes"),
                        tables_cb_picker(header, subheader, tables_rv, "Teams", "team_id",
                                         all_teams$team_id, all_teams$team_abbreviation),
                        tables_cb_picker(header, subheader, tables_rv, "Passing Third", "pass_origin_third", THIRDS_OF_FIELD),
@@ -657,7 +657,7 @@ tables_column_name_map <- list(
     Receiving_count_actions = "Receiving Actions",
     Shooting_goals_added_above_avg = "Shooting",
     Shooting_count_actions = "Shooting Actions",
-    total_goals_added_above_avg = "Total",
+    total_goals_added_above_avg = "Goals Added",
     total_count_actions = "All Actions"
 )
 
@@ -741,4 +741,4 @@ tables_normalize_columns <- c("Shots", "SoT", "G", "xG", "xPlace", "G-xG", "KeyP
                               "xGF", "xGA", "xGD", "GD-xGD", "Pts", "xPts",
                               "PassF", "ScoreF", "PassA", "ScoreA", "ScoreDiff",
                               "Dribbling", "Fouling", "Interrupting", "Passing",
-                              "Receiving", "Shooting", "Total")
+                              "Receiving", "Shooting", "Goals Added")
