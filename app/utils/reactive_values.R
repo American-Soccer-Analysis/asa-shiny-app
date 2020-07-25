@@ -82,7 +82,7 @@ tables_rv <-
                                               split_by_seasons = TRUE,
                                               stage_name = stage_name_rv,
                                               normalize_by = "None",
-                                              sort_column = c("Total", "desc")))
+                                              sort_column = c("Goals Added", "desc")))
 
 if (LEAGUE_SCHEMA == "mls") {
     tables_rv[["salaries_players"]] <- list(date_type = "Date Range",
