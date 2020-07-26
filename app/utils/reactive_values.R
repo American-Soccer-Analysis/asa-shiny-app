@@ -1,5 +1,5 @@
 # TABLES ----------------------------------------
-stage_name_rv <- if (LEAGUE_SCHEMA == "mls") c("Regular Season", "MLS is Back Group Stage") else c("NWSL Challenge Cup Group Stage", "NWSL Challenge Cup Knockout Round")
+stage_name_rv <- if (LEAGUE_SCHEMA == "mls") c("Regular Season", "MLS is Back Group Stage", "MLS is Back Knockout Round") else c("NWSL Challenge Cup Group Stage", "NWSL Challenge Cup Knockout Round")
 
 tables_rv <-
     reactiveValues(xgoals_players = list(minimum_minutes = 0,
