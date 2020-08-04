@@ -81,6 +81,7 @@ tables_rv <-
                                               split_by_teams = FALSE,
                                               split_by_seasons = TRUE,
                                               stage_name = stage_name_rv,
+                                              goals_added_variation = "Above Average",
                                               normalize_by = "None",
                                               sort_column = c("Goals Added", "desc")))
 
