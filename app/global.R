@@ -1,5 +1,6 @@
 # Set universal variables -----------------------
-API_PATH <- paste0("https://app.americansocceranalysis.com/api/v1/", LEAGUE_SCHEMA, "/")
+STAGE <- ifelse(grepl("stage", getwd()), "stage/", "")
+API_PATH <- paste0("https://app.americansocceranalysis.com/", STAGE, "api/v1/", LEAGUE_SCHEMA, "/")
 
 # VIOLIN_MINUTES_CUTOFF <- 500
 # VIOLIN_HEIGHT <- "450px"
