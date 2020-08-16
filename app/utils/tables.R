@@ -233,14 +233,12 @@ tables_body <- function(header, subheader, client_timezone) {
         sort_column_int <- which(names(df) == sort_column) - 1
 
         sort_order <- tables_rv[[rv_key]][["sort_column"]][2]
-        
-        old_names <- names(df)
 
         for (i in 1:length(names(df))) {
             tmp_match <- match(names(df)[i], tables_column_tooltip_text$app_name)
 
             if (!is.na(tmp_match)) {
-                names(df)[i] <- paste0(names(df)[i], "-", "<span class=\"tables_helper_tooltip\">", tables_column_tooltip_text$tooltip_text[tmp_match], "</span>")
+                names(df)[i] <- paste0(names(df)[i], "<span class=\"tables_helper_tooltip\">", tables_column_tooltip_text$tooltip_text[tmp_match], "</span>")
             }
         }
 
@@ -251,7 +249,7 @@ tables_body <- function(header, subheader, client_timezone) {
                            autoWidth = TRUE,
                            dom = "Bfrtip",
                            order = list(list(sort_column_int, sort_order)),
-                           
+
                            buttons = list("copy",
                                           list(extend = "csv",
                                                filename = paste("american_soccer_analysis", LEAGUE_SCHEMA, header, subheader, format(Sys.time(), "%Y-%m-%d", tz = client_timezone), sep = "_")),
@@ -269,7 +267,7 @@ tables_body <- function(header, subheader, client_timezone) {
             .end()
             .text()
           }
-        }   
+        }
       }"),
                                                messageTop = paste0("Exported on ", format(Sys.time(), "%B %d, %Y", tz = client_timezone), ".")))),
             rownames = FALSE,
