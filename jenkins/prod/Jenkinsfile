@@ -1,0 +1,20 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                sh '''
+                    # Pull changes from GitHub
+					cd /srv/shiny-server/prod
+					git pull origin master
+
+					# Add virtual environment changes
+					R -e "renv::restore()"
+
+					# Restart the Shiny Server service
+					sudo service shiny-server restart
+                '''
+            }
+        }
+    }
+}
