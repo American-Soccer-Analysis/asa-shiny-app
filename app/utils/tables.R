@@ -238,38 +238,36 @@ tables_body <- function(header, subheader, client_timezone) {
             tmp_match <- match(names(df)[i], tables_column_tooltip_text$app_name)
 
             if (!is.na(tmp_match)) {
-                names(df)[i] <- paste0(names(df)[i], "<span class=\"tables_helper_tooltip\">", tables_column_tooltip_text$tooltip_text[tmp_match], "</span>")
+                names(df)[i] <- paste0(names(df)[i], "<i class=\"fa fa-question-circle tables_helper_icon\"></i><span class=\"tables_helper_tooltip\">", tables_column_tooltip_text$tooltip_text[tmp_match], "</span>")
             }
         }
 
         dt <- DT::datatable(
             df,
             extensions = "Buttons",
-            options = list(pageLength = 50,
+            options = list(pageLength = 25,
                            autoWidth = TRUE,
                            dom = "Bfrtip",
                            order = list(list(sort_column_int, sort_order)),
-
                            buttons = list("copy",
                                           list(extend = "csv",
                                                filename = paste("american_soccer_analysis", LEAGUE_SCHEMA, header, subheader, format(Sys.time(), "%Y-%m-%d", tz = client_timezone), sep = "_")),
                                           list(extend = 'excel',
                                                filename = paste("american_soccer_analysis", LEAGUE_SCHEMA, header, subheader, format(Sys.time(), "%Y-%m-%d", tz = client_timezone), sep = "_"),
                                                title = paste0("American Soccer Analysis  |  ", toupper(LEAGUE_SCHEMA), "  |  ", gsub("^Xp", "xP", gsub("^Xg", "xG", toTitleCase(gsub("_", " ", header)))), "  |  ", toTitleCase(subheader)),
-                                               exportOptions = JS("
-                                                                  {
-      format: {
-        header: function (data) {
-          return $('<span></span>')
-            .append(data)
-            .find('.tables_helper_tooltip')
-            .remove()
-            .end()
-            .text()
-          }
-        }
-      }"),
-                                               messageTop = paste0("Exported on ", format(Sys.time(), "%B %d, %Y", tz = client_timezone), ".")))),
+                                               exportOptions = JS("{
+                                                                      format: {
+                                                                        header: function (data) {
+                                                                          return $('<span></span>')
+                                                                            .append(data)
+                                                                            .find('.tables_helper_tooltip')
+                                                                            .remove()
+                                                                            .end()
+                                                                            .text()
+                                                                          }
+                                                                        }
+                                                                      }"),
+            messageTop = paste0("Exported on ", format(Sys.time(), "%B %d, %Y", tz = client_timezone), ".")))),
             rownames = FALSE,
             style = "bootstrap4",
             autoHideNavigation = TRUE,
