@@ -245,13 +245,25 @@ tables_body <- function(header, subheader, client_timezone) {
         dt <- DT::datatable(
             df,
             extensions = "Buttons",
-            options = list(pageLength = 25,
+            options = list(pageLength = 30,
                            autoWidth = TRUE,
                            dom = "Bfrtip",
                            order = list(list(sort_column_int, sort_order)),
                            buttons = list("copy",
                                           list(extend = "csv",
-                                               filename = paste("american_soccer_analysis", LEAGUE_SCHEMA, header, subheader, format(Sys.time(), "%Y-%m-%d", tz = client_timezone), sep = "_")),
+                                               filename = paste("american_soccer_analysis", LEAGUE_SCHEMA, header, subheader, format(Sys.time(), "%Y-%m-%d", tz = client_timezone), sep = "_"),
+                                               exportOptions = JS("{
+                                                                      format: {
+                                                                        header: function (data) {
+                                                                          return $('<span></span>')
+                                                                            .append(data)
+                                                                            .find('.tables_helper_tooltip')
+                                                                            .remove()
+                                                                            .end()
+                                                                            .text()
+                                                                          }
+                                                                        }
+                                                                      }")),
                                           list(extend = 'excel',
                                                filename = paste("american_soccer_analysis", LEAGUE_SCHEMA, header, subheader, format(Sys.time(), "%Y-%m-%d", tz = client_timezone), sep = "_"),
                                                title = paste0("American Soccer Analysis  |  ", toupper(LEAGUE_SCHEMA), "  |  ", gsub("^Xp", "xP", gsub("^Xg", "xG", toTitleCase(gsub("_", " ", header)))), "  |  ", toTitleCase(subheader)),
@@ -267,7 +279,7 @@ tables_body <- function(header, subheader, client_timezone) {
                                                                           }
                                                                         }
                                                                       }"),
-            messageTop = paste0("Exported on ", format(Sys.time(), "%B %d, %Y", tz = client_timezone), ".")))),
+                                               messageTop = paste0("Exported on ", format(Sys.time(), "%B %d, %Y", tz = client_timezone), ".")))),
             rownames = FALSE,
             style = "bootstrap4",
             autoHideNavigation = TRUE,
