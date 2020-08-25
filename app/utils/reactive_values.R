@@ -15,7 +15,7 @@ tables_rv <-
                                          split_by_seasons = TRUE,
                                          stage_name = stage_name_rv,
                                          normalize_by = "None",
-                                         sort_column = c("xG+xA", "desc")),
+                                         sort_vector = list(list("xG+xA", "desc"))),
                    xgoals_teams = list(date_type = "Season",
                                        season_name = max(all_seasons),
                                        start_date = paste0(max(all_seasons), "-01-01"),
@@ -28,7 +28,8 @@ tables_rv <-
                                        even_game_state = FALSE,
                                        stage_name = stage_name_rv,
                                        normalize_by = "None",
-                                       sort_column = c("Pts", "desc")),
+                                       sort_vector = list(list("Pts", "desc"),
+                                                          list("GD", "desc"))),
                    xgoals_goalkeepers = list(minimum_minutes = 0,
                                              minimum_shots_faced = 0,
                                              date_type = "Season",
@@ -41,13 +42,14 @@ tables_rv <-
                                              split_by_seasons = TRUE,
                                              stage_name = stage_name_rv,
                                              normalize_by = "None",
-                                             sort_column = c("G-xG", "asc")),
+                                             sort_vector = list(list("G-xG", "asc"))),
                    xgoals_games = list(date_type = "Season",
                                        season_name = max(all_seasons),
                                        start_date = paste0(max(all_seasons), "-01-01"),
                                        end_date = paste0(max(all_seasons), "-12-31"),
                                        stage_name = stage_name_rv,
-                                       sort_column = c("Date", "desc")),
+                                       sort_vector = list(list("Date", "desc"),
+                                                          list("Time", "desc"))),
                    xpass_players = list(minimum_minutes = 0,
                                         minimum_passes = 0,
                                         date_type = "Season",
@@ -60,7 +62,7 @@ tables_rv <-
                                         split_by_seasons = TRUE,
                                         stage_name = stage_name_rv,
                                         normalize_by = "None",
-                                        sort_column = c("Score", "desc")),
+                                        sort_vector = list(list("Score", "desc"))),
                    xpass_teams = list(date_type = "Season",
                                       season_name = max(all_seasons),
                                       start_date = paste0(max(all_seasons), "-01-01"),
@@ -71,7 +73,7 @@ tables_rv <-
                                       away_only = FALSE,
                                       stage_name = stage_name_rv,
                                       normalize_by = "None",
-                                      sort_column = c("ScoreDiff", "desc")),
+                                      sort_vector = list(list("ScoreDiff", "desc"))),
                    goals_added_players = list(minimum_minutes = 0,
                                               date_type = "Season",
                                               season_name = max(all_seasons),
@@ -83,7 +85,7 @@ tables_rv <-
                                               stage_name = stage_name_rv,
                                               goals_added_variation = "Above Average",
                                               normalize_by = "None",
-                                              sort_column = c("Goals Added", "desc")))
+                                              sort_vector = list(list("Goals Added", "desc"))))
 
 if (LEAGUE_SCHEMA == "mls") {
     tables_rv[["salaries_players"]] <- list(date_type = "Date Range",
@@ -92,11 +94,11 @@ if (LEAGUE_SCHEMA == "mls") {
                                             end_date = salaries_most_recent,
                                             team_id = all_teams$team_id,
                                             position = MLSPA_POSITIONS,
-                                            sort_column = c("Guaranteed Compensation", "desc"))
+                                            sort_vector = list(list("Guaranteed Compensation", "desc")))
 
     tables_rv[["salaries_teams"]] <- list(season_name = max(salaries_seasons),
                                           split_by_teams = TRUE,
                                           split_by_seasons = FALSE,
                                           split_by_positions = FALSE,
-                                          sort_column = c("TotalGuar", "desc"))
+                                          sort_vector = list(list("TotalGuar", "desc")))
 }

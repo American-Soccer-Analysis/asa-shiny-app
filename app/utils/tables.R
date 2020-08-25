@@ -28,7 +28,7 @@ tables_subheader <- function(tab) {
 
 
 # Interactive tables ----------------------------
-tables_rv_to_df <- function(header, subheader) {
+tables_rv_to_df <- function(header, subheader, client_timezone, database_timezone = DATABASE_TIMEZONE) {
     header <- gsub("^tables_", "", header)
 
     if (is_empty(subheader)) {
@@ -192,6 +192,18 @@ tables_rv_to_df <- function(header, subheader) {
 
     }
 
+    if ("date_time_et" %in% names(df)) {
+
+        df <- df %>%
+            rowwise() %>%
+            mutate(date_time_et = as.POSIXct(date_time_et, tz = database_timezone),
+                   date = format(date_time_et, "%Y-%m-%d", tz = client_timezone),
+                   time = format(date_time_et, "%H:%M", tz = client_timezone, usetz = TRUE)) %>%
+            ungroup() %>%
+            select(date, time, everything(), -date_time_et)
+
+    }
+
     names(df) <- tables_column_name_map$app_name[match(names(df), tables_column_name_map$api_name)]
 
     if (normalize_variables == "96 Minutes") {
@@ -216,7 +228,7 @@ tables_body <- function(header, subheader, client_timezone) {
     rv_key <- paste(header, subheader, sep = "_")
 
     if (is.null(tables_rv[[rv_key]][["data_frame"]])) {
-        tables_rv[[rv_key]][["data_frame"]] <- try(tables_rv_to_df(header, subheader))
+        tables_rv[[rv_key]][["data_frame"]] <- try(tables_rv_to_df(header, subheader, client_timezone))
     }
 
     df <- tables_rv[[rv_key]][["data_frame"]]
@@ -229,10 +241,11 @@ tables_body <- function(header, subheader, client_timezone) {
     } else {
         df <- df %>% select(-contains("Actions"))
 
-        sort_column <- tables_rv[[rv_key]][["sort_column"]][1]
-        sort_column_int <- which(names(df) == sort_column) - 1
-
-        sort_order <- tables_rv[[rv_key]][["sort_column"]][2]
+        sort_vector <- tables_rv[[rv_key]][["sort_vector"]]
+        sort_vector <- lapply(sort_vector, function(x) {
+            x[1] <- which(names(df) == x[1]) - 1
+            return(x)
+        })
 
         for (i in 1:length(names(df))) {
             tmp_match <- match(names(df)[i], tables_column_tooltip_text$app_name)
@@ -248,7 +261,7 @@ tables_body <- function(header, subheader, client_timezone) {
             options = list(pageLength = 30,
                            autoWidth = TRUE,
                            dom = "Bfrtip",
-                           order = list(list(sort_column_int, sort_order)),
+                           order = sort_vector,
                            buttons = list("copy",
                                           list(extend = "csv",
                                                filename = paste("american_soccer_analysis", LEAGUE_SCHEMA, header, subheader, format(Sys.time(), "%Y-%m-%d", tz = client_timezone), sep = "_"),
@@ -667,7 +680,8 @@ tables_column_name_map <- list(
     avg_guaranteed_compensation = "AvgGuar",
     median_guaranteed_compensation = "MedGuar",
     std_dev_guaranteed_compensation = "StdDevGuar",
-    game_date = "Date",
+    date = "Date",
+    time = "Time",
     home_team_id = "Home",
     home_goals = "HG",
     home_team_xgoals = "HxGt",
