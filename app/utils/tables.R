@@ -317,13 +317,22 @@ tables_body <- function(header, subheader, client_timezone) {
             dt <- dt %>% formatPercentage(columns = tmp_columns, digits = 1)
         }
 
-        bs4Box(
-            panel("Click the settings option (the gear icon) in the top-right corner to tailor your results.",
-                  status = "info",
-                  heading = HTML("<span class=\"glyphicon\">&#xe086;</span>Filtering")),
-            div(class = "datatable_wrapper", dt),
-            width = 12
-        )
+        if (filtering_hint_ind()) {
+            bs4Box(
+                div(id = "filtering_hint_wrapper",
+                    panel(p("Click the settings option (the gear icon) in the top-right corner to tailor your results."),
+                          actionButton("filtering_hint_disable", "Got it!"),
+                          status = "info",
+                          heading = HTML("<span class=\"glyphicon\">&#xe086;</span>Filtering"))),
+                div(class = "datatable_wrapper", dt),
+                width = 12
+            )
+        } else {
+            bs4Box(
+                div(class = "datatable_wrapper", dt),
+                width = 12
+            )
+        }
     }
 }
 

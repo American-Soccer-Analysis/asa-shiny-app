@@ -484,7 +484,21 @@ div.datatable_wrapper, div.datatable_wrapper table {
     overflow-x: scroll;
     overflow-y: hidden;
     white-space: nowrap;
-    margin-top: 60px !important;
+    margin-top: 55px !important;
+}
+
+#filtering_hint_wrapper {
+    margin-bottom: 75px;
+}
+
+#filtering_hint_wrapper button {
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+    color: #31708f;
+}
+
+#filtering_hint_wrapper button:hover {
+    background-color: #bce8f1;
 }
 
 div.datatable_wrapper {
@@ -630,7 +644,11 @@ th:hover .tables_helper_tooltip {
     }
 
     div.datatable_wrapper, div.datatable_wrapper table {
-        margin-top: 40px !important;
+        margin-top: 35px !important;
+    }
+
+    #filtering_hint_wrapper {
+        margin-bottom: 55px;
     }
 
     div.dataTables_paginate .pagination {

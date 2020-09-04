@@ -1,4 +1,6 @@
 # TABLES ----------------------------------------
+filtering_hint_ind <- reactiveVal(TRUE)
+
 stage_name_rv <- if (LEAGUE_SCHEMA == "mls") c("Regular Season", "MLS is Back Group Stage") else c("NWSL Challenge Cup Group Stage", "NWSL Challenge Cup Knockout Round")
 
 tables_rv <-
