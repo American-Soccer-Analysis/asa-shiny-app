@@ -260,7 +260,7 @@ tables_body <- function(header, subheader, client_timezone) {
             extensions = "Buttons",
             options = list(pageLength = 30,
                            autoWidth = TRUE,
-                           dom = "Bfrtip",
+                           dom = "lBfrtip",
                            order = sort_vector,
                            buttons = list("copy",
                                           list(extend = "csv",

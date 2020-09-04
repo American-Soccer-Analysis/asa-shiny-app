@@ -484,11 +484,22 @@ div.datatable_wrapper, div.datatable_wrapper table {
     overflow-x: scroll;
     overflow-y: hidden;
     white-space: nowrap;
-    margin-top: 40px !important;
+    margin-top: 60px !important;
 }
 
 div.datatable_wrapper {
     margin-bottom: 45px;
+}
+
+.dataTables_length {
+    position: absolute;
+    margin-top: -105px;
+    left: 20px;
+    height: 0;
+}
+
+.dataTables_length > label > select {
+    font-size: 0.85rem;
 }
 
 .dataTables_filter {
@@ -612,16 +623,14 @@ th:hover .tables_helper_tooltip {
 }
 
 @media screen and (max-width: 767px) {
-    .datatable_wrapper div.dt-buttons {
+    .datatable_wrapper div.dt-buttons, .datatable_wrapper div.dataTables_info, .datatable_wrapper div.dataTables_length {
         visibility: hidden;
         height: 0;
         margin-bottom: 0 !important;
     }
 
-    div.dataTables_wrapper div.dataTables_info {
-        visibility: hidden;
-        height: 0;
-        padding-top: 0 !important;
+    div.datatable_wrapper, div.datatable_wrapper table {
+        margin-top: 40px !important;
     }
 
     div.dataTables_paginate .pagination {
