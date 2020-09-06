@@ -151,7 +151,7 @@ server <- function(input, output, session) {
                 subheader <- gsub("^_", "", stri_extract_last_regex(rv_key, "_[a-z]+$"))
                 header <- stri_replace_last_regex(rv_key, "_[a-z]+$", "")
 
-                tables_rv[[rv_key]][["data_frame"]] <- tables_rv_to_df(header, subheader)
+                tables_rv[[rv_key]][["data_frame"]] <- tables_rv_to_df(header, subheader, input$client_timezone)
 
                 shinyjs::enable(x)
 
