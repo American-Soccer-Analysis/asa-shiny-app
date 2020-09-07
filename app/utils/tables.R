@@ -69,6 +69,9 @@ tables_rv_to_df <- function(header, subheader, client_timezone, database_timezon
     }
 
     if ("goals_added_variation" %in% names(parameters)) {
+        if (parameters$goals_added_variation == "Above Replacement") {
+            parameters$above_replacement <- TRUE
+        }
         parameters <- parameters[!(grepl("goals_added_variation", names(parameters)))]
     }
 
@@ -97,31 +100,29 @@ tables_rv_to_df <- function(header, subheader, client_timezone, database_timezon
 
     if (grepl("goals_added", rv_key)) {
 
-        df <- df %>% unnest(data)
+        if (tables_rv[[rv_key]][["goals_added_variation"]] %in% c("Raw", "Above Average")) {
 
-        if (tables_rv[[rv_key]][["goals_added_variation"]] == "Raw") {
-            df <- df %>% select(-goals_added_above_avg)
-        } else if (tables_rv[[rv_key]][["goals_added_variation"]] == "Above Average") {
+            df <- df %>% unnest(data)
+
+            if (tables_rv[[rv_key]][["goals_added_variation"]] == "Raw") {
+                df <- df %>% select(-goals_added_above_avg)
+            } else if (tables_rv[[rv_key]][["goals_added_variation"]] == "Above Average") {
+                df <- df %>% select(-goals_added_raw)
+            }
+
+            df <- df %>%
+                gather(variable, value, -(player_id:action_type)) %>%
+                pivot_wider(names(df)[which(names(df) %in% c("player_id", "team_id", "season_name", "minutes_played"))], names_from = c(action_type, variable), values_from = value)
+
+            df <- df %>%
+                mutate(total_goals_added_above_avg = rowSums(df %>% select(contains("goals_added"))),
+                       total_count_actions = rowSums(df %>% select(contains("count_actions"))))
+
+        } else if (tables_rv[[rv_key]][["goals_added_variation"]] == "Above Replacement") {
+
             df <- df %>% select(-goals_added_raw)
+
         }
-
-        df <- df %>%
-            gather(variable, value, -(player_id:action_type)) %>%
-            pivot_wider(names(df)[which(names(df) %in% c("player_id", "team_id", "season_name", "minutes_played"))], names_from = c(action_type, variable), values_from = value)
-
-        df <- df %>%
-            mutate(total_goals_added_above_avg = rowSums(df %>% select(contains("goals_added"))),
-                   total_count_actions = rowSums(df %>% select(contains("count_actions"))))
-
-        # if (normalize_variables == "Action") {
-        #
-        #     gplus_variables <- names(df)[grepl("goals_added_above_avg", names(df))]
-        #
-        #     for (g in gplus_variables) {
-        #         df[[g]] <- df[[g]] / df[[gsub("goals_added_above_avg", "count_actions", g)]]
-        #     }
-        #
-        # }
 
     }
 
@@ -584,7 +585,7 @@ controlbar_tables <- function(header, subheader, tables_rv) {
                        tables_cb_switch(header, subheader, tables_rv, "Split by Teams", "split_by_teams"),
                        tables_cb_switch(header, subheader, tables_rv, "Split by Seasons", "split_by_seasons"),
                        tables_cb_radio(header, subheader, tables_rv, "g+ Variation", "goals_added_variation",
-                                       c("Raw", "Above Average")),
+                                       c("Raw", "Above Average", "Above Replacement")),
                        tables_cb_radio(header, subheader, tables_rv, "Normalize Results By", "normalize_by",
                                        c("None", "96 Minutes")),
                        tables_cb_refresh(header, subheader)
@@ -725,7 +726,9 @@ tables_column_name_map <- list(
     Shooting_goals_added_above_avg = "Shooting",
     Shooting_count_actions = "Shooting Actions",
     total_goals_added_above_avg = "Goals Added",
-    total_count_actions = "All Actions"
+    total_count_actions = "All Actions",
+    goals_added_above_replacement = "Goals Added",
+    count_actions = "All Actions"
 )
 
 tables_column_name_map <- data.frame(api_name = names(tables_column_name_map),
