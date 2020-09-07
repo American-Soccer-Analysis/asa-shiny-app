@@ -339,7 +339,7 @@ tables_body <- function(header, subheader, client_timezone) {
 
 
 # Control bar inputs ----------------------------
-tables_cb_slider <- function(header, subheader, tables_rv, max_value, label_name, variable_name) {
+tables_cb_slider <- function(header, subheader, tables_rv, max_value, label_name, variable_name, step) {
     header <- gsub("^tables_", "", header)
     subheader <- tolower(subheader)
 
@@ -348,7 +348,7 @@ tables_cb_slider <- function(header, subheader, tables_rv, max_value, label_name
                 min = 0,
                 max = max_value,
                 value = tables_rv[[paste(header, subheader, sep = "_")]][[variable_name]],
-                step = 1,
+                step = step,
                 ticks = FALSE,
                 width = "100%")
 }
@@ -459,11 +459,11 @@ controlbar_tables <- function(header, subheader, tables_rv) {
                 column(12,
                        h4("Player Settings"),
                        tables_cb_slider(header, subheader, tables_rv, MAX_MINUTES,
-                                        "Minimum Minutes Played", "minimum_minutes"),
+                                        "Minimum Minutes Played", "minimum_minutes", 25),
                        tables_cb_slider(header, subheader, tables_rv, MAX_SHOTS_TAKEN_FACED,
-                                        "Minimum Shots Taken", "minimum_shots"),
+                                        "Minimum Shots Taken", "minimum_shots", 5),
                        tables_cb_slider(header, subheader, tables_rv, MAX_KEY_PASSES,
-                                        "Minimum Key Passes", "minimum_key_passes"),
+                                        "Minimum Key Passes", "minimum_key_passes", 5),
                        tables_cb_picker(header, subheader, tables_rv, "Teams", "team_id",
                                         all_teams$team_id, all_teams$team_abbreviation),
                        tables_cb_picker(header, subheader, tables_rv, "Patterns of Play", "shot_pattern", PATTERNS_OF_PLAY),
@@ -504,9 +504,9 @@ controlbar_tables <- function(header, subheader, tables_rv) {
                 column(12,
                        h4("Goalkeeper Settings"),
                        tables_cb_slider(header, subheader, tables_rv, MAX_MINUTES,
-                                        "Minimum Minutes Played", "minimum_minutes"),
+                                        "Minimum Minutes Played", "minimum_minutes", 25),
                        tables_cb_slider(header, subheader, tables_rv, MAX_SHOTS_TAKEN_FACED,
-                                        "Minimum Shots Faced", "minimum_shots_faced"),
+                                        "Minimum Shots Faced", "minimum_shots_faced", 5),
                        tables_cb_picker(header, subheader, tables_rv, "Teams", "team_id",
                                         all_teams$team_id, all_teams$team_abbreviation),
                        tables_cb_picker(header, subheader, tables_rv, "Patterns of Play", "shot_pattern", PATTERNS_OF_PLAY),
@@ -536,9 +536,9 @@ controlbar_tables <- function(header, subheader, tables_rv) {
                 column(12,
                        h4("Player Settings"),
                        tables_cb_slider(header, subheader, tables_rv, MAX_MINUTES,
-                                        "Minimum Minutes Played", "minimum_minutes"),
+                                        "Minimum Minutes Played", "minimum_minutes", 25),
                        tables_cb_slider(header, subheader, tables_rv, MAX_PASSES,
-                                        "Minimum Passes", "minimum_passes"),
+                                        "Minimum Passes", "minimum_passes", 25),
                        tables_cb_picker(header, subheader, tables_rv, "Teams", "team_id",
                                         all_teams$team_id, all_teams$team_abbreviation),
                        tables_cb_picker(header, subheader, tables_rv, "Passing Third", "pass_origin_third", THIRDS_OF_FIELD),
@@ -576,7 +576,7 @@ controlbar_tables <- function(header, subheader, tables_rv) {
                 column(12,
                        h4("Player Settings"),
                        tables_cb_slider(header, subheader, tables_rv, MAX_MINUTES,
-                                        "Minimum Minutes Played", "minimum_minutes"),
+                                        "Minimum Minutes Played", "minimum_minutes", 25),
                        tables_cb_picker(header, subheader, tables_rv, "Teams", "team_id",
                                         all_teams$team_id, all_teams$team_abbreviation),
                        tables_cb_date_filter(header, subheader, tables_rv, all_seasons),
