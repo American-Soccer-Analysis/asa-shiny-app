@@ -138,6 +138,8 @@ server <- function(input, output, session) {
 
             if (execute_api_call) {
 
+                shinyjs::toggleClass(selector = "body", class = "control-sidebar-slide-open")
+
                 lapply(matching_inputs, function(y) {
                     if (grepl("date_range", y)) {
                         tables_rv[[rv_key]][["start_date"]] <- input[[y]][1]
