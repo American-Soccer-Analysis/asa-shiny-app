@@ -442,6 +442,19 @@ tables_cb_radio <- function(header, subheader, tables_rv, label_name, variable_n
                  selected = tables_rv[[paste(header, subheader, sep = "_")]][[variable_name]])
 }
 
+tables_cb_numeric <- function(header, subheader, tables_rv, label_name, variable_name, step = NA, max_value = NA) {
+    header <- gsub("^tables_", "", header)
+    subheader <- tolower(subheader)
+
+    numericInput(inputId = paste("tables", header, subheader, variable_name, sep = "_"),
+                 label = label_name,
+                 min = 0,
+                 max = max_value,
+                 value = tables_rv[[paste(header, subheader, sep = "_")]][[variable_name]],
+                 step = step,
+                 width = "100%")
+}
+
 tables_cb_refresh <- function(header, subheader) {
     header <- gsub("^tables_", "", header)
     subheader <- tolower(subheader)
@@ -458,11 +471,11 @@ controlbar_tables <- function(header, subheader, tables_rv) {
             div(
                 column(12,
                        h4("Player Settings"),
-                       tables_cb_slider(header, subheader, tables_rv, MAX_MINUTES,
+                       tables_cb_numeric(header, subheader, tables_rv,
                                         "Minimum Minutes Played", "minimum_minutes", 25),
-                       tables_cb_slider(header, subheader, tables_rv, MAX_SHOTS_TAKEN_FACED,
+                       tables_cb_numeric(header, subheader, tables_rv,
                                         "Minimum Shots Taken", "minimum_shots", 5),
-                       tables_cb_slider(header, subheader, tables_rv, MAX_KEY_PASSES,
+                       tables_cb_numeric(header, subheader, tables_rv,
                                         "Minimum Key Passes", "minimum_key_passes", 5),
                        tables_cb_picker(header, subheader, tables_rv, "Teams", "team_id",
                                         all_teams$team_id, all_teams$team_abbreviation),
@@ -503,9 +516,9 @@ controlbar_tables <- function(header, subheader, tables_rv) {
             div(
                 column(12,
                        h4("Goalkeeper Settings"),
-                       tables_cb_slider(header, subheader, tables_rv, MAX_MINUTES,
+                       tables_cb_numeric(header, subheader, tables_rv,
                                         "Minimum Minutes Played", "minimum_minutes", 25),
-                       tables_cb_slider(header, subheader, tables_rv, MAX_SHOTS_TAKEN_FACED,
+                       tables_cb_numeric(header, subheader, tables_rv,
                                         "Minimum Shots Faced", "minimum_shots_faced", 5),
                        tables_cb_picker(header, subheader, tables_rv, "Teams", "team_id",
                                         all_teams$team_id, all_teams$team_abbreviation),
@@ -535,9 +548,9 @@ controlbar_tables <- function(header, subheader, tables_rv) {
             div(
                 column(12,
                        h4("Player Settings"),
-                       tables_cb_slider(header, subheader, tables_rv, MAX_MINUTES,
+                       tables_cb_numeric(header, subheader, tables_rv,
                                         "Minimum Minutes Played", "minimum_minutes", 25),
-                       tables_cb_slider(header, subheader, tables_rv, MAX_PASSES,
+                       tables_cb_numeric(header, subheader, tables_rv,
                                         "Minimum Passes", "minimum_passes", 25),
                        tables_cb_picker(header, subheader, tables_rv, "Teams", "team_id",
                                         all_teams$team_id, all_teams$team_abbreviation),
@@ -575,7 +588,7 @@ controlbar_tables <- function(header, subheader, tables_rv) {
             div(
                 column(12,
                        h4("Player Settings"),
-                       tables_cb_slider(header, subheader, tables_rv, MAX_MINUTES,
+                       tables_cb_numeric(header, subheader, tables_rv,
                                         "Minimum Minutes Played", "minimum_minutes", 25),
                        tables_cb_picker(header, subheader, tables_rv, "Teams", "team_id",
                                         all_teams$team_id, all_teams$team_abbreviation),
