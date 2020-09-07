@@ -15,11 +15,6 @@ DATABASE_TIMEZONE <- "America/New_York"
 PATTERNS_OF_PLAY <- c("Corner", "Fastbreak", "Free kick", "Penalty", "Regular", "Set piece")
 THIRDS_OF_FIELD <- c("Attacking", "Middle", "Defensive")
 
-MAX_MINUTES <- 3000
-MAX_SHOTS_TAKEN_FACED <- 125
-MAX_KEY_PASSES <- 125
-MAX_PASSES <- 2000
-
 MLSPA_POSITIONS <- c("GK", "D", "M", "F")
 
 
