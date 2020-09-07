@@ -64,8 +64,8 @@ tables_rv_to_df <- function(header, subheader, client_timezone, database_timezon
         parameters <- parameters[!(grepl("date_type", names(parameters)))]
     }
 
-    if ("sort_column" %in% names(parameters)) {
-        parameters <- parameters[!(grepl("sort_column", names(parameters)))]
+    if ("sort_vector" %in% names(parameters)) {
+        parameters <- parameters[!(grepl("sort_vector", names(parameters)))]
     }
 
     if ("goals_added_variation" %in% names(parameters)) {
