@@ -5,8 +5,8 @@ server <- function(input, output, session) {
     # -----------------------------------------------
 
     # Source data -----------------------------------
-    source("../app/utils/retrieve_data.R")
-    source("../app/utils/reactive_values.R")
+    source("../app/utils/retrieve_data.R", local = TRUE)
+    source("../app/utils/reactive_values.R", local = TRUE)
 
     # Hide loading page -----------------------------
     hide(id = "loader_page", anim = TRUE, animType = "fade", time = 2)
