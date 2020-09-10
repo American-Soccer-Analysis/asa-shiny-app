@@ -28,7 +28,7 @@ tables_subheader <- function(tab) {
 
 
 # Interactive tables ----------------------------
-tables_rv_to_df <- function(header, subheader, client_timezone, database_timezone = DATABASE_TIMEZONE) {
+tables_rv_to_df <- function(header, subheader, tables_rv, client_timezone, database_timezone = DATABASE_TIMEZONE) {
     header <- gsub("^tables_", "", header)
 
     if (is_empty(subheader)) {
@@ -222,14 +222,14 @@ tables_rv_to_df <- function(header, subheader, client_timezone, database_timezon
     return(df)
 }
 
-tables_body <- function(header, subheader, client_timezone) {
+tables_body <- function(header, subheader, client_timezone, tables_rv, filtering_hint_ind) {
     header <- gsub("^tables_", "", header)
     subheader <- tolower(subheader)
 
     rv_key <- paste(header, subheader, sep = "_")
 
     if (is.null(tables_rv[[rv_key]][["data_frame"]])) {
-        tables_rv[[rv_key]][["data_frame"]] <- try(tables_rv_to_df(header, subheader, client_timezone))
+        tables_rv[[rv_key]][["data_frame"]] <- try(tables_rv_to_df(header, subheader, tables_rv, client_timezone))
     }
 
     df <- tables_rv[[rv_key]][["data_frame"]]
