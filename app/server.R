@@ -5,7 +5,7 @@ server <- function(input, output, session) {
     # -----------------------------------------------
 
     # Source data -----------------------------------
-    source("../app/utils/retrieve_data.R", local = TRUE)
+    source("../app/utils/retrieve_data.R")
     source("../app/utils/reactive_values.R", local = TRUE)
 
     # Hide loading page -----------------------------
@@ -153,7 +153,7 @@ server <- function(input, output, session) {
                 subheader <- gsub("^_", "", stri_extract_last_regex(rv_key, "_[a-z]+$"))
                 header <- stri_replace_last_regex(rv_key, "_[a-z]+$", "")
 
-                tables_rv[[rv_key]][["data_frame"]] <- tables_rv_to_df(header, subheader, input$client_timezone)
+                tables_rv[[rv_key]][["data_frame"]] <- tables_rv_to_df(header, subheader, tables_rv, input$client_timezone)
 
                 shinyjs::enable(x)
 
@@ -184,7 +184,7 @@ server <- function(input, output, session) {
 
     # Tables body -----------------------------------
     tables_body_reactive <- reactive({
-        tables_body(input$asa_sidebar, input$tables_subheader, input$client_timezone)
+        tables_body(input$asa_sidebar, input$tables_subheader, input$client_timezone, tables_rv, filtering_hint_ind)
     })
 
     output$tables_body <- renderUI({
