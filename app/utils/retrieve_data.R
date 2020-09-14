@@ -18,6 +18,13 @@ while (bo != 4) {
     # Import player ID lookup -----------------------
     player_lookup <- try(api_request(endpoint = "players", parameters = list(lookup_only = TRUE)))
 
+    # Import distinct positions ---------------------
+    general_positions <- try(api_request(endpoint = "players", parameters = list(general_position_only = TRUE)))
+    general_positions <- c("GK",
+                           sort(general_positions$general_position[grepl("B", general_positions$general_position)]),
+                           sort(general_positions$general_position[grepl("M", general_positions$general_position)], decreasing = TRUE),
+                           sort(general_positions$general_position[!grepl("(B|M|GK)", general_positions$general_position)], decreasing = TRUE))
+
     # Import teams ----------------------------------
     all_teams <- try(api_request(endpoint = "teams") %>% arrange(team_abbreviation))
 

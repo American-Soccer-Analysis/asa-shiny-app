@@ -112,7 +112,7 @@ tables_rv_to_df <- function(header, subheader, tables_rv, client_timezone, datab
 
             df <- df %>%
                 gather(variable, value, -(player_id:action_type)) %>%
-                pivot_wider(names(df)[which(names(df) %in% c("player_id", "team_id", "season_name", "minutes_played"))], names_from = c(action_type, variable), values_from = value)
+                pivot_wider(names(df)[which(names(df) %in% c("player_id", "team_id", "season_name", "general_position", "minutes_played"))], names_from = c(action_type, variable), values_from = value)
 
             df <- df %>%
                 mutate(total_goals_added_above_avg = rowSums(df %>% select(contains("goals_added"))),
@@ -477,6 +477,7 @@ controlbar_tables <- function(header, subheader, tables_rv) {
                                         "Minimum Shots Taken", "minimum_shots", 5),
                        tables_cb_numeric(header, subheader, tables_rv,
                                         "Minimum Key Passes", "minimum_key_passes", 5),
+                       tables_cb_picker(header, subheader, tables_rv, "Positions", "general_position", general_positions),
                        tables_cb_picker(header, subheader, tables_rv, "Teams", "team_id",
                                         all_teams$team_id, all_teams$team_abbreviation),
                        tables_cb_picker(header, subheader, tables_rv, "Patterns of Play", "shot_pattern", PATTERNS_OF_PLAY),
@@ -552,6 +553,7 @@ controlbar_tables <- function(header, subheader, tables_rv) {
                                         "Minimum Minutes Played", "minimum_minutes", 25),
                        tables_cb_numeric(header, subheader, tables_rv,
                                         "Minimum Passes", "minimum_passes", 25),
+                       tables_cb_picker(header, subheader, tables_rv, "Positions", "general_position", general_positions),
                        tables_cb_picker(header, subheader, tables_rv, "Teams", "team_id",
                                         all_teams$team_id, all_teams$team_abbreviation),
                        tables_cb_picker(header, subheader, tables_rv, "Passing Third", "pass_origin_third", THIRDS_OF_FIELD),
@@ -590,6 +592,8 @@ controlbar_tables <- function(header, subheader, tables_rv) {
                        h4("Player Settings"),
                        tables_cb_numeric(header, subheader, tables_rv,
                                         "Minimum Minutes Played", "minimum_minutes", 25),
+                       tables_cb_picker(header, subheader, tables_rv, "Positions", "general_position",
+                                        general_positions[general_positions != "GK"]),
                        tables_cb_picker(header, subheader, tables_rv, "Teams", "team_id",
                                         all_teams$team_id, all_teams$team_abbreviation),
                        tables_cb_date_filter(header, subheader, tables_rv, all_seasons),
@@ -638,6 +642,7 @@ controlbar_tables <- function(header, subheader, tables_rv) {
 tables_column_name_map <- list(
     player_id = "Player",
     team_id = "Team",
+    general_position = "Position",
     season_name = "Season",
     minutes_played = "Minutes",
     shots = "Shots",
