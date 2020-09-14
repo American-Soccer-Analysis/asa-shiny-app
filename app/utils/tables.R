@@ -249,6 +249,10 @@ tables_body <- function(header, subheader, client_timezone, tables_rv, filtering
         })
 
         for (i in 1:length(names(df))) {
+            if (names(df)[i] == "Goals Added" & tables_rv[[rv_key]][["goals_added_variation"]] == "Raw") {
+                break
+            }
+
             tmp_match <- match(names(df)[i], tables_column_tooltip_text$app_name)
 
             if (!is.na(tmp_match)) {
@@ -807,7 +811,7 @@ tables_column_tooltip_text <- list(
     Final = "Final Score (Own goals included.)",
     HxPts = "Expected points earned, given the same sample of shots over 1,000 simulations.",
     AxPts = "Expected points earned, given the same sample of shots over 1,000 simulations.",
-    Total = "Goals added above the average player, normalized by position."
+    `Goals Added` = "Calculated each game against the position at which the player lined up."
 )
 
 tables_column_tooltip_text <- data.frame(app_name = names(tables_column_tooltip_text),
