@@ -249,7 +249,7 @@ tables_body <- function(header, subheader, client_timezone, tables_rv, filtering
         })
 
         for (i in 1:length(names(df))) {
-            if (names(df)[i] == "Goals Added" & tables_rv[[rv_key]][["goals_added_variation"]] == "Raw") {
+            if (names(df)[i] == "Goals Added" & any(tables_rv[[rv_key]][["goals_added_variation"]] == "Raw")) {
                 break
             }
 
