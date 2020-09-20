@@ -5,6 +5,7 @@ server <- function(input, output, session) {
     # -----------------------------------------------
 
     # Source data -----------------------------------
+    browser()
     source("../app/utils/retrieve_data.R")
     source("../app/utils/reactive_values.R", local = TRUE)
 

@@ -122,6 +122,9 @@ tables_rv_to_df <- function(header, subheader, tables_rv, client_timezone, datab
 
             df <- df %>% select(-goals_added_raw)
 
+        } else{
+            df <- df %>% unnest(data)
+            ## May need to select some stuff here ####
         }
 
     }
@@ -595,7 +598,7 @@ controlbar_tables <- function(header, subheader, tables_rv) {
                 column(12,
                        h4("Player Settings"),
                        tables_cb_numeric(header, subheader, tables_rv,
-                                        "Minimum Minutes Played", "minimum_minutes", 25),
+                                         "Minimum Minutes Played", "minimum_minutes", 25),
                        tables_cb_picker(header, subheader, tables_rv, "Positions", "general_position",
                                         general_positions[general_positions != "GK"]),
                        tables_cb_picker(header, subheader, tables_rv, "Teams", "team_id",
@@ -607,6 +610,22 @@ controlbar_tables <- function(header, subheader, tables_rv) {
                        tables_cb_switch(header, subheader, tables_rv, "Split by Seasons", "split_by_seasons"),
                        tables_cb_radio(header, subheader, tables_rv, "g+ Variation", "goals_added_variation",
                                        c("Raw", "Above Average", "Above Replacement")),
+                       tables_cb_radio(header, subheader, tables_rv, "Normalize Results By", "normalize_by",
+                                       c("None", "96 Minutes")),
+                       tables_cb_refresh(header, subheader)
+                )
+            )
+        } else if(any(grepl("Teams by action", subheader))){
+            div(
+                column(12,
+                       h4("Team Settings"),
+                       tables_cb_picker(header, subheader, tables_rv, "Zones", "zone",
+                                        c(1:30)),
+                       tables_cb_picker(header, subheader, tables_rv, "Gamestates", "gamestate_trunc",
+                                        c(-2:2), as.character(c("< -2", -1:1, "2+"))),
+                       tables_cb_picker(header, subheader, tables_rv, "Competition Stages", "stage_name", COMPETITION_STAGES),
+                       p(class = "control-label", "Group Results"),
+                       tables_cb_switch(header, subheader, tables_rv, "Split by Seasons", "split_by_seasons"),
                        tables_cb_radio(header, subheader, tables_rv, "Normalize Results By", "normalize_by",
                                        c("None", "96 Minutes")),
                        tables_cb_refresh(header, subheader)
@@ -750,7 +769,37 @@ tables_column_name_map <- list(
     total_goals_added_above_avg = "Goals Added",
     total_count_actions = "All Actions",
     goals_added_above_replacement = "Goals Added",
-    count_actions = "All Actions"
+    count_actions = "All Actions",
+    
+    Dribbling_goals_added_for = "Dribbling for",
+    Dribbling_num_actions_for = "Dribbling Actions for",
+    Fouling_goals_added_for = "Fouling for",
+    Fouling_num_actions_for = "Fouling Actions for",
+    Interrupting_goals_added_for = "Interrupting for",
+    Interrupting_num_actions_for = "Interrupting Actions for",
+    Passing_goals_added_for = "Passing for",
+    Passing_num_actions_for = "Passing Actions for",
+    Receiving_goals_added_for = "Receiving for",
+    Receiving_num_actions_for = "Receiving Actions for",
+    Shooting_goals_added_for = "Shooting for",
+    Shooting_num_actions_for = "Shooting Actions for",
+    total_goals_added_for = "Goals Added for",
+    total_num_actions_for = "All Actions for",
+    
+    Dribbling_goals_added_against = "Dribbling against",
+    Dribbling_num_actions_against = "Dribbling Actions against",
+    Fouling_goals_added_against = "Fouling against",
+    Fouling_num_actions_against = "Fouling Actions against",
+    Interrupting_goals_added_against = "Interrupting against",
+    Interrupting_num_actions_against = "Interrupting Actions against",
+    Passing_goals_added_against = "Passing against",
+    Passing_num_actions_against = "Passing Actions against",
+    Receiving_goals_added_against = "Receiving against",
+    Receiving_num_actions_against = "Receiving Actions against",
+    Shooting_goals_added_against = "Shooting against",
+    Shooting_num_actions_against = "Shooting Actions against",
+    total_goals_added_against = "Goals Added against",
+    total_num_actions_against = "All Actions against"
 )
 
 tables_column_name_map <- data.frame(api_name = names(tables_column_name_map),
@@ -833,4 +882,10 @@ tables_normalize_columns <- c("Shots", "SoT", "G", "xG", "xPlace", "G-xG", "KeyP
                               "xGF", "xGA", "xGD", "GD-xGD", "Pts", "xPts",
                               "PassF", "ScoreF", "PassA", "ScoreA", "ScoreDiff",
                               "Dribbling", "Fouling", "Interrupting", "Passing",
-                              "Receiving", "Shooting", "Goals Added")
+                              "Receiving", "Shooting", "Goals Added",
+                              
+                              "Dribbling for", "Fouling for", "Interrupting for", "Passing for",
+                              "Receiving for", "Shooting for", "Goals Added for",
+                              
+                              "Dribbling against", "Fouling against", "Interrupting against", "Passing against",
+                              "Receiving against", "Shooting against", "Goals Added against")
