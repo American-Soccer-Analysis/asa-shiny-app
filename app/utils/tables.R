@@ -98,7 +98,7 @@ tables_rv_to_df <- function(header, subheader, tables_rv, client_timezone, datab
         return(df)
     }
 
-    if (grepl("goals_added", rv_key)) {
+    if (grepl("goals_added_players", rv_key)) {
 
         if (tables_rv[[rv_key]][["goals_added_variation"]] %in% c("Raw", "Above Average")) {
 
@@ -122,11 +122,29 @@ tables_rv_to_df <- function(header, subheader, tables_rv, client_timezone, datab
 
             df <- df %>% select(-goals_added_raw)
 
-        } else{
-            df <- df %>% unnest(data)
-            ## May need to select some stuff here ####
         }
 
+    } else{
+
+        df <- df %>% unnest(data)
+
+        df <- df %>%
+            filter(action_type != "Claiming") %>%
+            pivot_wider(names_from = action_type,
+                        values_from = num_actions_for:goals_added_against,
+                        values_fill = list(num_actions_for = 0,
+                                           goals_added_for = 0,
+                                           num_actions_against = 0,
+                                           goals_added_against = 0))
+
+        df <- df %>%
+            mutate(total_goals_added_for = rowSums(df %>% select(contains("goals_added_for"))),
+                   total_count_actions_for = rowSums(df %>% select(contains("num_actions_for"))),
+                   total_goals_added_against = rowSums(df %>% select(contains("goals_added_against"))),
+                   total_count_actions_against = rowSums(df %>% select(contains("num_actions_against"))))
+
+        print(df %>% head())
+        print(sapply(df, function(x) sum(is.na(x))))
     }
 
     if ("player_id" %in% names(df) & "team_id" %in% names(df) & !grepl("salaries", rv_key)) {
@@ -479,11 +497,11 @@ controlbar_tables <- function(header, subheader, tables_rv) {
                 column(12,
                        h4("Player Settings"),
                        tables_cb_numeric(header, subheader, tables_rv,
-                                        "Minimum Minutes Played", "minimum_minutes", 25),
+                                         "Minimum Minutes Played", "minimum_minutes", 25),
                        tables_cb_numeric(header, subheader, tables_rv,
-                                        "Minimum Shots Taken", "minimum_shots", 5),
+                                         "Minimum Shots Taken", "minimum_shots", 5),
                        tables_cb_numeric(header, subheader, tables_rv,
-                                        "Minimum Key Passes", "minimum_key_passes", 5),
+                                         "Minimum Key Passes", "minimum_key_passes", 5),
                        tables_cb_picker(header, subheader, tables_rv, "Positions", "general_position", general_positions),
                        tables_cb_picker(header, subheader, tables_rv, "Teams", "team_id",
                                         all_teams$team_id, all_teams$team_abbreviation),
@@ -525,9 +543,9 @@ controlbar_tables <- function(header, subheader, tables_rv) {
                 column(12,
                        h4("Goalkeeper Settings"),
                        tables_cb_numeric(header, subheader, tables_rv,
-                                        "Minimum Minutes Played", "minimum_minutes", 25),
+                                         "Minimum Minutes Played", "minimum_minutes", 25),
                        tables_cb_numeric(header, subheader, tables_rv,
-                                        "Minimum Shots Faced", "minimum_shots_faced", 5),
+                                         "Minimum Shots Faced", "minimum_shots_faced", 5),
                        tables_cb_picker(header, subheader, tables_rv, "Teams", "team_id",
                                         all_teams$team_id, all_teams$team_abbreviation),
                        tables_cb_picker(header, subheader, tables_rv, "Patterns of Play", "shot_pattern", PATTERNS_OF_PLAY),
@@ -557,9 +575,9 @@ controlbar_tables <- function(header, subheader, tables_rv) {
                 column(12,
                        h4("Player Settings"),
                        tables_cb_numeric(header, subheader, tables_rv,
-                                        "Minimum Minutes Played", "minimum_minutes", 25),
+                                         "Minimum Minutes Played", "minimum_minutes", 25),
                        tables_cb_numeric(header, subheader, tables_rv,
-                                        "Minimum Passes", "minimum_passes", 25),
+                                         "Minimum Passes", "minimum_passes", 25),
                        tables_cb_picker(header, subheader, tables_rv, "Positions", "general_position", general_positions),
                        tables_cb_picker(header, subheader, tables_rv, "Teams", "team_id",
                                         all_teams$team_id, all_teams$team_abbreviation),
@@ -615,7 +633,7 @@ controlbar_tables <- function(header, subheader, tables_rv) {
                        tables_cb_refresh(header, subheader)
                 )
             )
-        } else if(any(grepl("Teams by action", subheader))){
+        } else if(any(grepl("Teams", subheader))){
             div(
                 column(12,
                        h4("Team Settings"),
@@ -770,36 +788,37 @@ tables_column_name_map <- list(
     total_count_actions = "All Actions",
     goals_added_above_replacement = "Goals Added",
     count_actions = "All Actions",
-    
-    Dribbling_goals_added_for = "Dribbling for",
-    Dribbling_num_actions_for = "Dribbling Actions for",
-    Fouling_goals_added_for = "Fouling for",
-    Fouling_num_actions_for = "Fouling Actions for",
-    Interrupting_goals_added_for = "Interrupting for",
-    Interrupting_num_actions_for = "Interrupting Actions for",
-    Passing_goals_added_for = "Passing for",
-    Passing_num_actions_for = "Passing Actions for",
-    Receiving_goals_added_for = "Receiving for",
-    Receiving_num_actions_for = "Receiving Actions for",
-    Shooting_goals_added_for = "Shooting for",
-    Shooting_num_actions_for = "Shooting Actions for",
+
+    minutes = "Minutes",
+    goals_added_for_Dribbling = "Dribbling for",
+    num_actions_for_Dribbling = "Dribbling Actions for",
+    goals_added_for_Fouling = "Fouling for",
+    num_actions_for_Fouling = "Fouling Actions for",
+    goals_added_for_Interrupting = "Interrupting for",
+    num_actions_for_Interrupting = "Interrupting Actions for",
+    goals_added_for_Passing = "Passing for",
+    num_actions_for_Passing = "Passing Actions for",
+    goals_added_for_Receiving = "Receiving for",
+    num_actions_for_Receiving = "Receiving Actions for",
+    goals_added_for_Shooting = "Shooting for",
+    num_actions_for_Shooting = "Shooting Actions for",
     total_goals_added_for = "Goals Added for",
-    total_num_actions_for = "All Actions for",
-    
-    Dribbling_goals_added_against = "Dribbling against",
-    Dribbling_num_actions_against = "Dribbling Actions against",
-    Fouling_goals_added_against = "Fouling against",
-    Fouling_num_actions_against = "Fouling Actions against",
-    Interrupting_goals_added_against = "Interrupting against",
-    Interrupting_num_actions_against = "Interrupting Actions against",
-    Passing_goals_added_against = "Passing against",
-    Passing_num_actions_against = "Passing Actions against",
-    Receiving_goals_added_against = "Receiving against",
-    Receiving_num_actions_against = "Receiving Actions against",
-    Shooting_goals_added_against = "Shooting against",
-    Shooting_num_actions_against = "Shooting Actions against",
+    total_count_actions_for = "All Actions for",
+
+    goals_added_against_Dribbling = "Dribbling against",
+    num_actions_against_Dribbling = "Dribbling Actions against",
+    goals_added_against_Fouling = "Fouling against",
+    num_actions_against_Fouling = "Fouling Actions against",
+    goals_added_against_Interrupting = "Interrupting against",
+    num_actions_against_Interrupting = "Interrupting Actions against",
+    goals_added_against_Passing = "Passing against",
+    num_actions_against_Passing = "Passing Actions against",
+    goals_added_against_Receiving = "Receiving against",
+    num_actions_against_Receiving = "Receiving Actions against",
+    goals_added_against_Shooting = "Shooting against",
+    num_actions_against_Shooting = "Shooting Actions against",
     total_goals_added_against = "Goals Added against",
-    total_num_actions_against = "All Actions against"
+    total_count_actions_against = "All Actions against"
 )
 
 tables_column_name_map <- data.frame(api_name = names(tables_column_name_map),
@@ -883,9 +902,9 @@ tables_normalize_columns <- c("Shots", "SoT", "G", "xG", "xPlace", "G-xG", "KeyP
                               "PassF", "ScoreF", "PassA", "ScoreA", "ScoreDiff",
                               "Dribbling", "Fouling", "Interrupting", "Passing",
                               "Receiving", "Shooting", "Goals Added",
-                              
+
                               "Dribbling for", "Fouling for", "Interrupting for", "Passing for",
                               "Receiving for", "Shooting for", "Goals Added for",
-                              
+
                               "Dribbling against", "Fouling against", "Interrupting against", "Passing against",
                               "Receiving against", "Shooting against", "Goals Added against")
