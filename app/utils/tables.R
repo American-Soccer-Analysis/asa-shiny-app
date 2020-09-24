@@ -124,7 +124,7 @@ tables_rv_to_df <- function(header, subheader, tables_rv, client_timezone, datab
 
         }
 
-    } else{
+    } else if(grepl("goals_added_teams", rv_key)){
 
         df <- df %>% unnest(data)
 
@@ -138,14 +138,28 @@ tables_rv_to_df <- function(header, subheader, tables_rv, client_timezone, datab
                                            goals_added_against = 0))
 
         df <- df %>%
-            mutate(total_goals_added_for = rowSums(df %>% select(contains("goals_added_for"))),
-                   total_count_actions_for = rowSums(df %>% select(contains("num_actions_for"))),
-                   total_goals_added_against = rowSums(df %>% select(contains("goals_added_against"))),
-                   total_count_actions_against = rowSums(df %>% select(contains("num_actions_against"))))
+            mutate(total_goals_added_for = rowSums(df %>% select(setdiff(grep("goals_added_for", names(df)), grep("Interrupting", names(df))))),
+                   total_count_actions_for = rowSums(df %>% select(setdiff(grep("num_actions_for", names(df)), grep("Interrupting", names(df))))),
+                   total_goals_added_against = rowSums(df %>% select(setdiff(grep("goals_added_against", names(df)), grep("Interrupting", names(df))))),
+                   total_count_actions_against = rowSums(df %>% select(setdiff(grep("num_actions_against", names(df)), grep("Interrupting", names(df))))))
 
-        print(df %>% head())
-        print(sapply(df, function(x) sum(is.na(x))))
+        if("season_name" %in% names(df)){
+            df <- df %>%
+                mutate(total_goals_added_differential = total_goals_added_for - total_goals_added_against) %>%
+                select(-c(grep("num_actions", names(df), value = T))) %>%
+                select(team_id, season_name, minutes,
+                       total_goals_added_for, total_goals_added_against, total_goals_added_differential,
+                       everything())
+        } else
+            df <- df %>%
+            mutate(total_goals_added_differential = total_goals_added_for - total_goals_added_against) %>%
+            select(-c(grep("num_actions", names(df), value = T))) %>%
+            select(team_id, minutes,
+                   total_goals_added_for, total_goals_added_against, total_goals_added_differential,
+                   everything())
+
     }
+
 
     if ("player_id" %in% names(df) & "team_id" %in% names(df) & !grepl("salaries", rv_key)) {
 
@@ -378,34 +392,44 @@ tables_cb_slider <- function(header, subheader, tables_rv, max_value, label_name
                 width = "100%")
 }
 
-tables_cb_date_filter <- function(header, subheader, tables_rv, all_seasons) {
+tables_cb_date_filter <- function(header, subheader, tables_rv, all_seasons, seasononly = FALSE) {
     header <- gsub("^tables_", "", header)
     subheader <- tolower(subheader)
 
-    div(
-        radioGroupButtons(inputId = paste("tables", header, subheader, "date_type", sep = "_"),
-                          label = "Filter Dates By",
-                          choices = c("Season", "Date Range"),
-                          justified = TRUE,
-                          selected = tables_rv[[paste(header, subheader, sep = "_")]][["date_type"]],
-                          width = "100%"),
-        conditionalPanel(condition = paste0("input.", paste("tables", header, subheader, "date_type", sep = "_"), " == 'Season'"),
-                         pickerInput(inputId = paste("tables", header, subheader, "season_name", sep = "_"),
-                                     label = "Seasons",
-                                     choices = all_seasons,
-                                     selected = tables_rv[[paste(header, subheader, sep = "_")]][["season_name"]],
-                                     multiple = TRUE,
-                                     options = list(`selected-text-format` = "count > 3",
-                                                    `actions-box` = TRUE))),
-        conditionalPanel(condition = paste0("input.", paste("tables", header, subheader, "date_type", sep = "_"), " == 'Date Range'"),
-                         dateRangeInput(inputId = paste("tables", header, subheader, "date_range", sep = "_"),
-                                        label = "Date Range",
-                                        start = tables_rv[[paste(header, subheader, sep = "_")]][["start_date"]],
-                                        end = tables_rv[[paste(header, subheader, sep = "_")]][["end_date"]],
-                                        min = paste0(min(all_seasons), "-01-01"),
-                                        max = paste0(max(all_seasons), "-12-31"),
-                                        separator = "  to  "))
-    )
+    if(seasononly) {
+        pickerInput(inputId = paste("tables", header, subheader, "season_name", sep = "_"),
+                    label = "Seasons",
+                    choices = all_seasons,
+                    selected = tables_rv[[paste(header, subheader, sep = "_")]][["season_name"]],
+                    multiple = TRUE,
+                    options = list(`selected-text-format` = "count > 3",
+                                   `actions-box` = TRUE))
+    } else{
+        div(
+            radioGroupButtons(inputId = paste("tables", header, subheader, "date_type", sep = "_"),
+                              label = "Filter Dates By",
+                              choices = c("Season", "Date Range"),
+                              justified = TRUE,
+                              selected = tables_rv[[paste(header, subheader, sep = "_")]][["date_type"]],
+                              width = "100%"),
+            conditionalPanel(condition = paste0("input.", paste("tables", header, subheader, "date_type", sep = "_"), " == 'Season'"),
+                             pickerInput(inputId = paste("tables", header, subheader, "season_name", sep = "_"),
+                                         label = "Seasons",
+                                         choices = all_seasons,
+                                         selected = tables_rv[[paste(header, subheader, sep = "_")]][["season_name"]],
+                                         multiple = TRUE,
+                                         options = list(`selected-text-format` = "count > 3",
+                                                        `actions-box` = TRUE))),
+            conditionalPanel(condition = paste0("input.", paste("tables", header, subheader, "date_type", sep = "_"), " == 'Date Range'"),
+                             dateRangeInput(inputId = paste("tables", header, subheader, "date_range", sep = "_"),
+                                            label = "Date Range",
+                                            start = tables_rv[[paste(header, subheader, sep = "_")]][["start_date"]],
+                                            end = tables_rv[[paste(header, subheader, sep = "_")]][["end_date"]],
+                                            min = paste0(min(all_seasons), "-01-01"),
+                                            max = paste0(max(all_seasons), "-12-31"),
+                                            separator = "  to  "))
+        )
+    }
 }
 
 tables_cb_picker <- function(header, subheader, tables_rv, label_name, variable_name, available_values, available_names = NULL) {
@@ -641,6 +665,7 @@ controlbar_tables <- function(header, subheader, tables_rv) {
                                         c(1:30)),
                        tables_cb_picker(header, subheader, tables_rv, "Gamestates", "gamestate_trunc",
                                         c(-2:2), as.character(c("< -2", -1:1, "2+"))),
+                       tables_cb_date_filter(header, subheader, tables_rv, all_seasons, seasononly = TRUE),
                        tables_cb_picker(header, subheader, tables_rv, "Competition Stages", "stage_name", COMPETITION_STAGES),
                        p(class = "control-label", "Group Results"),
                        tables_cb_switch(header, subheader, tables_rv, "Split by Seasons", "split_by_seasons"),
@@ -790,35 +815,36 @@ tables_column_name_map <- list(
     count_actions = "All Actions",
 
     minutes = "Minutes",
-    goals_added_for_Dribbling = "Dribbling for",
-    num_actions_for_Dribbling = "Dribbling Actions for",
-    goals_added_for_Fouling = "Fouling for",
-    num_actions_for_Fouling = "Fouling Actions for",
-    goals_added_for_Interrupting = "Interrupting for",
-    num_actions_for_Interrupting = "Interrupting Actions for",
-    goals_added_for_Passing = "Passing for",
-    num_actions_for_Passing = "Passing Actions for",
-    goals_added_for_Receiving = "Receiving for",
-    num_actions_for_Receiving = "Receiving Actions for",
-    goals_added_for_Shooting = "Shooting for",
-    num_actions_for_Shooting = "Shooting Actions for",
-    total_goals_added_for = "Goals Added for",
-    total_count_actions_for = "All Actions for",
+    goals_added_for_Dribbling = "DribblingF",
+    num_actions_for_Dribbling = "Dribbling ActionsF",
+    goals_added_for_Fouling = "FoulingF",
+    num_actions_for_Fouling = "Fouling ActionsF",
+    goals_added_for_Interrupting = "InterruptingF",
+    num_actions_for_Interrupting = "Interrupting ActionsF",
+    goals_added_for_Passing = "PassingF",
+    num_actions_for_Passing = "Passing ActionsF",
+    goals_added_for_Receiving = "ReceivingF",
+    num_actions_for_Receiving = "Receiving ActionsF",
+    goals_added_for_Shooting = "ShootingF",
+    num_actions_for_Shooting = "Shooting ActionsF",
+    total_goals_added_for = "Goals AddedF",
+    total_count_actions_for = "All ActionsF",
 
-    goals_added_against_Dribbling = "Dribbling against",
-    num_actions_against_Dribbling = "Dribbling Actions against",
-    goals_added_against_Fouling = "Fouling against",
-    num_actions_against_Fouling = "Fouling Actions against",
-    goals_added_against_Interrupting = "Interrupting against",
-    num_actions_against_Interrupting = "Interrupting Actions against",
-    goals_added_against_Passing = "Passing against",
-    num_actions_against_Passing = "Passing Actions against",
-    goals_added_against_Receiving = "Receiving against",
-    num_actions_against_Receiving = "Receiving Actions against",
-    goals_added_against_Shooting = "Shooting against",
-    num_actions_against_Shooting = "Shooting Actions against",
-    total_goals_added_against = "Goals Added against",
-    total_count_actions_against = "All Actions against"
+    goals_added_against_Dribbling = "DribblingA",
+    num_actions_against_Dribbling = "Dribbling ActionsA",
+    goals_added_against_Fouling = "FoulingA",
+    num_actions_against_Fouling = "Fouling ActionsA",
+    goals_added_against_Interrupting = "InterruptingA",
+    num_actions_against_Interrupting = "Interrupting ActionsA",
+    goals_added_against_Passing = "PassingA",
+    num_actions_against_Passing = "Passing ActionsA",
+    goals_added_against_Receiving = "ReceivingA",
+    num_actions_against_Receiving = "Receiving ActionsA",
+    goals_added_against_Shooting = "ShootingA",
+    num_actions_against_Shooting = "Shooting ActionsA",
+    total_goals_added_against = "Goals AddedA",
+    total_count_actions_against = "All ActionsA",
+    total_goals_added_differential = "Goals Added diff"
 )
 
 tables_column_name_map <- data.frame(api_name = names(tables_column_name_map),
@@ -879,7 +905,10 @@ tables_column_tooltip_text <- list(
     Final = "Final Score (Own goals included.)",
     HxPts = "Expected points earned, given the same sample of shots over 1,000 simulations.",
     AxPts = "Expected points earned, given the same sample of shots over 1,000 simulations.",
-    `Goals Added` = "Calculated each game against the position at which the player lined up."
+    `Goals Added` = "Calculated each game against the position at which the player lined up.",
+    `Goals AddedF` = "Ignores Interrupting g+.",
+    `Goals AddedA` = "Ignores Interrupting g+.",
+    `Goals Added diff` = "Ignores Interrupting g+."
 )
 
 tables_column_tooltip_text <- data.frame(app_name = names(tables_column_tooltip_text),
@@ -903,8 +932,8 @@ tables_normalize_columns <- c("Shots", "SoT", "G", "xG", "xPlace", "G-xG", "KeyP
                               "Dribbling", "Fouling", "Interrupting", "Passing",
                               "Receiving", "Shooting", "Goals Added",
 
-                              "Dribbling for", "Fouling for", "Interrupting for", "Passing for",
-                              "Receiving for", "Shooting for", "Goals Added for",
+                              "DribblingF", "FoulingF", "InterruptingF", "PassingF",
+                              "ReceivingF", "ShootingF", "Goals AddedF",
 
-                              "Dribbling against", "Fouling against", "Interrupting against", "Passing against",
-                              "Receiving against", "Shooting against", "Goals Added against")
+                              "DribblingA", "FoulingA", "InterruptingA", "PassingA",
+                              "ReceivingA", "ShootingA", "Goals AddedA", "Goals Added diff")
