@@ -97,7 +97,7 @@ tables_rv <-
                                           split_by_seasons = TRUE,
                                           stage_name = stage_name_rv,
                                           normalize_by = "None",
-                                          sort_vector = list(list("Goals Added for", "desc"))))
+                                          sort_vector = list(list("Goals Added diff", "desc"))))
 
 if (LEAGUE_SCHEMA == "mls") {
   tables_rv[["salaries_players"]] <- list(date_type = "Date Range",
@@ -107,7 +107,7 @@ if (LEAGUE_SCHEMA == "mls") {
                                           team_id = all_teams$team_id,
                                           position = MLSPA_POSITIONS,
                                           sort_vector = list(list("Guaranteed Compensation", "desc")))
-  
+
   tables_rv[["salaries_teams"]] <- list(season_name = max(salaries_seasons),
                                         split_by_teams = TRUE,
                                         split_by_seasons = FALSE,
