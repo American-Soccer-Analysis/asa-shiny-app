@@ -449,6 +449,27 @@ tables_cb_picker <- function(header, subheader, tables_rv, label_name, variable_
                                `actions-box` = TRUE))
 }
 
+tables_cb_pitch_zones <- function(header, subheader, tables_rv, label_name, variable_name) {
+    header <- gsub("^tables_", "", header)
+    subheader <- tolower(subheader)
+
+    div(
+        class = "pitch-zone-wrapper",
+        p(class = "control-label", label_name),
+        actionGroupButtons(inputIds = c(paste("tables", header, subheader, variable_name, "select", sep = "_"),
+                                        paste("tables", header, subheader, variable_name, "deselect", sep = "_")),
+                           labels = c("Select All", "Deselect All"),
+                           status = "default",
+                           fullwidth = TRUE),
+        checkboxGroupButtons(inputId = paste("tables", header, subheader, variable_name, sep = "_"),
+                             label = NULL,
+                             choices = c(30:1),
+                             justified = TRUE,
+                             selected = tables_rv[[paste(header, subheader, sep = "_")]][[variable_name]]),
+        p(em("The attacking half (top) is represented by zones 16 through 30. The defensive half (bottom) is represented by zones 1 through 15."))
+    )
+}
+
 tables_cb_switch <- function(header, subheader, tables_rv, label_name, variable_name) {
     header <- gsub("^tables_", "", header)
     subheader <- tolower(subheader)
@@ -661,8 +682,7 @@ controlbar_tables <- function(header, subheader, tables_rv) {
             div(
                 column(12,
                        h4("Team Settings"),
-                       tables_cb_picker(header, subheader, tables_rv, "Zones", "zone",
-                                        c(1:30)),
+                       tables_cb_pitch_zones(header, subheader, tables_rv, "Zones", "zone"),
                        tables_cb_picker(header, subheader, tables_rv, "Gamestates", "gamestate_trunc",
                                         c(-2:2), as.character(c("< -2", -1:1, "2+"))),
                        tables_cb_date_filter(header, subheader, tables_rv, all_seasons, seasononly = TRUE),
