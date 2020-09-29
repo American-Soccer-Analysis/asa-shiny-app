@@ -392,11 +392,11 @@ tables_cb_slider <- function(header, subheader, tables_rv, max_value, label_name
                 width = "100%")
 }
 
-tables_cb_date_filter <- function(header, subheader, tables_rv, all_seasons, seasononly = FALSE) {
+tables_cb_date_filter <- function(header, subheader, tables_rv, all_seasons, season_only = FALSE) {
     header <- gsub("^tables_", "", header)
     subheader <- tolower(subheader)
 
-    if(seasononly) {
+    if (season_only) {
         pickerInput(inputId = paste("tables", header, subheader, "season_name", sep = "_"),
                     label = "Seasons",
                     choices = all_seasons,
@@ -404,7 +404,7 @@ tables_cb_date_filter <- function(header, subheader, tables_rv, all_seasons, sea
                     multiple = TRUE,
                     options = list(`selected-text-format` = "count > 3",
                                    `actions-box` = TRUE))
-    } else{
+    } else {
         div(
             radioGroupButtons(inputId = paste("tables", header, subheader, "date_type", sep = "_"),
                               label = "Filter Dates By",
@@ -414,7 +414,7 @@ tables_cb_date_filter <- function(header, subheader, tables_rv, all_seasons, sea
                               width = "100%"),
             conditionalPanel(condition = paste0("input.", paste("tables", header, subheader, "date_type", sep = "_"), " == 'Season'"),
                              pickerInput(inputId = paste("tables", header, subheader, "season_name", sep = "_"),
-                                         label = "Seasons",
+                                         label = NULL,
                                          choices = all_seasons,
                                          selected = tables_rv[[paste(header, subheader, sep = "_")]][["season_name"]],
                                          multiple = TRUE,
@@ -422,7 +422,7 @@ tables_cb_date_filter <- function(header, subheader, tables_rv, all_seasons, sea
                                                         `actions-box` = TRUE))),
             conditionalPanel(condition = paste0("input.", paste("tables", header, subheader, "date_type", sep = "_"), " == 'Date Range'"),
                              dateRangeInput(inputId = paste("tables", header, subheader, "date_range", sep = "_"),
-                                            label = "Date Range",
+                                            label = NULL,
                                             start = tables_rv[[paste(header, subheader, sep = "_")]][["start_date"]],
                                             end = tables_rv[[paste(header, subheader, sep = "_")]][["end_date"]],
                                             min = paste0(min(all_seasons), "-01-01"),
@@ -685,7 +685,7 @@ controlbar_tables <- function(header, subheader, tables_rv) {
                        tables_cb_pitch_zones(header, subheader, tables_rv, "Zones", "zone"),
                        tables_cb_picker(header, subheader, tables_rv, "Gamestates", "gamestate_trunc",
                                         c(-2:2), as.character(c("< -2", -1:1, "2+"))),
-                       tables_cb_date_filter(header, subheader, tables_rv, all_seasons, seasononly = TRUE),
+                       tables_cb_date_filter(header, subheader, tables_rv, all_seasons, season_only = TRUE),
                        tables_cb_picker(header, subheader, tables_rv, "Competition Stages", "stage_name", COMPETITION_STAGES),
                        p(class = "control-label", "Group Results"),
                        tables_cb_switch(header, subheader, tables_rv, "Split by Seasons", "split_by_seasons"),
