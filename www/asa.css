@@ -414,6 +414,15 @@ body {
     display: -webkit-box;
 }
 
+#asa_controlbar div.btn-group button.radiobtn.active {
+    background-color: #e7e7e7;
+    font-weight: bold;
+}
+
+#asa_controlbar div.radioGroupButtons[id$='date_type'] {
+    margin-bottom: 10px !important;
+}
+
 #asa_controlbar .shiny-input-container {
     margin-bottom: 0;
 }
