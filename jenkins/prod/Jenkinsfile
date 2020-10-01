@@ -9,7 +9,11 @@ pipeline {
 					git pull origin master
 
 					# Add virtual environment changes
-					R -e "renv::restore()"
+                    cd mls
+                    R -e "renv::restore()"
+
+                    cd ../nwsl
+                    R -e "renv::restore()"
 
 					# Restart the Shiny Server service
 					sudo service shiny-server restart

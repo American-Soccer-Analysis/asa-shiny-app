@@ -298,6 +298,7 @@ tables_body <- function(header, subheader, client_timezone, tables_rv, filtering
         dt <- DT::datatable(
             df,
             extensions = "Buttons",
+            plugins = "accent-neutralise",
             options = list(pageLength = 30,
                            autoWidth = TRUE,
                            dom = "lBfrtip",
