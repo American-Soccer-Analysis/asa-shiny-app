@@ -36,7 +36,7 @@ tables_menu_items <-
          tables_goals_added = list(name = "Goals Added (g+)",
                                    tabName = "tables_goals_added",
                                    icon = "google-plus",
-                                   subheaders = c("Players")),
+                                   subheaders = c("Players", "Teams")),
          tables_salaries = list(name = "Salaries",
                                 tabName = "tables_salaries",
                                 icon = "usd",

@@ -162,6 +162,16 @@ server <- function(input, output, session) {
         })
     })
 
+    # Select/deselect pitch zones -------------------
+    # TODO: Make this generalizable to any inputs with pitch zones
+    observeEvent(input$tables_goals_added_teams_zone_select, {
+        updateCheckboxGroupButtons(session, "tables_goals_added_teams_zone", selected = as.character(30:1))
+    })
+
+    observeEvent(input$tables_goals_added_teams_zone_deselect, {
+        updateCheckboxGroupButtons(session, "tables_goals_added_teams_zone", selected = character(0))
+    })
+
     # Tables header ---------------------------------
     tables_header_reactive <- reactive({
         tables_header(input$asa_sidebar)
