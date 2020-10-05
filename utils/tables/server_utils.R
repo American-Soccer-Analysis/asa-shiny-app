@@ -2,23 +2,23 @@
 tables_refresh <- function(refresh_button_id, input, tables_rv, page, league_config) {
     shinyjs::disable(refresh_button_id)
 
-    matching_inputs <- names(input)
-    matching_inputs <- matching_inputs[grepl(gsub("_refresh$", "", refresh_button_id), matching_inputs) & !grepl("refresh", matching_inputs)]
-
     league <- get_values_from_page(page)$league
     route_prefix <- get_values_from_page(page)$route_prefix
     subheader <- get_values_from_page(page)$subheader
 
     rv_key <- assemble_key(league, route_prefix, subheader)
 
+    matching_inputs <- paste("tables", route_prefix, subheader, names(tables_rv[[rv_key]]), sep = "_")
+    matching_inputs <- matching_inputs[!grepl("sort_vector", matching_inputs)]
+
 
     execute_api_call <- TRUE
 
     if (any(grepl("date_type", matching_inputs))) {
 
-        if (input[[gsub("_refresh$", "_date_type", refresh_button_id)]] == "Date Range") {
+        if (input[[matching_inputs[grepl("date_type", matching_inputs)]]] == "Date Range") {
 
-            if (sum(is.na(c(input[[gsub("_refresh$", "_date_range", refresh_button_id)]][1], input[[gsub("_refresh$", "_date_range", refresh_button_id)]][2]))) == 1) {
+            if (sum(is.na(c(input[[matching_inputs[grepl("date_range", matching_inputs)]]][1], input[[matching_inputs[grepl("date_range", matching_inputs)]]][2]))) == 1) {
 
                 sendSweetAlert(
                     session,
@@ -31,8 +31,8 @@ tables_refresh <- function(refresh_button_id, input, tables_rv, page, league_con
 
                 execute_api_call <- FALSE
 
-            } else if (sum(is.na(c(input[[gsub("_refresh$", "_date_range", refresh_button_id)]][1], input[[gsub("_refresh$", "_date_range", refresh_button_id)]][2]))) == 0 &
-                       input[[gsub("_refresh$", "_date_range", refresh_button_id)]][2] < input[[gsub("_refresh$", "_date_range", refresh_button_id)]][1]) {
+            } else if (sum(is.na(c(input[[matching_inputs[grepl("date_range", matching_inputs)]]][1], input[[matching_inputs[grepl("date_range", matching_inputs)]]][2]))) == 0 &
+                       input[[matching_inputs[grepl("date_range", matching_inputs)]]][2] < input[[matching_inputs[grepl("date_range", matching_inputs)]]][1]) {
 
                 sendSweetAlert(
                     session,
@@ -51,11 +51,11 @@ tables_refresh <- function(refresh_button_id, input, tables_rv, page, league_con
 
     }
 
-    if (grepl("salaries_teams", refresh_button_id)) {
+    if (grepl("salaries/teams", rv_key)) {
 
-        if (sum(c(input[[gsub("_refresh$", "_split_by_teams", refresh_button_id)]],
-                  input[[gsub("_refresh$", "_split_by_seasons", refresh_button_id)]],
-                  input[[gsub("_refresh$", "_split_by_positions", refresh_button_id)]])) == 0) {
+        if (sum(c(input[[matching_inputs[grepl("split_by_teams", matching_inputs)]]],
+                  input[[matching_inputs[grepl("split_by_seasons", matching_inputs)]]],
+                  input[[matching_inputs[grepl("split_by_positions", matching_inputs)]]])) == 0) {
 
             sendSweetAlert(
                 session,
@@ -81,7 +81,7 @@ tables_refresh <- function(refresh_button_id, input, tables_rv, page, league_con
                 tables_rv[[rv_key]][["start_date"]] <- input[[y]][1]
                 tables_rv[[rv_key]][["end_date"]] <- input[[y]][2]
             } else {
-                rv_secondary_key <- gsub(paste0("tables_", rv_key, "_"), "", y)
+                rv_secondary_key <- gsub(paste0("tables_", route_prefix, "_", subheader, "_"), "", y)
                 tables_rv[[rv_key]][[rv_secondary_key]] <- input[[y]]
             }
         })

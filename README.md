@@ -1,7 +1,7 @@
 # American Soccer Analysis | Shiny App
 
 <p align="center">
-<img src="www/asa_github_header.png" align="center" width="100%" alt="American Soccer Analysis logo">
+<img src="www/asa_assets/asa_github_header.png" align="center" width="100%" alt="American Soccer Analysis logo">
 </p>
 
 ## About the App

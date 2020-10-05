@@ -40,7 +40,6 @@ MLSPA_POSITIONS <- c("GK", "D", "M", "F")
 
 # Source dashboard utils ------------------------
 all_utils <- list.files("utils", recursive = TRUE, full.names = TRUE)
-rv_utils <- all_utils[grep("reactive_values", all_utils)]
 utils_to_source <- all_utils[!grepl("retrieve_data|reactive_values", all_utils)]
 
 lapply(utils_to_source, source)
@@ -67,14 +66,14 @@ for (league in league_schemas) {
             for (s in subheaders) {
                 router_list_to_parse <- paste0(router_list_to_parse, "route(\"",
                                                paste0(league, "/", header, "/", tolower(s)), "\", ",
-                                               paste(header, tolower(s), "ui", sep = "_"), ", ",
-                                               paste(header, tolower(s), "server", sep = "_"),  "), ")
+                                               tab$ui, ", ",
+                                               tab$server,  "), ")
             }
         } else {
             router_list_to_parse <- paste0(router_list_to_parse, "route(\"",
                                            paste0(league, "/", header), "\", ",
-                                           paste(header, "ui", sep = "_"), ", ",
-                                           paste(header, "server", sep = "_"),  "), ")
+                                           tab$ui, ", ",
+                                           tab$server,  "), ")
         }
     }
 }
@@ -113,12 +112,8 @@ api_request <- function(path = API_PATH, endpoint, parameters = NULL) {
                             as = "text", encoding = "UTF-8")))
 }
 
-get_route_prefix <- function(league, sidebar_header, tab_header, league_config) {
-    return(league_config[[league]][["tabs"]][[sidebar_header]][[tab_header]][["route_link"]])
-}
-
-get_subheaders <- function(league, sidebar_header, tab_header, league_config) {
-    return(league_config[[league]][["tabs"]][[sidebar_header]][[tab_header]][["subheaders"]])
+get_config_element <- function(league, sidebar_header, route_prefix, league_config, element) {
+    return(league_config[[league]][["tabs"]][[sidebar_header]][[route_prefix]][[element]])
 }
 
 get_values_from_page <- function(page) {

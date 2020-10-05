@@ -15,7 +15,7 @@ sidebar_ui <- function(page, league_config, subheaders_rv) {
     #     for (m in menu_items) {
     #         tab_name_prefix <- paste0(league, "/", tab_header[[m]][["route_link"]])
     #         menu_list[[i]] <- bs4SidebarMenuItem(
-    #             text = m,
+    #             text = tab_header[[m]][["display_name"]],
     #             tabName = paste0(tab_name_prefix, "/", subheaders_rv[[tab_name_prefix]]),
     #             icon = tab_header[[m]][["icon"]]
     #         ); i <- i + 1
@@ -46,8 +46,11 @@ sidebar_ui <- function(page, league_config, subheaders_rv) {
                     class = ifelse(assemble_key(league, route_prefix) == tab_name_prefix, "nav-link active", "nav-link"),
                     id = paste0("tab-", paste0(tab_name_prefix, "/", subheaders_rv[[tab_name_prefix]])),
                     href = route_link(paste0(tab_name_prefix, "/", subheaders_rv[[tab_name_prefix]])),
-                    icon(tab_header[[m]][["icon"]]),
-                    p(m)
+                    icon(
+                        tab_header[[m]][["icon"]],
+                        class = "nav-icon"
+                        ),
+                    p(tab_header[[m]][["display_name"]])
                 )
             ); i <- i + 1
         }
@@ -55,13 +58,17 @@ sidebar_ui <- function(page, league_config, subheaders_rv) {
 
     tags$ul(
         class = "nav nav-pills nav-sidebar flex-column",
+        id = "mymenu",
         tags$li(
             class = "nav-item",
             a(
                 class = ifelse(page == league, "nav-link active", "nav-link"),
                 id = paste0("tab-", league),
                 href = route_link(league),
-                icon("home"),
+                icon(
+                    "home",
+                    class = "nav-icon"
+                ),
                 p("Home")
             )
         ),

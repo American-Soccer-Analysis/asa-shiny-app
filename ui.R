@@ -38,7 +38,7 @@ shinyUI(
                 status = "primary",
                 title = "American Soccer Analysis",
                 brandColor = "primary",
-                src = "asa_icon_white.png",
+                src = "asa_assets/asa_icon_white.png",
                 elevation = 0,
                 opacity = 1,
                 uiOutput("asa_sidebar_reactive")

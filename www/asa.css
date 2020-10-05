@@ -6,6 +6,10 @@
         width: 300px;
 }
 
+.main-sidebar i {
+    color: white;
+}
+
 @media (min-width: 576px) {
 .content-wrapper, .main-footer, .main-header {
         margin-left: 300px;
@@ -132,7 +136,7 @@ button.label-primary:focus {
 
 .nav_league_active a, .nav_league a:hover {
     background-color: #13181e;
-    border-bottom: 2pt solid #27aae1;
+    border-bottom: 3pt solid #27aae1;
 }
 
 .nav_league a img {
@@ -217,7 +221,7 @@ body {
 **/
 
 #home_wrapper .jumbotron {
-    background-image: url(asa_header_background.png);
+    background-image: url(asa_assets/asa_header_background.png);
     background-repeat: no-repeat;
     background-position: center top;
     background-attachment: fixed;
@@ -961,7 +965,7 @@ th:hover .tables_helper_tooltip {
 }
 
 .header_background {
-    background-image: url(asa_header_background.png);
+    background-image: url(asa_assets/asa_header_background.png);
     background-repeat: no-repeat;
     background-position: center top;
     background-attachment: fixed;
