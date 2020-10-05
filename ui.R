@@ -3,7 +3,7 @@ shinyUI(
         useShinyjs(),
         tags$head(
             HTML('<link rel="stylesheet" href="https://use.typekit.net/zmt3hir.css">'),
-            includeCSS("asa.css"),
+            includeCSS("www/asa.css"),
             tags$script("$(document).ready(function() {
                          $('.fa-th').removeClass('fa-th').addClass('fa-cog');
                       });"),
@@ -24,7 +24,15 @@ shinyUI(
             sidebar_collapsed = TRUE,
             controlbar_collapsed = TRUE,
             title = "American Soccer Analysis | App",
-            navbar = navbar,
+            navbar = bs4DashNavbar(
+                skin = "dark",
+                status = "white",
+                border = TRUE,
+                sidebarIcon = "bars",
+                controlbarIcon = "th",
+                fixed = FALSE,
+                rightUi = uiOutput("asa_navbar")
+            ),
             sidebar = bs4DashSidebar(
                 skin = "dark",
                 status = "primary",
@@ -33,35 +41,11 @@ shinyUI(
                 src = "asa_icon_white.png",
                 elevation = 0,
                 opacity = 1,
-                bs4SidebarMenu(
-                    id = "asa_sidebar",
-                    bs4SidebarMenuItem(
-                        "Home",
-                        tabName = "home",
-                        icon = "home"
-                    ),
-                    bs4SidebarHeader("Tables"),
-                    lapply(tables_menu_items, function(x) {
-                        bs4SidebarMenuItem(
-                            x$name,
-                            tabName = x$tabName,
-                            icon = x$icon
-                        )
-                    })
-                    # bs4SidebarHeader("Profiles"),
-                    # bs4SidebarMenuItem(
-                    #     "Players",
-                    #     tabName = "profile_player",
-                    #     icon = "user"
-                    # ),
-                    # bs4SidebarMenuItem(
-                    #     "Teams",
-                    #     tabName = "profile_teams",
-                    #     icon = "shield-alt"
-                    # )
-                )
+                uiOutput("asa_sidebar_reactive")
             ),
-            footer = footer,
+            footer = bs4DashFooter(
+                uiOutput("asa_footer")
+            ),
             body = bs4DashBody(
                 div(
                     id = "asa_body",

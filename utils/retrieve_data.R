@@ -10,12 +10,12 @@ for (v in vars_to_initialize) {
 for (key in league_schemas) {
 
     # Get distinct seasons --------------------------
-    all_seasons[[key]] <- try(api_request(endpoint = paste0(key, "/games"), parameters = list(distinct_seasons = TRUE)))
+    all_seasons[[key]] <- try(api_request(endpoint = assemble_endpoint(key, subheader = "games"), parameters = list(distinct_seasons = TRUE)))
     all_seasons[[key]] <- try(sort(all_seasons[[key]]$season_name))
 
     # Get distinct seasons for salary releases ------
     if (key == "mls") {
-        salaries_distinct[[key]] <- try(api_request(endpoint = paste0(key, "/players/salaries"), parameters = list(distinct_releases = TRUE)))
+        salaries_distinct[[key]] <- try(api_request(endpoint = assemble_endpoint(key, "salaries", "players"), parameters = list(distinct_releases = TRUE)))
         salaries_seasons[[key]] <- try(sort(unique(salaries_distinct[[key]]$season_name)))
         salaries_most_recent[[key]] <- try(max(salaries_distinct[[key]]$mlspa_release))
     } else {
@@ -23,20 +23,20 @@ for (key in league_schemas) {
     }
 
     # Import player ID lookup -----------------------
-    player_lookup[[key]] <- try(api_request(endpoint = paste0(key, "/players"), parameters = list(lookup_only = TRUE)))
+    player_lookup[[key]] <- try(api_request(endpoint = assemble_endpoint(key, subheader = "players"), parameters = list(lookup_only = TRUE)))
 
     # Import distinct positions ---------------------
-    general_positions[[key]] <- try(api_request(endpoint = paste0(key, "/players"), parameters = list(general_position_only = TRUE)))
+    general_positions[[key]] <- try(api_request(endpoint = assemble_endpoint(key, subheader = "players"), parameters = list(general_position_only = TRUE)))
     general_positions[[key]] <- c("GK",
                                   sort(general_positions[[key]]$general_position[grepl("B", general_positions[[key]]$general_position)]),
                                   sort(general_positions[[key]]$general_position[grepl("M", general_positions[[key]]$general_position)], decreasing = TRUE),
                                   sort(general_positions[[key]]$general_position[!grepl("(B|M|GK)", general_positions[[key]]$general_position)], decreasing = TRUE))
 
     # Import teams ----------------------------------
-    all_teams[[key]] <- try(api_request(endpoint = paste0(key, "/teams")) %>% arrange(team_abbreviation))
+    all_teams[[key]] <- try(api_request(endpoint =assemble_endpoint(key, subheader = "teams")) %>% arrange(team_abbreviation))
 
     # Import game data ------------------------------
-    recent_games[[key]] <- try(api_request(endpoint = paste0(key, "/games"), parameters = list(limit = 20)))
+    recent_games[[key]] <- try(api_request(endpoint = assemble_endpoint(key, subheader = "games"), parameters = list(limit = 20)))
 
 
     if (all(class(all_seasons[[key]]) == "try-error") | all(class(salaries_distinct[[key]]) == "try-error") |

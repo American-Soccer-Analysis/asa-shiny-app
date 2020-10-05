@@ -1,4 +1,4 @@
-home_div <- div(
+home_ui <- div(
     id = "home_wrapper",
     div(
         column(
@@ -56,5 +56,4 @@ home_div <- div(
             )
         )
     ),
-
 )

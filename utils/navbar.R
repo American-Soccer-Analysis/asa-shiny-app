@@ -1,12 +1,15 @@
-navbar <- bs4DashNavbar(
-     skin = "dark",
-     status = "white",
-     border = TRUE,
-     sidebarIcon = "bars",
-     controlbarIcon = "th",
-     fixed = FALSE,
-     rightUi = div(div(id = "nav_mls", class = ifelse(LEAGUE_SCHEMA == "mls", "nav_league nav_league_active", "nav_league"),
-                       a(href = ifelse(LEAGUE_SCHEMA == "mls", "#", "../mls"), img(src = "mls_logo_white.png", height = "32px"))),
-                   div(id = "nav_nwsl", class = ifelse(LEAGUE_SCHEMA == "nwsl", "nav_league nav_league_active", "nav_league"),
-                       a(href = ifelse(LEAGUE_SCHEMA == "nwsl", "#", "../nwsl"), img(src = "nwsl_logo_white.png", height = "32px"))))
-)
+navbar_ui <- function(page, league_config) {
+    league <- gsub("/.*$", "", gsub("^/", "", page))
+    div(
+        lapply(names(league_config), function(l) {
+            div(
+                id = paste0("nav_", l),
+                class = ifelse(l == league, "nav_league nav_league_active", "nav_league"),
+                a(
+                    href = ifelse(l == league, "#", route_link(gsub(league, l, page))),
+                    img(src = paste0(l, "_logo_white.png"), height = "32px")
+                )
+            )
+        })
+    )
+}

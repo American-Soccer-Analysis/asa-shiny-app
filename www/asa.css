@@ -676,7 +676,7 @@ th:hover .tables_helper_tooltip {
 }
 
 #tables_goals_added_teams_zone > .btn-group-justified > .btn-group > button {
-    padding: -1px 18px 20px;
+    padding: 0 16px 0 12px;
     border-radius: 0;
     color: white;
     font-size: 16px;
