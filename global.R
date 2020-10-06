@@ -150,5 +150,5 @@ assemble_endpoint <- function(league, route_prefix = NA, subheader) {
 
 # Patch shiny.router ----------------------------
 route_link_patched <- function(path) {
-    paste0("/#!/", path)
+    paste0("#!/", path)
 }
