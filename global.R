@@ -146,3 +146,9 @@ assemble_key <- function(league, route_prefix = NA, subheader = NA) {
 assemble_endpoint <- function(league, route_prefix = NA, subheader) {
     return(paste0("/", league, "/", tolower(subheader), ifelse(!is.na(route_prefix), paste0("/", route_prefix), "")))
 }
+
+
+# Patch shiny.router ----------------------------
+route_link_patched <- function(path) {
+    paste0("/#!/", path)
+}
