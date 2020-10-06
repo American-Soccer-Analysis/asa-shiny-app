@@ -19,7 +19,7 @@ sidebar_ui <- function(page, league_config, subheaders_rv) {
                 a(
                     class = ifelse(assemble_key(league, route_prefix) == tab_name_prefix, "nav-link active", "nav-link"),
                     id = paste0("tab-", paste0(tab_name_prefix, "/", subheaders_rv[[tab_name_prefix]])),
-                    href = route_link(paste0(tab_name_prefix, "/", subheaders_rv[[tab_name_prefix]])),
+                    href = route_link_patched(paste0(tab_name_prefix, "/", subheaders_rv[[tab_name_prefix]])),
                     icon(
                         tab_header[[m]][["icon"]],
                         class = "nav-icon"
@@ -38,7 +38,7 @@ sidebar_ui <- function(page, league_config, subheaders_rv) {
             a(
                 class = ifelse(page == league, "nav-link active", "nav-link"),
                 id = paste0("tab-", league),
-                href = route_link(league),
+                href = route_link_patched(league),
                 icon(
                     "home",
                     class = "nav-icon"

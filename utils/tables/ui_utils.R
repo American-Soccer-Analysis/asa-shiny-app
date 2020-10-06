@@ -39,7 +39,7 @@ tables_subheader <- function(page, league_config) {
                         class = "btn-group",
                         a(
                             class = ifelse(page == assemble_key(league, route_prefix, s), "btn btn-default active", "btn btn-default"),
-                            href = route_link(assemble_key(league, route_prefix, s)),
+                            href = route_link_patched(assemble_key(league, route_prefix, s)),
                             s
                         )
                     )
