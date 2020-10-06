@@ -9,7 +9,6 @@ server <- function(input, output, session) {
 
     # Initialize reactive value objects -------------
     subheaders_rv <- reactiveValues()
-
     for (l in league_schemas) {
         headers <- league_config[[l]][["tabs"]]
         for (h in headers) {
@@ -20,6 +19,11 @@ server <- function(input, output, session) {
                 }
             }
         }
+    }
+
+    leagues_rv <- reactiveValues()
+    for (l in league_schemas) {
+        leagues_rv[[l]] <- l
     }
 
     # Initialize router -----------------------------
@@ -40,14 +44,16 @@ server <- function(input, output, session) {
         sidebar_ui(page, league_config, subheaders_rv)
     })
 
-    observeEvent(input$asa_sidebar, {
-        change_page(input$asa_sidebar)
-    })
-
     # Navbar settings -------------------------------
     output$asa_navbar <- renderUI({
         page <- get_page(session)
-        navbar_ui(page, league_config)
+
+        league <- get_values_from_page(page)$league
+        route_prefix <- get_values_from_page(page)$route_prefix
+        subheader <- get_values_from_page(page)$subheader
+        leagues_rv[[league]] <- assemble_key(league, route_prefix, subheader)
+
+        navbar_ui(page, league_config, leagues_rv)
     })
 
     # Footer settings -------------------------------
@@ -63,35 +69,37 @@ server <- function(input, output, session) {
     # Initialize reactive value objects -------------
     source("utils/tables/reactive_values.R", local = TRUE)
 
+    # Header element --------------------------------
     output$tables_header <- renderUI({
         page <- get_page(session)
         tables_header(page, league_config)
     })
 
+    # Subheader element -----------------------------
     output$tables_subheader <- renderUI({
         page <- get_page(session)
         tables_subheader(page, league_config)
     })
 
-    observeEvent(input$tables_subheader, {
-        change_page(input$tables_subheader)
-    })
-
+    # Body element ----------------------------------
     output$tables_body <- renderUI({
         page <- get_page(session)
         tables_body(page, league_config, input$client_timezone, tables_rv, filtering_hint_ind)
     })
 
+    # Controlbar element ----------------------------
     output$asa_controlbar <- renderUI({
         page <- get_page(session)
         tables_controlbar(page, league_config, tables_rv)
     })
 
+    # API request -----------------------------------
     observeEvent(input$tables_refresh, {
         page <- get_page(session)
         tables_refresh("tables_refresh", input, tables_rv, page, league_config)
     })
 
+    # Hide filtering hint box -----------------------
     observeEvent(input$filtering_hint_disable, {
         filtering_hint_ind(FALSE)
     })

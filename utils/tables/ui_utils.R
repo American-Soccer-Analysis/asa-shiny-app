@@ -28,14 +28,6 @@ tables_subheader <- function(page, league_config) {
     route_prefix <- get_values_from_page(page)$route_prefix
     subheaders <- get_config_element(league, "Tables", route_prefix, league_config, "subheaders")
 
-    # bs4Box(
-    #     radioGroupButtons(inputId = "tables_subheader",
-    #                       choiceNames = subheaders,
-    #                       choiceValues = assemble_key(league, route_prefix, subheaders),
-    #                       selected = assemble_key(league, route_prefix, subheaders_rv[[assemble_key(league, route_prefix)]])),
-    #     width = 12
-    # )
-
     bs4Box(
         div(
             id = "tables_subheader",

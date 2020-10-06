@@ -6,32 +6,6 @@ sidebar_ui <- function(page, league_config, subheaders_rv) {
     menu_list <- list()
     i <- 1
 
-    # for (h in headers) {
-    #     tab_header <- league_config[[league]][["tabs"]][[h]]
-    #     menu_items <- names(tab_header)
-    #
-    #     menu_list[[i]] <- bs4SidebarHeader(h); i <- i + 1
-    #
-    #     for (m in menu_items) {
-    #         tab_name_prefix <- paste0(league, "/", tab_header[[m]][["route_link"]])
-    #         menu_list[[i]] <- bs4SidebarMenuItem(
-    #             text = tab_header[[m]][["display_name"]],
-    #             tabName = paste0(tab_name_prefix, "/", subheaders_rv[[tab_name_prefix]]),
-    #             icon = tab_header[[m]][["icon"]]
-    #         ); i <- i + 1
-    #     }
-    # }
-    #
-    # bs4SidebarMenu(
-    #     id = "asa_sidebar",
-    #     bs4SidebarMenuItem(
-    #         "Home",
-    #         tabName = league,
-    #         icon = "home"
-    #     ),
-    #     menu_list
-    # )
-
     for (h in headers) {
         tab_header <- league_config[[league]][["tabs"]][[h]]
         menu_items <- names(tab_header)

@@ -118,29 +118,31 @@ get_config_element <- function(league, sidebar_header, route_prefix, league_conf
 
 get_values_from_page <- function(page) {
     league <- gsub("/.*$", "", page)
-    subheader <- gsub("^.*/", "", page)
+    subheader <- gsub(league, "", gsub("^.*/", "", page))
     route_prefix <- gsub("/", "", gsub(league, "", gsub(subheader, "", page)))
 
     return(list(
         league = league,
-        route_prefix = route_prefix,
-        subheader = subheader
+        route_prefix = ifelse(nchar(route_prefix) == 0, NA, route_prefix),
+        subheader = ifelse(nchar(subheader) == 0, NA, subheader)
     ))
 }
 
-assemble_key <- function(league, route_prefix, subheader = NULL) {
-    if (!is.null(subheader) > 0) {
+assemble_key <- function(league, route_prefix = NA, subheader = NA) {
+    if (!is.na(subheader) > 0) {
         keys <- c()
         for (s in subheader) {
             keys <- c(keys, paste0(league, "/", route_prefix, "/", tolower(s)))
         }
-    } else {
+    } else if (!is.na(route_prefix)) {
         keys <- paste0(league, "/", route_prefix)
+    } else {
+        keys <- league
     }
 
     return(keys)
 }
 
-assemble_endpoint <- function(league, route_prefix = NULL, subheader) {
-    return(paste0("/", league, "/", tolower(subheader), ifelse(!is.null(route_prefix), paste0("/", route_prefix), "")))
+assemble_endpoint <- function(league, route_prefix = NA, subheader) {
+    return(paste0("/", league, "/", tolower(subheader), ifelse(!is.na(route_prefix), paste0("/", route_prefix), "")))
 }

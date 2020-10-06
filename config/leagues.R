@@ -63,7 +63,7 @@ league_config <- list(
                 goals_added = list(
                     display_name = "Goals Added (g+)",
                     route_link = "goals_added",
-                    icon = "google-plus",
+                    icon = "google-plus-g",
                     subheaders = c("Players", "Teams"),
                     ui = "tables_ui",
                     server = NA

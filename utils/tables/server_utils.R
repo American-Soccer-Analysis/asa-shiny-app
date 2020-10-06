@@ -9,7 +9,7 @@ tables_refresh <- function(refresh_button_id, input, tables_rv, page, league_con
     rv_key <- assemble_key(league, route_prefix, subheader)
 
     matching_inputs <- paste("tables", route_prefix, subheader, names(tables_rv[[rv_key]]), sep = "_")
-    matching_inputs <- matching_inputs[!grepl("sort_vector", matching_inputs)]
+    matching_inputs <- matching_inputs[matching_inputs %in% names(input)]
 
 
     execute_api_call <- TRUE

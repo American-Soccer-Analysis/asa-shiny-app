@@ -1,4 +1,4 @@
-navbar_ui <- function(page, league_config) {
+navbar_ui <- function(page, league_config, leagues_rv) {
     league <- gsub("/.*$", "", gsub("^/", "", page))
     div(
         lapply(names(league_config), function(l) {
@@ -6,7 +6,7 @@ navbar_ui <- function(page, league_config) {
                 id = paste0("nav_", l),
                 class = ifelse(l == league, "nav_league nav_league_active", "nav_league"),
                 a(
-                    href = ifelse(l == league, "#", route_link(gsub(league, l, page))),
+                    href = ifelse(l == league, "#", route_link(leagues_rv[[l]])),
                     img(src = paste0("league_logos/", l, "_logo_white.png"), height = "32px")
                 )
             )
