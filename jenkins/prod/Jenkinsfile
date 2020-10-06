@@ -6,7 +6,8 @@ pipeline {
                 sh '''
                     # Pull changes from GitHub
 					cd /srv/shiny-server/prod
-					git pull origin master
+					git fetch origin
+                    git reset --hard origin/master
 
 					# Add virtual environment changes
                     R -e "renv::restore()"
