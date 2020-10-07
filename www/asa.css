@@ -891,6 +891,10 @@ th:hover .tables_helper_icon {
         margin-top: 35px !important;
     }
 
+    div.datatable_wrapper {
+        margin-bottom: 50px;
+    }
+
     #filtering_hint_wrapper {
         margin-bottom: 55px;
     }
@@ -903,6 +907,7 @@ th:hover .tables_helper_icon {
         height: auto;
         width: 100%;
         right: unset;
+        margin-top: -20px;
     }
 
     .dataTables_filter label {
@@ -911,6 +916,15 @@ th:hover .tables_helper_icon {
 
     .dataTables_filter label input {
         width: 65% !important;
+    }
+
+    .dataTables_paginate li.paginate_button.previous, .dataTables_paginate li.paginate_button.next {
+        display: flex;
+    }
+
+    .dataTables_paginate li.paginate_button {
+        font-size: 12pt;
+        display: none;
     }
 
     .header_background {
