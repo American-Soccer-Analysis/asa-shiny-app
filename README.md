@@ -20,6 +20,7 @@ Thanks to the developers of these integral, open source libraries:
 - [`shinyjs`](https://github.com/daattali/shinyjs)
 - [`shinyWidgets`](https://github.com/dreamRs/shinyWidgets)
 - [`shinycssloaders`](https://github.com/daattali/shinycssloaders)
+- [`shiny.router`](https://github.com/Appsilon/shiny.router)
 - [`jsonlite`](https://github.com/jeroen/jsonlite)
 - [`httr`](https://github.com/r-lib/httr)
 - [`r2d3`](https://github.com/rstudio/r2d3)

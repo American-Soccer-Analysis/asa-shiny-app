@@ -23,7 +23,8 @@ for (l in league_schemas) {
         split_by_seasons = TRUE,
         stage_name = stage_name_rv,
         normalize_by = "None",
-        sort_vector = list(list("xG+xA", "desc"))
+        sort_vector = list(list("xG+xA", "desc")),
+        fixed_columns = list(leftColumns = 1)
     )
 
     tables_rv[[paste0(l, "/xgoals/teams")]] <- list(
@@ -40,7 +41,8 @@ for (l in league_schemas) {
         stage_name = stage_name_rv,
         normalize_by = "None",
         sort_vector = list(list("Pts", "desc"),
-                           list("GD", "desc"))
+                           list("GD", "desc")),
+        fixed_columns = list(leftColumns = 1)
     )
 
     tables_rv[[paste0(l, "/xgoals/games")]] <- list(
@@ -50,7 +52,8 @@ for (l in league_schemas) {
         end_date = paste0(max(all_seasons[[l]]), "-12-31"),
         stage_name = stage_name_rv,
         sort_vector = list(list("Date", "desc"),
-                           list("Time", "desc"))
+                           list("Time", "desc")),
+        fixed_columns = FALSE
     )
 
     tables_rv[[paste0(l, "/xgoals/goalkeepers")]] <- list(
@@ -66,7 +69,8 @@ for (l in league_schemas) {
         split_by_seasons = TRUE,
         stage_name = stage_name_rv,
         normalize_by = "None",
-        sort_vector = list(list("G-xG", "asc"))
+        sort_vector = list(list("G-xG", "asc")),
+        fixed_columns = list(leftColumns = 1)
     )
 
 
@@ -85,7 +89,8 @@ for (l in league_schemas) {
         split_by_seasons = TRUE,
         stage_name = stage_name_rv,
         normalize_by = "None",
-        sort_vector = list(list("Score", "desc"))
+        sort_vector = list(list("Score", "desc")),
+        fixed_columns = list(leftColumns = 1)
     )
 
     tables_rv[[paste0(l, "/xpass/teams")]] <- list(
@@ -99,7 +104,8 @@ for (l in league_schemas) {
         away_only = FALSE,
         stage_name = stage_name_rv,
         normalize_by = "None",
-        sort_vector = list(list("ScoreDiff", "desc"))
+        sort_vector = list(list("ScoreDiff", "desc")),
+        fixed_columns = list(leftColumns = 1)
     )
 
 
@@ -117,7 +123,8 @@ for (l in league_schemas) {
         stage_name = stage_name_rv,
         goals_added_variation = "Above Average",
         normalize_by = "None",
-        sort_vector = list(list("Goals Added", "desc"))
+        sort_vector = list(list("Goals Added", "desc")),
+        fixed_columns = list(leftColumns = 1)
     )
 
     tables_rv[[paste0(l, "/goals_added/teams")]] <- list(
@@ -127,7 +134,8 @@ for (l in league_schemas) {
         split_by_seasons = TRUE,
         stage_name = stage_name_rv,
         normalize_by = "None",
-        sort_vector = list(list("Goals Added diff", "desc"))
+        sort_vector = list(list("Goals Added diff", "desc")),
+        fixed_columns = list(leftColumns = 1)
     )
 
 
@@ -140,7 +148,8 @@ for (l in league_schemas) {
             end_date = salaries_most_recent[[l]],
             team_id = all_teams[[l]]$team_id,
             position = MLSPA_POSITIONS,
-            sort_vector = list(list("Guaranteed Compensation", "desc"))
+            sort_vector = list(list("Guaranteed Compensation", "desc")),
+            fixed_columns = list(leftColumns = 1)
         )
 
         tables_rv[[paste0(l, "/salaries/teams")]] <- list(
@@ -148,7 +157,8 @@ for (l in league_schemas) {
             split_by_teams = TRUE,
             split_by_seasons = FALSE,
             split_by_positions = FALSE,
-            sort_vector = list(list("TotalGuar", "desc"))
+            sort_vector = list(list("TotalGuar", "desc")),
+            fixed_columns = list(leftColumns = 1)
         )
     }
 }
