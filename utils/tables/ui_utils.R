@@ -87,18 +87,21 @@ tables_body <- function(page, league_config, client_timezone, tables_rv, filteri
             tmp_match <- match(names(df)[i], tables_column_tooltip_text$app_name)
 
             if (!is.na(tmp_match)) {
-                names(df)[i] <- paste0(names(df)[i], "<i class=\"fa fa-question-circle tables_helper_icon\"></i><span class=\"tables_helper_tooltip\">", tables_column_tooltip_text$tooltip_text[tmp_match], "</span>")
+                names(df)[i] <- paste0("<span id=\"tables_header_", i, "\">", names(df)[i], "<i class=\"fa fa-question-circle tables_helper_icon\"></i><span class=\"tables_helper_tooltip\">", tables_column_tooltip_text$tooltip_text[tmp_match], "</span></span>")
             }
         }
 
         dt <- DT::datatable(
             df,
-            extensions = "Buttons",
+            extensions = c("Buttons", "FixedColumns"),
             plugins = "accent-neutralise",
+            callback = JS("setTimeout(function() { table.columns.adjust().fixedColumns().relayout(); }, 100);"),
             options = list(pageLength = 30,
-                           autoWidth = TRUE,
+                           autoWidth = FALSE,
                            dom = "lBfrtip",
                            order = sort_vector,
+                           scrollX = TRUE,
+                           fixedColumns = tables_rv[[rv_key]][["fixed_columns"]],
                            buttons = list("copy",
                                           list(extend = "csv",
                                                filename = paste("american_soccer_analysis", league, route_prefix, subheader, format(Sys.time(), "%Y-%m-%d", tz = client_timezone), sep = "_"),

@@ -493,11 +493,14 @@ body {
 }
 
 div.datatable_wrapper, div.datatable_wrapper table {
-    width: 100% !important;
-    overflow-x: scroll;
-    overflow-y: hidden;
     white-space: nowrap;
     margin-top: 55px !important;
+    min-width: 100%;
+}
+
+.dataTables_scrollBody {
+    padding-top: 5px;
+    margin-top: -5px;
 }
 
 #filtering_hint_wrapper {
@@ -520,7 +523,7 @@ div.datatable_wrapper {
 
 .dataTables_length {
     position: absolute;
-    margin-top: -105px;
+    margin-top: -50px;
     left: 20px;
     height: 0;
 }
@@ -531,7 +534,7 @@ div.datatable_wrapper {
 
 .dataTables_filter {
     position: absolute;
-    margin-top: -55px;
+    margin-top: 0;
     right: 20px;
     height: 0;
 }
@@ -549,7 +552,7 @@ div.dataTables_paginate {
 .dataTables_wrapper .btn-group {
     margin-bottom: 0.5em;
     position: absolute;
-    margin-top: -55px;
+    margin-top: 0;
     left: 20px;
 }
 
@@ -635,7 +638,7 @@ th:hover .tables_helper_icon {
     color: inherit;
 }
 
-th:hover .tables_helper_tooltip {
+.visible {
     visibility: visible;
     opacity: 1;
 }

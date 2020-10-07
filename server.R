@@ -87,6 +87,11 @@ server <- function(input, output, session) {
         tables_body(page, league_config, input$client_timezone, tables_rv, filtering_hint_ind)
     })
 
+    lapply(1:30, function(i) {
+        onevent("mouseenter", paste0("tables_header_", i), shinyjs::addCssClass(selector = paste0("#tables_header_", i, " .tables_helper_tooltip"), class = "visible"))
+        onevent("mouseleave", paste0("tables_header_", i), shinyjs::removeCssClass(selector = paste0("#tables_header_", i, " .tables_helper_tooltip"), class = "visible"))
+    })
+
     # Controlbar element ----------------------------
     output$asa_controlbar <- renderUI({
         page <- get_page(session)
