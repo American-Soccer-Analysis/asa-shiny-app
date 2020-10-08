@@ -1,7 +1,6 @@
 league_config <- list(
     mls = list(
         name = "Major League Soccer",
-        stages = c("Regular Season", "Playoffs", "MLS is Back Group Stage", "MLS is Back Knockout Round"),
         tabs = list(
             Tables = list(
                 xgoals = list(
@@ -41,7 +40,6 @@ league_config <- list(
     ),
     nwsl = list(
         name = "National Women's Soccer League",
-        stages = c("Regular Season", "Playoffs", "NWSL Challenge Cup Group Stage", "NWSL Challenge Cup Knockout Round"),
         tabs = list(
             Tables = list(
                 xgoals = list(
