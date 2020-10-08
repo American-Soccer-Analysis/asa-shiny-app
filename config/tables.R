@@ -2,8 +2,14 @@ tables_config <- list(
     player_id = list(
         app_name = "Player"
     ),
+    player_headshot = list(
+        app_name = ""
+    ),
     team_id = list(
         app_name = "Team"
+    ),
+    club_logo = list(
+        app_name = ""
     ),
     general_position = list(
         app_name = "Position"
