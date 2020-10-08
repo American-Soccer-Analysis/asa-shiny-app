@@ -45,9 +45,20 @@ utils_to_source <- all_utils[!grepl("retrieve_data|reactive_values", all_utils)]
 lapply(utils_to_source, source)
 
 
-# Source configs --------------------------------
+# Source all configs ----------------------------
 lapply(list.files("config", recursive = TRUE, full.names = TRUE), source)
+
+# League configs --------------------------------
 league_schemas <- names(league_config)
+
+# Table configs ---------------------------------
+tmp_tables <- do.call(bind_rows, tables_config) %>% mutate(api_name = names(tables_config))
+
+tables_column_name_map <- tmp_tables %>% select(app_name, api_name)
+tables_column_tooltip_text <- tmp_tables %>% select(api_name, tooltip_text) %>% filter(!is.na(tooltip_text))
+tables_percentage_columns <- unique(tmp_tables$app_name[!is.na(tmp_tables$percentage)])
+tables_currency_columns <- unique(tmp_tables$app_name[!is.na(tmp_tables$currency)])
+tables_normalize_columns <- unique(tmp_tables$api_name[!is.na(tmp_tables$normalize)])
 
 
 # Initialize shiny router -----------------------

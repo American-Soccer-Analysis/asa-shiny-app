@@ -71,25 +71,23 @@ tables_body <- function(page, league_config, client_timezone, tables_rv, filteri
             width = 12
         )
     } else {
-        df <- df %>% select(-contains("Actions"))
+        df <- df %>% select(-contains("actions"))
+
+        for (i in 1:length(names(df))) {
+            tmp_match <- match(names(df)[i], tables_column_tooltip_text$api_name)
+
+            if (!is.na(tmp_match)) {
+                names(df)[i] <- paste0("<span id=\"tables_header_", i, "\">", tables_column_name_map$app_name[match(names(df)[i], tables_column_name_map$api_name)], "<i class=\"fa fa-question-circle tables_helper_icon\"></i><span class=\"tables_helper_tooltip\">", tables_column_tooltip_text$tooltip_text[tmp_match], "</span></span>")
+            } else {
+                names(df)[i] <- tables_column_name_map$app_name[match(names(df)[i], tables_column_name_map$api_name)]
+            }
+        }
 
         sort_vector <- tables_rv[[rv_key]][["sort_vector"]]
         sort_vector <- lapply(sort_vector, function(x) {
-            x[1] <- which(names(df) == x[1]) - 1
+            x[1] <- ifelse(x[1] %in% names(df), which(names(df) == x[1]), which(grepl(paste0(">", x[1], "<"), names(df)))) - 1
             return(x)
         })
-
-        for (i in 1:length(names(df))) {
-            if (names(df)[i] == "Goals Added" & any(tables_rv[[rv_key]][["goals_added_variation"]] == "Raw")) {
-                break
-            }
-
-            tmp_match <- match(names(df)[i], tables_column_tooltip_text$app_name)
-
-            if (!is.na(tmp_match)) {
-                names(df)[i] <- paste0("<span id=\"tables_header_", i, "\">", names(df)[i], "<i class=\"fa fa-question-circle tables_helper_icon\"></i><span class=\"tables_helper_tooltip\">", tables_column_tooltip_text$tooltip_text[tmp_match], "</span></span>")
-            }
-        }
 
         dt <- DT::datatable(
             df,
