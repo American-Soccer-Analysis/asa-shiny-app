@@ -89,9 +89,18 @@ tables_body <- function(page, league_config, client_timezone, tables_rv, filteri
             return(x)
         })
 
+        column_defs <- tables_rv[[rv_key]][["column_defs"]]
+        i <- length(column_defs)
+        if (any(names(df) == "")) {
+            column_defs[[i + 1]] <- list(className = "all", targets = 1:(ncol(df) - 1))
+            column_defs[[i + 2]] <- list(className = "min-tablet-p", targets = 0)
+        } else {
+            column_defs[[i + 1]] <- list(className = "all", targets = 0:(ncol(df) - 1))
+        }
+
         dt <- DT::datatable(
             df,
-            extensions = c("Buttons", "FixedColumns"),
+            extensions = c("Buttons", "FixedColumns", "Responsive"),
             plugins = "accent-neutralise",
             callback = JS("setTimeout(function() { table.columns.adjust().fixedColumns().relayout(); }, 100);"),
             options = list(pageLength = 30,
@@ -100,6 +109,7 @@ tables_body <- function(page, league_config, client_timezone, tables_rv, filteri
                            order = sort_vector,
                            scrollX = TRUE,
                            fixedColumns = tables_rv[[rv_key]][["fixed_columns"]],
+                           columnDefs = column_defs,
                            buttons = list("copy",
                                           list(extend = "csv",
                                                filename = paste("american_soccer_analysis", league, route_prefix, subheader, format(Sys.time(), "%Y-%m-%d", tz = client_timezone), sep = "_"),

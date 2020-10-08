@@ -887,6 +887,42 @@ th:hover .tables_helper_icon {
     background-size: 101% 101%;
 }
 
+.tables_player_headshot {
+    overflow: hidden;
+    border-radius: 50%;
+    background-color: white;
+    border: 2pt #ededed solid;
+    height: 55px;
+    width: 55px;
+    margin: -5px 0;
+}
+
+.tables_player_headshot img {
+    display: inline;
+    margin: 0 auto;
+    height: 105%;
+    width: auto;
+}
+
+.tables_player_headshot_mls img {
+    margin-left: 13%;
+}
+
+.tables_club_logo {
+    height: 40px;
+    width: 40px;
+    margin: -3px 0;
+}
+
+.tables_club_logo img {
+    height: 100%;
+    width: 100%;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+}
+
 
 @media screen and (max-width: 767px) {
     .datatable_wrapper div.dt-buttons, .datatable_wrapper div.dataTables_info, .datatable_wrapper div.dataTables_length {
