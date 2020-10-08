@@ -418,6 +418,14 @@ body {
     display: -webkit-box;
 }
 
+#asa_controlbar .input-group-sm>.form-control {
+    font-size: 1rem;
+}
+
+#asa_controlbar .input-daterange input {
+    height: 36px;
+}
+
 #asa_controlbar div.btn-group button.radiobtn.active {
     background-color: #e7e7e7;
     font-weight: bold;
@@ -438,7 +446,7 @@ body {
 }
 
 #asa_controlbar .input-daterange .input-group-addon {
-    padding: 8px 15px !important;
+    padding: 0 4px !important;
 }
 
 #asa_controlbar button[id$='refresh'] {

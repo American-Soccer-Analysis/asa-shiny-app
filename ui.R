@@ -2,16 +2,11 @@ shinyUI(
     tagList(
         useShinyjs(),
         tags$head(
-            HTML('<link rel="stylesheet" href="https://use.typekit.net/zmt3hir.css">'),
-            includeCSS("www/asa.css"),
-            tags$script("$(document).ready(function() {
-                         $('.fa-th').removeClass('fa-th').addClass('fa-cog');
-                      });"),
-            tags$script("$(document).on('shiny:connected', function(event) {
-                         var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
-                         Shiny.setInputValue('client_timezone', timezone);
-                      });"),
-            tags$link(rel = "shortcut icon", href = "favicon.ico")
+            tags$link(rel = "stylesheet", type = "text/css", href = "https://use.typekit.net/zmt3hir.css"),
+            tags$link(rel = "stylesheet", type = "text/css", href = "asa.css"),
+            tags$link(rel = "shortcut icon", href = "favicon.ico"),
+            tags$script(src = "js/controlbar_cog.js"),
+            tags$script(src = "js/client_timezone.js")
         ),
         div(id = "loader_page",
             div(class = "lds-ripple",

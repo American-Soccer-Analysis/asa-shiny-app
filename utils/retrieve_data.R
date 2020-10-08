@@ -10,8 +10,10 @@ for (v in vars_to_initialize) {
 for (key in league_schemas) {
 
     # Get distinct seasons --------------------------
-    all_seasons[[key]] <- try(api_request(endpoint = assemble_endpoint(key, subheader = "games"), parameters = list(distinct_seasons = TRUE)))
-    all_seasons[[key]] <- try(sort(all_seasons[[key]]$season_name))
+    all_seasons[[key]] <- try(api_request(endpoint = assemble_endpoint(key, subheader = "games"), parameters = list(distinct_seasons = TRUE))$season_name)
+
+    # Get distinct stages ---------------------------
+    league_config[[key]][["stages"]] <- try(unique(api_request(endpoint = assemble_endpoint(key, subheader = "games"), parameters = list(distinct_stages = TRUE))$stage_name))
 
     # Get distinct seasons for salary releases ------
     if (key == "mls") {
