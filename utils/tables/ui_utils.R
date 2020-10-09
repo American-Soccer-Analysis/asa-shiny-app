@@ -155,13 +155,13 @@ tables_body <- function(page, league_config, client_timezone, tables_rv, filteri
             dt <- dt %>% formatRound(columns = tmp_columns, digits = 2)
         }
 
-        if (any(gsub("<.*>$", "", names(df)) %in% tables_currency_columns)) {
-            tmp_columns <- which(gsub("<.*>$", "", names(df)) %in% tables_currency_columns)
+        if (any(grepl(paste0(tables_currency_columns, collapse = "|"), names(df)))) {
+            tmp_columns <- which(grepl(paste0(tables_currency_columns, collapse = "|"), names(df)))
             dt <- dt %>% formatCurrency(columns = tmp_columns, digits = 0)
         }
 
-        if (any(gsub("<.*>$", "", names(df)) %in% tables_percentage_columns)) {
-            tmp_columns <- which(gsub("<.*>$", "", names(df)) %in% tables_percentage_columns)
+        if (any(grepl(paste0(tables_percentage_columns, collapse = "|"), names(df)))) {
+            tmp_columns <- which(grepl(paste0(tables_percentage_columns, collapse = "|"), names(df)))
             dt <- dt %>% formatPercentage(columns = tmp_columns, digits = 1)
         }
 
