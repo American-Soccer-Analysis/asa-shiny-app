@@ -900,14 +900,10 @@ th:hover .tables_helper_icon {
 }
 
 .tables_player_headshot img {
-    display: inline;
+    display: block;
     margin: 0 auto;
     height: 105%;
     width: auto;
-}
-
-.tables_player_headshot_mls img {
-    margin-left: 13%;
 }
 
 .tables_club_logo {
