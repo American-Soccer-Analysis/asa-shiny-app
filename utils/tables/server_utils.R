@@ -326,7 +326,7 @@ tables_rv_to_df <- function(page, league_config, tables_rv, client_timezone, dat
     } else if (normalize_variables == "Game") {
 
         tmp_columns <- tables_normalize_columns[tables_normalize_columns %in% names(df)]
-        df <- df %>% mutate_at(tmp_columns, function(x) x / .$games)
+        df <- df %>% mutate_at(tmp_columns, function(x) x / .$count_games)
 
     }
 
