@@ -339,7 +339,7 @@ tables_controlbar <- function(page, league_config, tables_rv) {
                        h4("Team Settings"),
                        tables_cb_pitch_zones(page, league_config, tables_rv, "Zones", "zone"),
                        tables_cb_picker(page, league_config, tables_rv, "Gamestates", "gamestate_trunc",
-                                        c(-2:2), as.character(c("< -2", -1:1, "2+"))),
+                                        TRUNCATED_GAMESTATES, TRUNCATED_GAMESTATES_LABELS),
                        tables_cb_date_filter(page, league_config, tables_rv, all_seasons[[league]], season_only = TRUE),
                        tables_cb_picker(page, league_config, tables_rv, "Competition Stages", "stage_name", league_config[[league]][["stages"]]),
                        p(class = "control-label", "Group Results"),
