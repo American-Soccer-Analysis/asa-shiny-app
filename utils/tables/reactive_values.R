@@ -25,7 +25,9 @@ for (l in league_schemas) {
         normalize_by = "None",
         sort_vector = list(list("xG+xA", "desc")),
         fixed_columns = list(leftColumns = 2),
-        column_defs = list(list(width = "55px", targets = 0))
+        column_defs = list(list(width = "55px", targets = 0),
+                           list(orderable = FALSE, targets = 0),
+                           list(className = "min-tablet-p", targets = 0))
     )
 
     tables_rv[[paste0(l, "/xgoals/teams")]] <- list(
@@ -44,7 +46,9 @@ for (l in league_schemas) {
         sort_vector = list(list("Pts", "desc"),
                            list("GD", "desc")),
         fixed_columns = list(leftColumns = 2),
-        column_defs = list(list(width = "40px", targets = 0))
+        column_defs = list(list(width = "40px", targets = 0),
+                           list(orderable = FALSE, targets = 0),
+                           list(className = "min-tablet-p", targets = 0))
     )
 
     tables_rv[[paste0(l, "/xgoals/games")]] <- list(
@@ -74,7 +78,9 @@ for (l in league_schemas) {
         normalize_by = "None",
         sort_vector = list(list("G-xG", "asc")),
         fixed_columns = list(leftColumns = 2),
-        column_defs = list(list(width = "55px", targets = 0))
+        column_defs = list(list(width = "55px", targets = 0),
+                           list(orderable = FALSE, targets = 0),
+                           list(className = "min-tablet-p", targets = 0))
     )
 
 
@@ -95,7 +101,9 @@ for (l in league_schemas) {
         normalize_by = "None",
         sort_vector = list(list("Score", "desc")),
         fixed_columns = list(leftColumns = 2),
-        column_defs = list(list(width = "55px", targets = 0))
+        column_defs = list(list(width = "55px", targets = 0),
+                           list(orderable = FALSE, targets = 0),
+                           list(className = "min-tablet-p", targets = 0))
     )
 
     tables_rv[[paste0(l, "/xpass/teams")]] <- list(
@@ -111,7 +119,9 @@ for (l in league_schemas) {
         normalize_by = "None",
         sort_vector = list(list("ScoreDiff", "desc")),
         fixed_columns = list(leftColumns = 2),
-        column_defs = list(list(width = "40px", targets = 0))
+        column_defs = list(list(width = "40px", targets = 0),
+                           list(orderable = FALSE, targets = 0),
+                           list(className = "min-tablet-p", targets = 0))
     )
 
 
@@ -131,7 +141,9 @@ for (l in league_schemas) {
         normalize_by = "None",
         sort_vector = list(list("Goals Added", "desc")),
         fixed_columns = list(leftColumns = 2),
-        column_defs = list(list(width = "55px", targets = 0))
+        column_defs = list(list(width = "55px", targets = 0),
+                           list(orderable = FALSE, targets = 0),
+                           list(className = "min-tablet-p", targets = 0))
     )
 
     tables_rv[[paste0(l, "/goals_added/teams")]] <- list(
@@ -143,7 +155,9 @@ for (l in league_schemas) {
         normalize_by = "None",
         sort_vector = list(list("Goals Added diff", "desc")),
         fixed_columns = list(leftColumns = 2),
-        column_defs = list(list(width = "40px", targets = 0))
+        column_defs = list(list(width = "40px", targets = 0),
+                           list(orderable = FALSE, targets = 0),
+                           list(className = "min-tablet-p", targets = 0))
     )
 
 
@@ -158,7 +172,9 @@ for (l in league_schemas) {
             position = MLSPA_POSITIONS,
             sort_vector = list(list("Guaranteed Compensation", "desc")),
             fixed_columns = list(leftColumns = 2),
-            column_defs = list(list(width = "55px", targets = 0))
+            column_defs = list(list(width = "55px", targets = 0),
+                               list(orderable = FALSE, targets = 0),
+                               list(className = "min-tablet-p", targets = 0))
         )
 
         tables_rv[[paste0(l, "/salaries/teams")]] <- list(
@@ -168,7 +184,9 @@ for (l in league_schemas) {
             split_by_positions = FALSE,
             sort_vector = list(list("TotalGuar", "desc")),
             fixed_columns = list(leftColumns = 2),
-            column_defs = list(list(width = "40px", targets = 0))
+            column_defs = list(list(width = "40px", targets = 0),
+                               list(orderable = FALSE, targets = 0),
+                               list(className = "min-tablet-p", targets = 0))
         )
     }
 }
