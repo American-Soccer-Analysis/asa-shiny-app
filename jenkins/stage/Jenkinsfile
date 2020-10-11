@@ -6,17 +6,11 @@ pipeline {
                 sh '''
                     # Pull changes from GitHub
 					cd /srv/shiny-server/stage
-					git pull origin develop
+					git fetch origin
+                    git reset --hard origin/develop
 
 					# Add virtual environment changes
-					cd mls
 					R -e "renv::restore()"
-
-					cd ../nwsl
-					R -e "renv::restore()"
-
-					# Restart the Shiny Server service
-					sudo service shiny-server restart
                 '''
             }
         }

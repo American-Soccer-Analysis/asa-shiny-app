@@ -6,6 +6,10 @@
         width: 300px;
 }
 
+.main-sidebar i {
+    color: white;
+}
+
 @media (min-width: 576px) {
 .content-wrapper, .main-footer, .main-header {
         margin-left: 300px;
@@ -132,7 +136,7 @@ button.label-primary:focus {
 
 .nav_league_active a, .nav_league a:hover {
     background-color: #13181e;
-    border-bottom: 2pt solid #27aae1;
+    border-bottom: 3pt solid #27aae1;
 }
 
 .nav_league a img {
@@ -217,7 +221,7 @@ body {
 **/
 
 #home_wrapper .jumbotron {
-    background-image: url(asa_header_background.png);
+    background-image: url(asa_assets/asa_header_background.png);
     background-repeat: no-repeat;
     background-position: center top;
     background-attachment: fixed;
@@ -414,6 +418,14 @@ body {
     display: -webkit-box;
 }
 
+#asa_controlbar .input-group-sm>.form-control {
+    font-size: 1rem;
+}
+
+#asa_controlbar .input-daterange input {
+    height: 36px;
+}
+
 #asa_controlbar div.btn-group button.radiobtn.active {
     background-color: #e7e7e7;
     font-weight: bold;
@@ -434,7 +446,7 @@ body {
 }
 
 #asa_controlbar .input-daterange .input-group-addon {
-    padding: 8px 15px !important;
+    padding: 0 4px !important;
 }
 
 #asa_controlbar button[id$='refresh'] {
@@ -489,11 +501,14 @@ body {
 }
 
 div.datatable_wrapper, div.datatable_wrapper table {
-    width: 100% !important;
-    overflow-x: scroll;
-    overflow-y: hidden;
     white-space: nowrap;
     margin-top: 55px !important;
+    min-width: 100%;
+}
+
+.dataTables_scrollBody {
+    padding-top: 5px;
+    margin-top: -5px;
 }
 
 #filtering_hint_wrapper {
@@ -516,7 +531,7 @@ div.datatable_wrapper {
 
 .dataTables_length {
     position: absolute;
-    margin-top: -105px;
+    margin-top: -50px;
     left: 20px;
     height: 0;
 }
@@ -527,9 +542,10 @@ div.datatable_wrapper {
 
 .dataTables_filter {
     position: absolute;
-    margin-top: -55px;
+    margin-top: 0;
     right: 20px;
     height: 0;
+    z-index: 100;
 }
 
 .dataTables_filter input {
@@ -545,8 +561,9 @@ div.dataTables_paginate {
 .dataTables_wrapper .btn-group {
     margin-bottom: 0.5em;
     position: absolute;
-    margin-top: -55px;
+    margin-top: 0;
     left: 20px;
+    z-index: 100;
 }
 
 .dataTables_wrapper .btn-group button {
@@ -631,7 +648,7 @@ th:hover .tables_helper_icon {
     color: inherit;
 }
 
-th:hover .tables_helper_tooltip {
+.visible {
     visibility: visible;
     opacity: 1;
 }
@@ -676,7 +693,7 @@ th:hover .tables_helper_tooltip {
 }
 
 #tables_goals_added_teams_zone > .btn-group-justified > .btn-group > button {
-    padding: -1px 18px 20px;
+    padding: 0 16px 0 12px;
     border-radius: 0;
     color: white;
     font-size: 16px;
@@ -872,6 +889,38 @@ th:hover .tables_helper_tooltip {
     background-size: 101% 101%;
 }
 
+.tables_player_headshot {
+    overflow: hidden;
+    border-radius: 50%;
+    background-color: white;
+    border: 2pt #ededed solid;
+    height: 55px;
+    width: 55px;
+    margin: -5px 0;
+}
+
+.tables_player_headshot img {
+    display: block;
+    margin: 0 auto;
+    height: 105%;
+    width: auto;
+}
+
+.tables_club_logo {
+    height: 40px;
+    width: 40px;
+    margin: -3px 0;
+}
+
+.tables_club_logo img {
+    height: 100%;
+    width: 100%;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+}
+
 
 @media screen and (max-width: 767px) {
     .datatable_wrapper div.dt-buttons, .datatable_wrapper div.dataTables_info, .datatable_wrapper div.dataTables_length {
@@ -882,6 +931,10 @@ th:hover .tables_helper_tooltip {
 
     div.datatable_wrapper, div.datatable_wrapper table {
         margin-top: 35px !important;
+    }
+
+    div.datatable_wrapper {
+        margin-bottom: 50px;
     }
 
     #filtering_hint_wrapper {
@@ -896,6 +949,7 @@ th:hover .tables_helper_tooltip {
         height: auto;
         width: 100%;
         right: unset;
+        margin-top: -20px;
     }
 
     .dataTables_filter label {
@@ -904,6 +958,15 @@ th:hover .tables_helper_tooltip {
 
     .dataTables_filter label input {
         width: 65% !important;
+    }
+
+    .dataTables_paginate li.paginate_button.previous, .dataTables_paginate li.paginate_button.next {
+        display: flex;
+    }
+
+    .dataTables_paginate li.paginate_button {
+        font-size: 12pt;
+        display: none;
     }
 
     .header_background {
@@ -961,7 +1024,7 @@ th:hover .tables_helper_tooltip {
 }
 
 .header_background {
-    background-image: url(asa_header_background.png);
+    background-image: url(asa_assets/asa_header_background.png);
     background-repeat: no-repeat;
     background-position: center top;
     background-attachment: fixed;

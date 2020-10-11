@@ -1,7 +1,7 @@
 # American Soccer Analysis | Shiny App
 
 <p align="center">
-<img src="www/asa_github_header.png" align="center" width="100%" alt="American Soccer Analysis logo">
+<img src="www/asa_assets/asa_github_header.png" align="center" width="100%" alt="American Soccer Analysis logo">
 </p>
 
 ## About the App
@@ -20,6 +20,7 @@ Thanks to the developers of these integral, open source libraries:
 - [`shinyjs`](https://github.com/daattali/shinyjs)
 - [`shinyWidgets`](https://github.com/dreamRs/shinyWidgets)
 - [`shinycssloaders`](https://github.com/daattali/shinycssloaders)
+- [`shiny.router`](https://github.com/Appsilon/shiny.router)
 - [`jsonlite`](https://github.com/jeroen/jsonlite)
 - [`httr`](https://github.com/r-lib/httr)
 - [`r2d3`](https://github.com/rstudio/r2d3)
