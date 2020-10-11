@@ -90,13 +90,12 @@ tables_body <- function(page, league_config, client_timezone, tables_rv, filteri
         })
 
         column_defs <- tables_rv[[rv_key]][["column_defs"]]
+
         i <- length(column_defs)
-        if (any(names(df) == "")) {
-            column_defs[[i + 1]] <- list(className = "all", targets = 1:(ncol(df) - 1))
-            column_defs[[i + 2]] <- list(className = "min-tablet-p", targets = 0)
-        } else {
-            column_defs[[i + 1]] <- list(className = "all", targets = 0:(ncol(df) - 1))
-        }
+        j <- if (any(names(df) == "")) 1 else 0
+
+        column_defs[[i + 1]] <- list(className = "all", targets = j:(ncol(df) - 1))
+
 
         dt <- DT::datatable(
             df,

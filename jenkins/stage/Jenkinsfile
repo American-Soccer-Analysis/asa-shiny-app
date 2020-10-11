@@ -11,9 +11,6 @@ pipeline {
 
 					# Add virtual environment changes
 					R -e "renv::restore()"
-
-					# Restart the Shiny Server service
-					sudo service shiny-server restart
                 '''
             }
         }
