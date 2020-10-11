@@ -19,9 +19,9 @@ league_config <- list(
                     ui = "tables_ui",
                     server = NA
                 ),
-                goals_added = list(
+                `goals-added` = list(
                     display_name = "Goals Added (g+)",
-                    route_link = "goals_added",
+                    route_link = "goals-added",
                     icon = "google-plus-g",
                     subheaders = c("Players", "Teams"),
                     ui = "tables_ui",
@@ -58,9 +58,9 @@ league_config <- list(
                     ui = "tables_ui",
                     server = NA
                 ),
-                goals_added = list(
+                `goals-added` = list(
                     display_name = "Goals Added (g+)",
-                    route_link = "goals_added",
+                    route_link = "goals-added",
                     icon = "google-plus-g",
                     subheaders = c("Players", "Teams"),
                     ui = "tables_ui",

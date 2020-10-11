@@ -153,7 +153,7 @@ tables_rv_to_df <- function(page, league_config, tables_rv, client_timezone, dat
         return(df)
     }
 
-    if (grepl("goals_added/players", rv_key)) {
+    if (grepl("goals-added/players", rv_key)) {
 
         if (tables_rv[[rv_key]][["goals_added_variation"]] %in% c("Raw", "Above Average")) {
 
@@ -179,7 +179,7 @@ tables_rv_to_df <- function(page, league_config, tables_rv, client_timezone, dat
 
         }
 
-    } else if (grepl("goals_added/teams", rv_key)) {
+    } else if (grepl("goals-added/teams", rv_key)) {
 
         df <- df %>% unnest(data)
 
@@ -313,7 +313,7 @@ tables_rv_to_df <- function(page, league_config, tables_rv, client_timezone, dat
 
         tmp_columns <- tables_normalize_columns[tables_normalize_columns %in% names(df)]
 
-        if (grepl("goals_added/teams", rv_key)) {
+        if (grepl("goals-added/teams", rv_key)) {
 
             df <- df %>% mutate_at(tmp_columns, function(x) x * 96 / .$minutes)
 

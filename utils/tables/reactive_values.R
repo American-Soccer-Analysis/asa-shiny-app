@@ -126,7 +126,7 @@ for (l in league_schemas) {
 
 
     # Goals Added (g+) -----------------------------
-    tables_rv[[paste0(l, "/goals_added/players")]] <- list(
+    tables_rv[[paste0(l, "/goals-added/players")]] <- list(
         minimum_minutes = 0,
         date_type = "Season",
         season_name = max(all_seasons[[l]]),
@@ -146,7 +146,7 @@ for (l in league_schemas) {
                            list(className = "min-tablet-p", targets = 0))
     )
 
-    tables_rv[[paste0(l, "/goals_added/teams")]] <- list(
+    tables_rv[[paste0(l, "/goals-added/teams")]] <- list(
         season_name = max(all_seasons[[l]]),
         zone = FIELD_ZONES,
         gamestate_trunc = TRUNCATED_GAMESTATES,
