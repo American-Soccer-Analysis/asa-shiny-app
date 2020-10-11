@@ -992,9 +992,8 @@ th:hover .tables_helper_icon {
 }
 
 .players_dropdown_img {
-    display: inline;
+    display: block;
     margin: 0 auto;
-    margin-left: 15%;
     height: 105%;
     width: auto;
 }
@@ -1005,7 +1004,7 @@ th:hover .tables_helper_icon {
      display: inline-block;
 }
 
-.profile_player_headshot {
+.profiles_players_headshot {
     width: 190px;
     height: 190px;
     position: relative;
@@ -1015,10 +1014,9 @@ th:hover .tables_helper_icon {
     bottom: 10px;
 }
 
-.profile_player_headshot img {
-    display: inline;
+.profiles_players_headshot img {
+    display: block;
     margin: 0 auto;
-    margin-left: 10%;
     height: 105%;
     width: auto;
 }
@@ -1044,7 +1042,7 @@ th:hover .tables_helper_icon {
     margin: 35px 0;
 }
 
-.profile_player_demographics {
+.profiles_players_demographics {
     float: left;
     padding-top: 50px;
     color: white;
@@ -1054,15 +1052,15 @@ th:hover .tables_helper_icon {
      padding: 0;
 }
 
-.profile_player_demographics h3, .profile_player_demographics p {
+.profiles_players_demographics h3, .profiles_players_demographics p {
      margin-bottom: 0;
 }
 
-.profile_player_demographics h3 {
+.profiles_players_demographics h3 {
     font-size: 2.75rem;
 }
 
-.profile_player_demographics p {
+.profiles_players_demographics p {
     font-size: 1.25rem;
     line-height: 1.65rem;
 }
@@ -1093,7 +1091,14 @@ h3.card_header {
 
 
 @media (max-width: 991px) {
-	.profile_player_headshot {
+	#profiles_players_basic_info .header_background {
+        background-size: 100% 200px;
+        background-image: url(asa_header_background.png);
+        background-attachment: scroll;
+        margin: -20px -20px 0 -20px;
+    }
+
+	.profiles_players_headshot {
         position: relative;
         overflow: hidden;
         border-radius: 50%;
@@ -1105,11 +1110,7 @@ h3.card_header {
         float: none;
     }
 
-    .profile_player_headshot img {
-        margin-left: 13%;
-    }
-
-    .profile_player_demographics {
+    .profiles_players_demographics {
         padding-top: 55px;
         color: black;
         text-align: center;
@@ -1117,25 +1118,25 @@ h3.card_header {
         margin-bottom: 10px;
     }
 
-    .profile_player_demographics h3 {
+    .profiles_players_demographics h3 {
         font-size: 2.5rem;
         margin-bottom: 5px;
     }
 
-    .profile_player_demographics p {
+    .profiles_players_demographics p {
         font-size: 1.1rem;
     }
 }
 
 
 @media (max-width: 475px) {
-    .profile_player_demographics h3 {
+    .profiles_players_demographics h3 {
         font-size: 2rem;
         line-height: 2.25rem;
         margin-bottom: 15px;
     }
 
-    .profile_player_demographics p {
+    .profiles_players_demographics p {
         font-size: 1rem;
         line-height: 1.25rem;
         margin-bottom: 10px;

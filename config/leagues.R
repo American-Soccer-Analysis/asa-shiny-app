@@ -35,6 +35,16 @@ league_config <- list(
                     ui = "tables_ui",
                     server = NA
                 )
+            ),
+            Profiles = list(
+                players = list(
+                    display_name = "Players",
+                    route_link = "players",
+                    icon = "user",
+                    ui = "players_ui",
+                    server = NA,
+                    default_selection = "ljqEoboMx0"  # Dax
+                )
             )
         )
     ),
@@ -65,6 +75,16 @@ league_config <- list(
                     subheaders = c("Players", "Teams"),
                     ui = "tables_ui",
                     server = NA
+                )
+            ),
+            Profiles = list(
+                players = list(
+                    display_name = "Players",
+                    route_link = "players",
+                    icon = "user",
+                    ui = "players_ui",
+                    server = NA,
+                    default_selection = "AB5AWZBIFyZCLAZCKUKHOF35J"  # Midge
                 )
             )
         )

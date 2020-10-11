@@ -1,6 +1,7 @@
 # Initialize dictionaries -----------------------
 vars_to_initialize <- c("all_seasons", "salaries_distinct", "salaries_seasons", "salaries_most_recent",
-                        "player_lookup", "general_positions", "all_teams", "recent_games")
+                        "all_players_tmp", "general_positions", "all_teams", "all_games",
+                        "player_lookup", "all_players", "players_dropdown")
 
 for (v in vars_to_initialize) {
     assign(v, list())
@@ -24,8 +25,8 @@ for (key in league_schemas) {
         salaries_distinct[[key]] <- NA
     }
 
-    # Import player ID lookup -----------------------
-    player_lookup[[key]] <- try(api_request(endpoint = assemble_endpoint(key, subheader = "players"), parameters = list(lookup_only = TRUE)))
+    # Import player demographic data ----------------
+    all_players_tmp[[key]] <- try(api_request(endpoint = assemble_endpoint(key, subheader = "players")))
 
     # Import distinct positions ---------------------
     general_positions[[key]] <- try(api_request(endpoint = assemble_endpoint(key, subheader = "players"), parameters = list(general_position_only = TRUE)))
@@ -38,39 +39,28 @@ for (key in league_schemas) {
     all_teams[[key]] <- try(api_request(endpoint =assemble_endpoint(key, subheader = "teams")) %>% arrange(team_abbreviation))
 
     # Import game data ------------------------------
-    recent_games[[key]] <- try(api_request(endpoint = assemble_endpoint(key, subheader = "games"), parameters = list(limit = 20)))
+    all_games[[key]] <- try(api_request(endpoint = assemble_endpoint(key, subheader = "games")))
 
 
     if (all(class(all_seasons[[key]]) == "try-error") | all(class(salaries_distinct[[key]]) == "try-error") |
         all(class(player_lookup[[key]]) == "try-error") | all(class(all_teams[[key]]) == "try-error") |
-        all(class(recent_games[[key]]) == "try-error")) {
+        all(class(all_games[[key]]) == "try-error")) {
 
         stopApp()
 
     }
 
+    # Reshape player ID lookup ----------------------
+    player_lookup[[key]] <- all_players_tmp[[key]] %>% select(player_id, player_name)
+
+    # Reshape for dropdown menu ---------------------
+    all_players[[key]] <- all_players_tmp[[key]] %>%
+        select(-season_name) %>%
+        mutate(birth_date = as.Date(birth_date)) %>%
+        arrange(player_name)
+
+    players_dropdown[[key]] <- all_players[[key]] %>%
+        select(value = player_id,
+               label = player_name)
+
 }
-
-
-# # Import player demographic data ----------------
-# all_players_tmp <- api_request(endpoint = "players")
-#
-# all_players <- all_players_tmp %>%
-#     select(-season_name) %>%
-#     mutate(birth_date = as.Date(birth_date)) %>%
-#     arrange(player_name)
-#
-# # Reshape for dropdown menu ---------------------
-# players_dropdown <- all_players %>%
-#      mutate(url = paste0("player_headshots/", player_id, ".png")) %>%
-#      select(value = player_id,
-#             label = player_name,
-#             url)
-#
-# all_players_seasons <- all_players_tmp %>%
-#     select(player_id, season_name) %>%
-#     unnest(season_name)
-
-# # Import player stats by season -----------------
-# all_players_stats <- api_request(endpoint = "players/stats") %>%
-#     left_join(all_players %>% select(player_id, player_name, broad_position), "player_id")

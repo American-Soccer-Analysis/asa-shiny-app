@@ -20,8 +20,8 @@ library(tidyverse)
 STAGE <- ifelse(grepl("stage", getwd()), "stage/", "")
 API_PATH <- paste0("https://app.americansocceranalysis.com/", STAGE, "api/v1")
 
-# VIOLIN_HEIGHT <- "450px"
-# VIOLIN_WIDTH <- "96%"
+VIOLIN_HEIGHT <- "450px"
+VIOLIN_WIDTH <- "96%"
 
 FIELD_WIDTH <- 80
 FIELD_LENGTH <- 115
@@ -129,8 +129,8 @@ get_config_element <- function(league, sidebar_header, route_prefix, league_conf
 
 get_values_from_page <- function(page) {
     league <- gsub("/.*$", "", page)
-    subheader <- gsub(league, "", gsub("^.*/", "", page))
-    route_prefix <- gsub("/", "", gsub(league, "", gsub(subheader, "", page)))
+    route_prefix <- gsub("/.*$", "", gsub("^/", "", gsub(league, "", page)))
+    subheader <- gsub("/", "", gsub(route_prefix, "", gsub(league, "", page)))
 
     return(list(
         league = league,
@@ -140,6 +140,9 @@ get_values_from_page <- function(page) {
 }
 
 assemble_key <- function(league, route_prefix = NA, subheader = NA) {
+    route_prefix <- if (is.null(route_prefix)) NA else route_prefix
+    subheader <- if (is.null(subheader)) NA else subheader
+
     if (!is.na(subheader) > 0) {
         keys <- c()
         for (s in subheader) {
