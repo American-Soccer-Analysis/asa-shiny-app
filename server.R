@@ -58,7 +58,8 @@ server <- function(input, output, session) {
 
     # Footer settings -------------------------------
     output$asa_footer <- renderUI({
-        footer_ui(recent_games, input$client_timezone)
+        page <- get_page(session)
+        footer_ui(page, recent_games, input$client_timezone)
     })
 
 
