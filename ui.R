@@ -4,7 +4,7 @@ shinyUI(
         tags$head(
             tags$link(rel = "stylesheet", type = "text/css", href = "https://use.typekit.net/zmt3hir.css"),
             tags$link(rel = "stylesheet", type = "text/css", href = "asa.css"),
-            tags$link(rel = "shortcut icon", href = "favicon.ico?v=2"),
+            tags$link(rel = "shortcut icon", href = "favicon.ico"),
             tags$script(src = "js/controlbar_cog.js"),
             tags$script(src = "js/client_timezone.js")
         ),
