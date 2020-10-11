@@ -309,7 +309,7 @@ tables_controlbar <- function(page, league_config, tables_rv) {
                 )
             )
         }
-    } else if (any(grepl("goals_added", route_prefix))) {
+    } else if (any(grepl("goals-added", route_prefix))) {
         if (any(grepl("players", subheader))) {
             div(
                 column(12,
