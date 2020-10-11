@@ -2,10 +2,9 @@ shinyUI(
     tagList(
         useShinyjs(),
         tags$head(
-            tags$link(rel = "shortcut icon", href = "/favicon.ico"),
-            tags$link(rel = "apple-touch-icon", sizes = "180x180", href = "/favicon.ico"),
             tags$link(rel = "stylesheet", type = "text/css", href = "https://use.typekit.net/zmt3hir.css"),
             tags$link(rel = "stylesheet", type = "text/css", href = "asa.css"),
+            tags$link(rel = "shortcut icon", href = "favicon.ico?v=2"),
             tags$script(src = "js/controlbar_cog.js"),
             tags$script(src = "js/client_timezone.js")
         ),
