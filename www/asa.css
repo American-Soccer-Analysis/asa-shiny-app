@@ -678,21 +678,21 @@ th:hover .tables_helper_icon {
     margin-top: 15px;
 }
 
-#tables_goals_added_teams_zone {
+#tables_goals-added_teams_zone {
     height: 420px;
 }
 
-#tables_goals_added_teams_zone > .btn-group-justified {
+#tables_goals-added_teams_zone > .btn-group-justified {
     display: flex;
     flex-wrap: wrap;
 }
 
-#tables_goals_added_teams_zone > .btn-group-justified > .btn-group {
+#tables_goals-added_teams_zone > .btn-group-justified > .btn-group {
     flex: 1 0 19%;
     height: 70px;
 }
 
-#tables_goals_added_teams_zone > .btn-group-justified > .btn-group > button {
+#tables_goals-added_teams_zone > .btn-group-justified > .btn-group > button {
     padding: 0 16px 0 12px;
     border-radius: 0;
     color: white;
@@ -700,189 +700,189 @@ th:hover .tables_helper_icon {
     border: 1pt solid white;
 }
 
-#tables_goals_added_teams_zone > .btn-group-justified > .btn-group > button.active {
+#tables_goals-added_teams_zone > .btn-group-justified > .btn-group > button.active {
     box-shadow: inset 0 0 0 1000px rgba(39, 170, 225, 0.65) !important;
     font-weight: bold;
 }
 
-#tables_goals_added_teams_zone > .btn-group-justified > .btn-group:nth-child(1) > button {
+#tables_goals-added_teams_zone > .btn-group-justified > .btn-group:nth-child(1) > button {
     border-top-left-radius: 0.25rem;
     background: url(blank_pitch/30.png);
     background-repeat: no-repeat;
     background-size: 101% 101%;
 }
 
-#tables_goals_added_teams_zone > .btn-group-justified > .btn-group:nth-child(2) > button {
+#tables_goals-added_teams_zone > .btn-group-justified > .btn-group:nth-child(2) > button {
     background: url(blank_pitch/29.png);
     background-repeat: no-repeat;
     background-size: 101% 101%;
 }
 
-#tables_goals_added_teams_zone > .btn-group-justified > .btn-group:nth-child(3) > button {
+#tables_goals-added_teams_zone > .btn-group-justified > .btn-group:nth-child(3) > button {
     background: url(blank_pitch/28.png);
     background-repeat: no-repeat;
     background-size: 101% 101%;
 }
 
-#tables_goals_added_teams_zone > .btn-group-justified > .btn-group:nth-child(4) > button {
+#tables_goals-added_teams_zone > .btn-group-justified > .btn-group:nth-child(4) > button {
     background: url(blank_pitch/27.png);
     background-repeat: no-repeat;
     background-size: 101% 101%;
 }
 
-#tables_goals_added_teams_zone > .btn-group-justified > .btn-group:nth-child(5) > button {
+#tables_goals-added_teams_zone > .btn-group-justified > .btn-group:nth-child(5) > button {
     border-top-right-radius: 0.25rem;
     background: url(blank_pitch/26.png);
     background-repeat: no-repeat;
     background-size: 101% 101%;
 }
 
-#tables_goals_added_teams_zone > .btn-group-justified > .btn-group:nth-child(6) > button {
+#tables_goals-added_teams_zone > .btn-group-justified > .btn-group:nth-child(6) > button {
     background: url(blank_pitch/25.png);
     background-repeat: no-repeat;
     background-size: 101% 101%;
 }
 
-#tables_goals_added_teams_zone > .btn-group-justified > .btn-group:nth-child(7) > button {
+#tables_goals-added_teams_zone > .btn-group-justified > .btn-group:nth-child(7) > button {
     background: url(blank_pitch/24.png);
     background-repeat: no-repeat;
     background-size: 101% 101%;
 }
 
-#tables_goals_added_teams_zone > .btn-group-justified > .btn-group:nth-child(8) > button {
+#tables_goals-added_teams_zone > .btn-group-justified > .btn-group:nth-child(8) > button {
     background: url(blank_pitch/23.png);
     background-repeat: no-repeat;
     background-size: 101% 101%;
 }
 
-#tables_goals_added_teams_zone > .btn-group-justified > .btn-group:nth-child(9) > button {
+#tables_goals-added_teams_zone > .btn-group-justified > .btn-group:nth-child(9) > button {
     background: url(blank_pitch/22.png);
     background-repeat: no-repeat;
     background-size: 101% 101%;
 }
 
-#tables_goals_added_teams_zone > .btn-group-justified > .btn-group:nth-child(10) > button {
+#tables_goals-added_teams_zone > .btn-group-justified > .btn-group:nth-child(10) > button {
     background: url(blank_pitch/21.png);
     background-repeat: no-repeat;
     background-size: 101% 101%;
 }
 
-#tables_goals_added_teams_zone > .btn-group-justified > .btn-group:nth-child(11) > button {
+#tables_goals-added_teams_zone > .btn-group-justified > .btn-group:nth-child(11) > button {
     background: url(blank_pitch/20.png);
     background-repeat: no-repeat;
     background-size: 101% 101%;
 }
 
-#tables_goals_added_teams_zone > .btn-group-justified > .btn-group:nth-child(12) > button {
+#tables_goals-added_teams_zone > .btn-group-justified > .btn-group:nth-child(12) > button {
     background: url(blank_pitch/19.png);
     background-repeat: no-repeat;
     background-size: 101% 101%;
 }
 
-#tables_goals_added_teams_zone > .btn-group-justified > .btn-group:nth-child(13) > button {
+#tables_goals-added_teams_zone > .btn-group-justified > .btn-group:nth-child(13) > button {
     background: url(blank_pitch/18.png);
     background-repeat: no-repeat;
     background-size: 101% 101%;
 }
 
-#tables_goals_added_teams_zone > .btn-group-justified > .btn-group:nth-child(14) > button {
+#tables_goals-added_teams_zone > .btn-group-justified > .btn-group:nth-child(14) > button {
     background: url(blank_pitch/17.png);
     background-repeat: no-repeat;
     background-size: 101% 101%;
 }
 
-#tables_goals_added_teams_zone > .btn-group-justified > .btn-group:nth-child(15) > button {
+#tables_goals-added_teams_zone > .btn-group-justified > .btn-group:nth-child(15) > button {
     background: url(blank_pitch/16.png);
     background-repeat: no-repeat;
     background-size: 101% 101%;
 }
 
-#tables_goals_added_teams_zone > .btn-group-justified > .btn-group:nth-child(16) > button {
+#tables_goals-added_teams_zone > .btn-group-justified > .btn-group:nth-child(16) > button {
     background: url(blank_pitch/15.png);
     background-repeat: no-repeat;
     background-size: 101% 101%;
 }
 
-#tables_goals_added_teams_zone > .btn-group-justified > .btn-group:nth-child(17) > button {
+#tables_goals-added_teams_zone > .btn-group-justified > .btn-group:nth-child(17) > button {
     background: url(blank_pitch/14.png);
     background-repeat: no-repeat;
     background-size: 101% 101%;
 }
 
-#tables_goals_added_teams_zone > .btn-group-justified > .btn-group:nth-child(18) > button {
+#tables_goals-added_teams_zone > .btn-group-justified > .btn-group:nth-child(18) > button {
     background: url(blank_pitch/13.png);
     background-repeat: no-repeat;
     background-size: 101% 101%;
 }
 
-#tables_goals_added_teams_zone > .btn-group-justified > .btn-group:nth-child(19) > button {
+#tables_goals-added_teams_zone > .btn-group-justified > .btn-group:nth-child(19) > button {
     background: url(blank_pitch/12.png);
     background-repeat: no-repeat;
     background-size: 101% 101%;
 }
 
-#tables_goals_added_teams_zone > .btn-group-justified > .btn-group:nth-child(20) > button {
+#tables_goals-added_teams_zone > .btn-group-justified > .btn-group:nth-child(20) > button {
     background: url(blank_pitch/11.png);
     background-repeat: no-repeat;
     background-size: 101% 101%;
 }
 
-#tables_goals_added_teams_zone > .btn-group-justified > .btn-group:nth-child(21) > button {
+#tables_goals-added_teams_zone > .btn-group-justified > .btn-group:nth-child(21) > button {
     background: url(blank_pitch/10.png);
     background-repeat: no-repeat;
     background-size: 101% 101%;
 }
 
-#tables_goals_added_teams_zone > .btn-group-justified > .btn-group:nth-child(22) > button {
+#tables_goals-added_teams_zone > .btn-group-justified > .btn-group:nth-child(22) > button {
     background: url(blank_pitch/09.png);
     background-repeat: no-repeat;
     background-size: 101% 101%;
 }
 
-#tables_goals_added_teams_zone > .btn-group-justified > .btn-group:nth-child(23) > button {
+#tables_goals-added_teams_zone > .btn-group-justified > .btn-group:nth-child(23) > button {
     background: url(blank_pitch/08.png);
     background-repeat: no-repeat;
     background-size: 101% 101%;
 }
 
-#tables_goals_added_teams_zone > .btn-group-justified > .btn-group:nth-child(24) > button {
+#tables_goals-added_teams_zone > .btn-group-justified > .btn-group:nth-child(24) > button {
     background: url(blank_pitch/07.png);
     background-repeat: no-repeat;
     background-size: 101% 101%;
 }
 
-#tables_goals_added_teams_zone > .btn-group-justified > .btn-group:nth-child(25) > button {
+#tables_goals-added_teams_zone > .btn-group-justified > .btn-group:nth-child(25) > button {
     background: url(blank_pitch/06.png);
     background-repeat: no-repeat;
     background-size: 101% 101%;
 }
 
-#tables_goals_added_teams_zone > .btn-group-justified > .btn-group:nth-child(26) > button {
+#tables_goals-added_teams_zone > .btn-group-justified > .btn-group:nth-child(26) > button {
     border-bottom-left-radius: 0.25rem;
     background: url(blank_pitch/05.png);
     background-repeat: no-repeat;
     background-size: 101% 101%;
 }
 
-#tables_goals_added_teams_zone > .btn-group-justified > .btn-group:nth-child(27) > button {
+#tables_goals-added_teams_zone > .btn-group-justified > .btn-group:nth-child(27) > button {
     background: url(blank_pitch/04.png);
     background-repeat: no-repeat;
     background-size: 101% 101%;
 }
 
-#tables_goals_added_teams_zone > .btn-group-justified > .btn-group:nth-child(28) > button {
+#tables_goals-added_teams_zone > .btn-group-justified > .btn-group:nth-child(28) > button {
     background: url(blank_pitch/03.png);
     background-repeat: no-repeat;
     background-size: 101% 101%;
 }
 
-#tables_goals_added_teams_zone > .btn-group-justified > .btn-group:nth-child(29) > button {
+#tables_goals-added_teams_zone > .btn-group-justified > .btn-group:nth-child(29) > button {
     background: url(blank_pitch/02.png);
     background-repeat: no-repeat;
     background-size: 101% 101%;
 }
 
-#tables_goals_added_teams_zone > .btn-group-justified > .btn-group:nth-child(30) > button {
+#tables_goals-added_teams_zone > .btn-group-justified > .btn-group:nth-child(30) > button {
     border-bottom-right-radius: 0.25rem;
     background: url(blank_pitch/01.png);
     background-repeat: no-repeat;
