@@ -10,6 +10,7 @@ tables_refresh <- function(refresh_button_id, input, tables_rv, page, league_con
 
     matching_inputs <- paste("tables", route_prefix, subheader, names(tables_rv[[rv_key]]), sep = "_")
     matching_inputs <- matching_inputs[matching_inputs %in% names(input)]
+    matching_inputs <- c(matching_inputs, gsub("date_type$", "date_range", matching_inputs[grepl("date_type", matching_inputs)]))
 
 
     execute_api_call <- TRUE
