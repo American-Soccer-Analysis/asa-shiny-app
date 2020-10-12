@@ -101,7 +101,7 @@ tables_body <- function(page, league_config, client_timezone, tables_rv, filteri
             df,
             extensions = c("Buttons", "FixedColumns", "Responsive"),
             plugins = "accent-neutralise",
-            callback = JS("setTimeout(function() { table.columns.adjust().fixedColumns().relayout(); }, 100);"),
+            callback = JS("setTimeout(function() { table.columns.adjust().fixedColumns().relayout(); }, 500);"),
             options = list(pageLength = 30,
                            autoWidth = FALSE,
                            dom = "lBfrtip",
