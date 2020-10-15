@@ -231,7 +231,7 @@ tables_controlbar <- function(page, league_config, tables_rv) {
                                         p(class = "control-label", "Home-Adjust Results"),
                                         tables_cb_switch(page, league_config, tables_rv, "Home Adjustment", "home_adjusted")),
                        p(class = "control-label", "Filter Results by Game State"),
-                       tables_cb_switch(page, league_config, tables_rv, "Even Game State Only", "even_game_state"),
+                       tables_cb_switch(page, league_config, tables_rv, "Even Scoreline Only", "even_game_state"),
                        tables_cb_radio(page, league_config, tables_rv, "Normalize Results By", "normalize_by",
                                        c("None", "Game")),
                        tables_cb_refresh()
@@ -337,7 +337,7 @@ tables_controlbar <- function(page, league_config, tables_rv) {
                 column(12,
                        h4("Team Settings"),
                        tables_cb_pitch_zones(page, league_config, tables_rv, "Zones", "zone"),
-                       tables_cb_picker(page, league_config, tables_rv, "Gamestates", "gamestate_trunc",
+                       tables_cb_picker(page, league_config, tables_rv, "Scorelines", "gamestate_trunc",
                                         TRUNCATED_GAMESTATES, TRUNCATED_GAMESTATES_LABELS),
                        tables_cb_date_filter(page, league_config, tables_rv, all_seasons[[league]], season_only = TRUE),
                        tables_cb_picker(page, league_config, tables_rv, "Competition Stages", "stage_name", league_config[[league]][["stages"]]),
