@@ -2,7 +2,8 @@
 players_rv <- reactiveValues()
 
 for (l in league_schemas) {
-    players_rv[[paste0(l, "/players")]] <- list(
-        profiles_players_name = league_config[[l]]$tabs$Profiles$players$default_selection
+    players_rv[[l]] <- list(
+        profiles_players_name = case_when(l == "mls" ~ "ljqEoboMx0",  # Dax
+                                          l == "nwsl" ~ "AB5AWZBIFyZCLAZCKUKHOF35J")  # Midge
     )
 }

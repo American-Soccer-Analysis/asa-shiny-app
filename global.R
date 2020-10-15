@@ -94,6 +94,29 @@ router_list_to_parse <- gsub(",\\s+$", ")", router_list_to_parse)
 eval(parse(text = router_list_to_parse))
 
 
+# Create lookup for controlbar panel ------------
+controlbar_lookup <- list()
+
+headers <- names(league_config[[league]][["tabs"]])
+for (league in league_schemas) {
+    for (h in headers) {
+        tab_header <- league_config[[league]][["tabs"]][[h]]
+        menu_items <- names(tab_header)
+        for (m in menu_items) {
+            tab_name_prefix <- tab_header[[m]][["route_link"]]
+            subheaders <- tab_header[[m]][["subheaders"]]
+            if (!is.null(subheaders)) {
+                for (s in subheaders) {
+                    controlbar_lookup[[paste0(league, "/", tab_name_prefix, "/", tolower(s))]] <- h
+                }
+            } else {
+                controlbar_lookup[[paste0(league, "/", tab_name_prefix)]] <- h
+            }
+        }
+    }
+}
+
+
 # Utility functions -----------------------------
 api_request <- function(path = API_PATH, endpoint, parameters = NULL) {
     parameters_array <- c()
@@ -128,6 +151,7 @@ get_config_element <- function(league, sidebar_header, route_prefix, league_conf
 }
 
 get_values_from_page <- function(page) {
+    page <- gsub("\\?.*$", "", page)
     league <- gsub("/.*$", "", page)
     route_prefix <- gsub("/.*$", "", gsub("^/", "", gsub(league, "", page)))
     subheader <- gsub("/", "", gsub(route_prefix, "", gsub(league, "", page)))

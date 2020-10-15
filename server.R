@@ -62,6 +62,22 @@ server <- function(input, output, session) {
         footer_ui(page, all_games, input$client_timezone)
     })
 
+    # Controlbar element ----------------------------
+    output$asa_controlbar <- renderUI({
+        page <- get_page(session)
+        page_key <- gsub("\\?.*$", "", page)
+
+        if (any(controlbar_lookup[[page_key]] == "Tables")) {
+            tables_controlbar(page, league_config, tables_rv)
+        } else if (any(controlbar_lookup[[page_key]] == "Profiles")) {
+            if (get_values_from_page(page)$route_prefix == "players") {
+                profiles_players_controlbar(page, players_rv, players_dropdown)
+            }
+        } else {
+            div()
+        }
+    })
+
 
     # -----------------------------------------------
     # TABLES ----------------------------------------
@@ -91,12 +107,6 @@ server <- function(input, output, session) {
     lapply(1:30, function(i) {
         onevent("mouseenter", paste0("tables_header_", i), shinyjs::addCssClass(selector = paste0("#tables_header_", i, " .tables_helper_tooltip"), class = "visible"))
         onevent("mouseleave", paste0("tables_header_", i), shinyjs::removeCssClass(selector = paste0("#tables_header_", i, " .tables_helper_tooltip"), class = "visible"))
-    })
-
-    # Controlbar element ----------------------------
-    output$asa_controlbar <- renderUI({
-        page <- get_page(session)
-        tables_controlbar(page, league_config, tables_rv)
     })
 
     # API request -----------------------------------
@@ -132,20 +142,13 @@ server <- function(input, output, session) {
     observeEvent(input$profiles_players_refresh, {
         page <- get_page(session)
         league <- get_values_from_page(page)$league
-        route_prefix <- get_values_from_page(page)$route_prefix
-        players_rv[[assemble_key(league, route_prefix)]][["profiles_players_name"]] <- input$profiles_players_name
+        players_rv[[league]][["profiles_players_name"]] <- input$profiles_players_name
     })
 
     # Profile header --------------------------------
     output$profiles_players_header <- renderUI({
         page <- get_page(session)
         profiles_players_header(page, players_rv, all_players)
-    })
-
-    # Controlbar element ----------------------------
-    output$asa_controlbar <- renderUI({
-        page <- get_page(session)
-        profiles_players_controlbar(page, players_rv, players_dropdown)
     })
 
     # # Violin plots ----------------------------------

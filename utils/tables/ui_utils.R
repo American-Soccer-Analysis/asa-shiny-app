@@ -204,10 +204,6 @@ tables_controlbar <- function(page, league_config, tables_rv) {
 
     rv_key <- assemble_key(league, route_prefix, subheader)
 
-    if (is.null(tables_rv[[rv_key]])) {
-        return(div())
-    }
-
     if (any(grepl("xgoals", route_prefix))) {
         if (any(grepl("players", subheader))) {
             div(

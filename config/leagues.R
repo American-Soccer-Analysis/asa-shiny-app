@@ -42,8 +42,7 @@ league_config <- list(
                     route_link = "players",
                     icon = "user",
                     ui = "players_ui",
-                    server = NA,
-                    default_selection = "ljqEoboMx0"  # Dax
+                    server = NA
                 )
             )
         )
@@ -83,8 +82,7 @@ league_config <- list(
                     route_link = "players",
                     icon = "user",
                     ui = "players_ui",
-                    server = NA,
-                    default_selection = "AB5AWZBIFyZCLAZCKUKHOF35J"  # Midge
+                    server = NA
                 )
             )
         )

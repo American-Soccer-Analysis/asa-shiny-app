@@ -9,15 +9,12 @@ players_ui <- div(
 # Profile header --------------------------------
 profiles_players_header <- function(page, players_rv, all_players) {
     league <- get_values_from_page(page)$league
-    route_prefix <- get_values_from_page(page)$route_prefix
 
-    rv_key <- assemble_key(league, route_prefix)
-
-    if (is.null(players_rv[[rv_key]])) {
+    if (is.null(players_rv[[league]])) {
         return(div())
     }
 
-    selected_player_id <- players_rv[[rv_key]][["profiles_players_name"]]
+    selected_player_id <- players_rv[[league]][["profiles_players_name"]]
     player_dict <- (all_players[[league]] %>% filter(player_id == selected_player_id))[1,]
     player_positions <- ifelse(is.na(player_dict$secondary_general_position),
                                player_dict$primary_general_position,
@@ -43,13 +40,6 @@ profiles_players_header <- function(page, players_rv, all_players) {
 # Control bar -----------------------------------
 profiles_players_controlbar <- function(page, players_rv, players_dropdown) {
     league <- get_values_from_page(page)$league
-    route_prefix <- get_values_from_page(page)$route_prefix
-
-    rv_key <- assemble_key(league, route_prefix)
-
-    if (is.null(players_rv[[rv_key]])) {
-        return(div())
-    }
 
     div(
         column(12,
@@ -57,7 +47,7 @@ profiles_players_controlbar <- function(page, players_rv, players_dropdown) {
                selectizeInput(inputId = "profiles_players_name",
                               label = "Player",
                               choices = setNames(players_dropdown[[league]][["value"]], players_dropdown[[league]][["label"]]),
-                              selected = players_rv[[rv_key]][["profiles_players_name"]],
+                              selected = players_rv[[league]][["profiles_players_name"]],
                               width = "100%",
                               options = list(placeholder = 'Start typing a player\'s name...',
                                              maxOptions = 25,
@@ -81,10 +71,10 @@ profiles_players_controlbar <- function(page, players_rv, players_dropdown) {
 #     return(seq(max, min, length.out = n)[rn])
 # }
 #
-# violin_d3 <- function(data_frame, metric, metric_percentage, precision, tooltip_precision,
+# violin_d3 <- function(data_frame, metric, is_percentage, precision, tooltip_precision,
 #                       x_axis_title, x_axis_suffix, x_axis_absolute, annotation_suffix, player, season) {
 #
-#     if (metric_percentage) {
+#     if (is_percentage) {
 #         data_frame[[metric]] <- data_frame[[metric]] * 100
 #     }
 #
@@ -108,8 +98,8 @@ profiles_players_controlbar <- function(page, players_rv, players_dropdown) {
 #             r2d3(data = df,
 #                  width = VIOLIN_WIDTH,
 #                  height = VIOLIN_HEIGHT,
-#                  script = "www/d3_violin_dots.js",
-#                  css = "www/d3_violin_dots.css",
+#                  script = "d3/profiles_players_violins.js",
+#                  css = "d3/profiles_players_violins.css",
 #                  options = list(x_axis_title = x_axis_title,
 #                                 x_axis_suffix = x_axis_suffix,
 #                                 x_axis_absolute = x_axis_absolute,
