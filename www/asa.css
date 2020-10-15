@@ -166,6 +166,10 @@ button.label-primary:focus {
     min-height: 1200px !important;
 }
 
+.datepicker {
+    z-index: 1000 !important;
+}
+
 
 /************************/
 /*******  GENERAL  ******/
