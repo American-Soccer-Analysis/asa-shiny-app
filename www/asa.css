@@ -167,7 +167,7 @@ button.label-primary:focus {
 }
 
 .datepicker {
-    z-index: 1000;
+    z-index: 1000 !important;
 }
 
 
