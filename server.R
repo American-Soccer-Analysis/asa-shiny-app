@@ -59,7 +59,23 @@ server <- function(input, output, session) {
     # Footer settings -------------------------------
     output$asa_footer <- renderUI({
         page <- get_page(session)
-        footer_ui(page, recent_games, input$client_timezone)
+        footer_ui(page, all_games, input$client_timezone)
+    })
+
+    # Controlbar element ----------------------------
+    output$asa_controlbar <- renderUI({
+        page <- get_page(session)
+        page_key <- gsub("\\?.*$", "", page)
+
+        if (any(controlbar_lookup[[page_key]] == "Tables")) {
+            tables_controlbar(page, league_config, tables_rv)
+        } else if (any(controlbar_lookup[[page_key]] == "Profiles")) {
+            if (get_values_from_page(page)$route_prefix == "players") {
+                profiles_players_controlbar(page, players_rv, players_dropdown)
+            }
+        } else {
+            div()
+        }
     })
 
 
@@ -93,16 +109,10 @@ server <- function(input, output, session) {
         onevent("mouseleave", paste0("tables_header_", i), shinyjs::removeCssClass(selector = paste0("#tables_header_", i, " .tables_helper_tooltip"), class = "visible"))
     })
 
-    # Controlbar element ----------------------------
-    output$asa_controlbar <- renderUI({
-        page <- get_page(session)
-        tables_controlbar(page, league_config, tables_rv)
-    })
-
     # API request -----------------------------------
     observeEvent(input$tables_refresh, {
         page <- get_page(session)
-        tables_refresh("tables_refresh", input, tables_rv, page, league_config)
+        tables_refresh("tables_refresh", input, tables_rv, page)
     })
 
     # Hide filtering hint box -----------------------
@@ -125,75 +135,34 @@ server <- function(input, output, session) {
     # PLAYER PROFILES -------------------------------
     # -----------------------------------------------
 
-    # Set default reactive values -------------------
-    # players_reactive_values <- reactiveValues(profile_player_name = START_PLAYER,
-    #                                           profile_player_season = max(all_players_seasons$season_name[all_players_seasons$player_id == START_PLAYER]))
+    # Initialize reactive value objects -------------
+    source("utils/players/reactive_values.R", local = TRUE)
 
-    # # Add headshots to controlbar -------------------
-    # observeEvent(input$asa_sidebar, {
-    #     updateSelectizeInput(session,
-    #                          "profile_player_name",
-    #                          server = TRUE,
-    #                          choices = players_dropdown,
-    #                          selected = players_reactive_values$profile_player_name,
-    #                          options = list(render = I(
-    #                              "{
-    #                            option: function(item, escape) {
-    #                            return '<div><div class = \"players_dropdown_wrapper\"><img class=\"players_dropdown_img\"' +
-    #                            'src=\"' + item.url + '\" /></div><div class = \"players_dropdown_txt\">' +
-    #                            item.label + '</div></div>';
-    #                            }
-    #                            }"
-    #                          )))
-    # })
-    #
-    # # Update season on controlbar -------------------
-    # observeEvent(input$profile_player_name, {
-    #     if (input$profile_player_name == players_reactive_values$profile_player_name) {
-    #         updateSelectizeInput(session,
-    #                              "profile_player_season",
-    #                              server = TRUE,
-    #                              choices = all_players_seasons$season_name[all_players_seasons$player_id == input$profile_player_name],
-    #                              selected = players_reactive_values$profile_player_season)
-    #     } else if (input$profile_player_name != "") {
-    #         updateSelectizeInput(session,
-    #                              "profile_player_season",
-    #                              server = TRUE,
-    #                              choices = all_players_seasons$season_name[all_players_seasons$player_id == input$profile_player_name],
-    #                              selected = max(all_players_seasons$season_name[all_players_seasons$player_id == input$profile_player_name]))
-    #     } else {
-    #         updateSelectizeInput(session,
-    #                              "profile_player_season",
-    #                              server = TRUE,
-    #                              choices = NULL,
-    #                              selected = NULL)
-    #     }
-    # })
-    #
-    # # Change reactive values upon refresh -----------
-    # observeEvent(input$profile_player_refresh, {
-    #     players_reactive_values$profile_player_name <- input$profile_player_name
-    #     players_reactive_values$profile_player_season <- input$profile_player_season
-    # })
-    #
-    # # Profile header --------------------------------
-    # player_profile_basic_info_reactive <- reactive({
-    #     header_profile_player(players_reactive_values, all_players)
-    # })
-    #
-    # output$player_profile_basic_info <- renderUI({
-    #     player_profile_basic_info_reactive()
-    # })
-    #
-    # # Violin plots ----------------------------------
-    # player_profile_violin_plots_reactive <- reactive({
-    #     violin_plots_profile_player(all_players_stats, players_reactive_values)
-    # })
-    #
-    # output$player_profile_violin_plots <- renderUI({
-    #     player_profile_violin_plots_reactive()
-    # })
-    #
+    # Change reactive values upon refresh -----------
+    observeEvent(input$profiles_players_refresh, {
+        page <- get_page(session)
+        league <- get_values_from_page(page)$league
+        players_rv[[league]][["profiles_players_name"]] <- input$profiles_players_name
+    })
+
+    # Profile header --------------------------------
+    output$profiles_players_header <- renderUI({
+        page <- get_page(session)
+        profiles_players_header(page, players_rv, all_players)
+    })
+
+    # Violins API request ---------------------------
+    observeEvent(input$profiles_players_violin_refresh, {
+        page <- get_page(session)
+        profiles_players_violin_refresh("profiles_players_violin_refresh", players_rv, page)
+    })
+
+    # Violin plots ----------------------------------
+    output$profiles_players_violins <- renderUI({
+        page <- get_page(session)
+        violin_plots_profiles_players(page, players_rv)
+    })
+
     # # Touch heatmap ---------------------------------
     # player_profile_touch_heatmap_ggplot_reactive <- reactive({
     #     touch_heatmap_ggplot_profile_player(players_reactive_values)

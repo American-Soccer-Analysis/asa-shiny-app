@@ -13,13 +13,15 @@ sidebar_ui <- function(page, league_config, subheaders_rv) {
         menu_list[[i]] <- tags$li(class = "nav-header", h); i <- i + 1
 
         for (m in menu_items) {
-            tab_name_prefix <- paste0(league, "/", tab_header[[m]][["route_link"]])
+            tab_name_prefix <- tab_header[[m]][["route_link"]]
+            subheader <- subheaders_rv[[assemble_key(league, tab_name_prefix)]]
+
             menu_list[[i]] <- tags$li(
                 class = "nav-item",
                 a(
-                    class = ifelse(assemble_key(league, route_prefix) == tab_name_prefix, "nav-link active", "nav-link"),
-                    id = paste0("tab-", paste0(tab_name_prefix, "/", subheaders_rv[[tab_name_prefix]])),
-                    href = route_link_patched(paste0(tab_name_prefix, "/", subheaders_rv[[tab_name_prefix]])),
+                    class = ifelse(assemble_key(league, route_prefix) == assemble_key(league, tab_name_prefix), "nav-link active", "nav-link"),
+                    id = paste0("tab-", assemble_key(league, tab_name_prefix, subheader)),
+                    href = route_link_patched(assemble_key(league, tab_name_prefix, subheader)),
                     icon(
                         tab_header[[m]][["icon"]],
                         class = "nav-icon"

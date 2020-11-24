@@ -35,6 +35,15 @@ league_config <- list(
                     ui = "tables_ui",
                     server = NA
                 )
+            ),
+            Profiles = list(
+                players = list(
+                    display_name = "Players",
+                    route_link = "players",
+                    icon = "user",
+                    ui = "players_ui",
+                    server = NA
+                )
             )
         )
     ),
@@ -64,6 +73,15 @@ league_config <- list(
                     icon = "google-plus-g",
                     subheaders = c("Players", "Teams"),
                     ui = "tables_ui",
+                    server = NA
+                )
+            ),
+            Profiles = list(
+                players = list(
+                    display_name = "Players",
+                    route_link = "players",
+                    icon = "user",
+                    ui = "players_ui",
                     server = NA
                 )
             )

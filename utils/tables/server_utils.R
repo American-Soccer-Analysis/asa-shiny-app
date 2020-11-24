@@ -132,6 +132,14 @@ tables_rv_to_df <- function(page, league_config, tables_rv, client_timezone, dat
         parameters <- parameters[!(grepl("sort_vector", names(parameters)))]
     }
 
+    if ("fixed_columns" %in% names(parameters)) {
+        parameters <- parameters[!(grepl("fixed_columns", names(parameters)))]
+    }
+
+    if ("column_defs" %in% names(parameters)) {
+        parameters <- parameters[!(grepl("column_defs", names(parameters)))]
+    }
+
     if ("goals_added_variation" %in% names(parameters)) {
         if (parameters$goals_added_variation == "Above Replacement") {
             parameters$above_replacement <- TRUE

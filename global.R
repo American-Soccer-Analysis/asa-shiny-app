@@ -18,10 +18,11 @@ library(tidyverse)
 
 # Set universal variables -----------------------
 STAGE <- ifelse(grepl("stage", getwd()), "stage/", "")
-API_PATH <- paste0("https://app.americansocceranalysis.com/", STAGE, "api/v1")
+API_PATH <- paste0("http://127.0.0.1:8001")
 
-# VIOLIN_HEIGHT <- "450px"
-# VIOLIN_WIDTH <- "96%"
+VIOLIN_HEIGHT <- "400px"
+VIOLIN_WIDTH <- "96%"
+VIOLIN_MINIMUM_MINUTES <- 500
 
 FIELD_WIDTH <- 80
 FIELD_LENGTH <- 115
@@ -94,6 +95,29 @@ router_list_to_parse <- gsub(",\\s+$", ")", router_list_to_parse)
 eval(parse(text = router_list_to_parse))
 
 
+# Create lookup for controlbar panel ------------
+controlbar_lookup <- list()
+
+headers <- names(league_config[[league]][["tabs"]])
+for (league in league_schemas) {
+    for (h in headers) {
+        tab_header <- league_config[[league]][["tabs"]][[h]]
+        menu_items <- names(tab_header)
+        for (m in menu_items) {
+            tab_name_prefix <- tab_header[[m]][["route_link"]]
+            subheaders <- tab_header[[m]][["subheaders"]]
+            if (!is.null(subheaders)) {
+                for (s in subheaders) {
+                    controlbar_lookup[[paste0(league, "/", tab_name_prefix, "/", tolower(s))]] <- h
+                }
+            } else {
+                controlbar_lookup[[paste0(league, "/", tab_name_prefix)]] <- h
+            }
+        }
+    }
+}
+
+
 # Utility functions -----------------------------
 api_request <- function(path = API_PATH, endpoint, parameters = NULL) {
     parameters_array <- c()
@@ -119,7 +143,7 @@ api_request <- function(path = API_PATH, endpoint, parameters = NULL) {
                                paste0("?", paste0(parameters_array, collapse = "&")),
                                "")
 
-    return(fromJSON(content(GET(paste0(API_PATH, endpoint, parameters_array)),
+    return(fromJSON(content(GET(paste0(path, endpoint, parameters_array)),
                             as = "text", encoding = "UTF-8")))
 }
 
@@ -128,9 +152,10 @@ get_config_element <- function(league, sidebar_header, route_prefix, league_conf
 }
 
 get_values_from_page <- function(page) {
+    page <- gsub("\\?.*$", "", page)
     league <- gsub("/.*$", "", page)
-    subheader <- gsub(league, "", gsub("^.*/", "", page))
-    route_prefix <- gsub("/", "", gsub(league, "", gsub(subheader, "", page)))
+    route_prefix <- gsub("/.*$", "", gsub("^/", "", gsub(league, "", page)))
+    subheader <- gsub("/", "", gsub(route_prefix, "", gsub(league, "", page)))
 
     return(list(
         league = league,
@@ -140,6 +165,9 @@ get_values_from_page <- function(page) {
 }
 
 assemble_key <- function(league, route_prefix = NA, subheader = NA) {
+    route_prefix <- if (is.null(route_prefix)) NA else route_prefix
+    subheader <- if (is.null(subheader)) NA else subheader
+
     if (!is.na(subheader) > 0) {
         keys <- c()
         for (s in subheader) {

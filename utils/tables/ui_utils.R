@@ -12,6 +12,10 @@ tables_header <- function(page, league_config) {
     route_prefix <- get_values_from_page(page)$route_prefix
     display_name <- get_config_element(league, "Tables", route_prefix, league_config, "display_name")
 
+    if (is.null(display_name)) {
+        return(div())
+    }
+
     bs4Box(
         div(
             class = "header_background",
@@ -27,6 +31,10 @@ tables_subheader <- function(page, league_config) {
     league <- get_values_from_page(page)$league
     route_prefix <- get_values_from_page(page)$route_prefix
     subheaders <- get_config_element(league, "Tables", route_prefix, league_config, "subheaders")
+
+    if (is.null(subheaders)) {
+        return(div())
+    }
 
     bs4Box(
         div(
@@ -58,6 +66,10 @@ tables_body <- function(page, league_config, client_timezone, tables_rv, filteri
     subheader <- get_values_from_page(page)$subheader
 
     rv_key <- assemble_key(league, route_prefix, subheader)
+
+    if (is.null(tables_rv[[rv_key]])) {
+        return(div())
+    }
 
     if (is.null(tables_rv[[rv_key]][["data_frame"]])) {
         tables_rv[[rv_key]][["data_frame"]] <- try(tables_rv_to_df(page, league_config, tables_rv, client_timezone))
@@ -189,6 +201,8 @@ tables_controlbar <- function(page, league_config, tables_rv) {
     league <- get_values_from_page(page)$league
     route_prefix <- get_values_from_page(page)$route_prefix
     subheader <- get_values_from_page(page)$subheader
+
+    rv_key <- assemble_key(league, route_prefix, subheader)
 
     if (any(grepl("xgoals", route_prefix))) {
         if (any(grepl("players", subheader))) {
