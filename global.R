@@ -18,10 +18,11 @@ library(tidyverse)
 
 # Set universal variables -----------------------
 STAGE <- ifelse(grepl("stage", getwd()), "stage/", "")
-API_PATH <- paste0("https://app.americansocceranalysis.com/", STAGE, "api/v1")
+API_PATH <- paste0("http://127.0.0.1:8001")
 
-VIOLIN_HEIGHT <- "450px"
+VIOLIN_HEIGHT <- "400px"
 VIOLIN_WIDTH <- "96%"
+VIOLIN_MINIMUM_MINUTES <- 500
 
 FIELD_WIDTH <- 80
 FIELD_LENGTH <- 115
@@ -142,7 +143,7 @@ api_request <- function(path = API_PATH, endpoint, parameters = NULL) {
                                paste0("?", paste0(parameters_array, collapse = "&")),
                                "")
 
-    return(fromJSON(content(GET(paste0(API_PATH, endpoint, parameters_array)),
+    return(fromJSON(content(GET(paste0(path, endpoint, parameters_array)),
                             as = "text", encoding = "UTF-8")))
 }
 

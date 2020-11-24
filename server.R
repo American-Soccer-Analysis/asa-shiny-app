@@ -112,7 +112,7 @@ server <- function(input, output, session) {
     # API request -----------------------------------
     observeEvent(input$tables_refresh, {
         page <- get_page(session)
-        tables_refresh("tables_refresh", input, tables_rv, page, league_config)
+        tables_refresh("tables_refresh", input, tables_rv, page)
     })
 
     # Hide filtering hint box -----------------------
@@ -151,15 +151,18 @@ server <- function(input, output, session) {
         profiles_players_header(page, players_rv, all_players)
     })
 
-    # # Violin plots ----------------------------------
-    # player_profile_violin_plots_reactive <- reactive({
-    #     violin_plots_profile_player(all_players_stats, players_reactive_values)
-    # })
-    #
-    # output$player_profile_violin_plots <- renderUI({
-    #     player_profile_violin_plots_reactive()
-    # })
-    #
+    # Violins API request ---------------------------
+    observeEvent(input$profiles_players_violin_refresh, {
+        page <- get_page(session)
+        profiles_players_violin_refresh("profiles_players_violin_refresh", players_rv, page)
+    })
+
+    # Violin plots ----------------------------------
+    output$profiles_players_violins <- renderUI({
+        page <- get_page(session)
+        violin_plots_profiles_players(page, players_rv)
+    })
+
     # # Touch heatmap ---------------------------------
     # player_profile_touch_heatmap_ggplot_reactive <- reactive({
     #     touch_heatmap_ggplot_profile_player(players_reactive_values)
