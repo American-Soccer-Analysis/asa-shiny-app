@@ -5,7 +5,7 @@ filtering_hint_ind <- reactiveVal(TRUE)
 tables_rv <- reactiveValues()
 
 for (l in league_schemas) {
-    stage_name_rv <- if (l == "mls") c("Regular Season", "MLS is Back Group Stage") else c("Regular Season", "NWSL Challenge Cup Group Stage")
+    stage_name_rv <- if (l == "mls") c("Regular Season", "MLS is Back Group Stage") else if (l == "nwsl") c("Regular Season", "NWSL Challenge Cup Group Stage") else "Regular Season"
 
     # xGoals ----------------------------------------
     tables_rv[[paste0(l, "/xgoals/players")]] <- list(

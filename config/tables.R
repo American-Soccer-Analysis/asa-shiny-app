@@ -146,20 +146,22 @@ tables_config <- list(
     ),
     share_headed_shots = list(
         app_name = "Header %",
-        tooltip_text = "Share of shots faced that were headed.",
+        tooltip_text = "Share of shots on target faced that were headed.",
         percentage = TRUE
     ),
     xgoals_gk_faced = list(
         app_name = "xG",
-        tooltip_text = "xGoals",
+        tooltip_text = "xGoals (post-shot)",
         normalize = TRUE
     ),
     goals_minus_xgoals_gk = list(
         app_name = "G-xG",
+        tooltip_text = "Negative values are better.",
         normalize = TRUE
     ),
     goals_divided_by_xgoals_gk = list(
-        app_name = "G/xG"
+        app_name = "G/xG",
+        tooltip_text = "Values closer to zero are better."
     ),
     count_games = list(
         app_name = "Games"

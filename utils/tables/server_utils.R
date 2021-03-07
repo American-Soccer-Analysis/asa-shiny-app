@@ -306,15 +306,15 @@ tables_rv_to_df <- function(page, league_config, tables_rv, client_timezone, dat
 
     }
 
-    if ("date_time_et" %in% names(df)) {
+    if ("date_time_utc" %in% names(df)) {
 
         df <- df %>%
             rowwise() %>%
-            mutate(date_time_et = as.POSIXct(date_time_et, tz = database_timezone),
-                   date = format(date_time_et, "%Y-%m-%d", tz = client_timezone),
-                   time = format(date_time_et, "%H:%M", tz = client_timezone, usetz = TRUE)) %>%
+            mutate(date_time_utc = as.POSIXct(date_time_utc, tz = database_timezone),
+                   date = format(date_time_utc, "%Y-%m-%d", tz = client_timezone),
+                   time = format(date_time_utc, "%H:%M", tz = client_timezone, usetz = TRUE)) %>%
             ungroup() %>%
-            select(date, time, everything(), -date_time_et)
+            select(date, time, everything(), -date_time_utc)
 
     }
 
