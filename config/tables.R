@@ -146,7 +146,7 @@ tables_config <- list(
     ),
     share_headed_shots = list(
         app_name = "Header %",
-        tooltip_text = "Share of shots faced that were headed.",
+        tooltip_text = "Share of shots on target faced that were headed.",
         percentage = TRUE
     ),
     xgoals_gk_faced = list(
