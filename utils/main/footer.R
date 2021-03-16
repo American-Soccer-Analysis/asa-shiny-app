@@ -1,7 +1,7 @@
-footer_ui <- function(page, recent_games, client_timezone, database_timezone = DATABASE_TIMEZONE) {
+footer_ui <- function(page, all_games, client_timezone, database_timezone = DATABASE_TIMEZONE) {
     league <- get_values_from_page(page)$league
 
-    last_updated <- as.POSIXct(max(recent_games[[league]]$last_updated_et, na.rm = TRUE), tz = database_timezone)
+    last_updated <- as.POSIXct(max(all_games[[league]]$last_updated_utc, na.rm = TRUE), tz = database_timezone)
     attributes(last_updated)$tzone <- client_timezone
 
     last_updated_date <- format(last_updated, "%B %d, %Y")

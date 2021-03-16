@@ -132,6 +132,14 @@ tables_rv_to_df <- function(page, league_config, tables_rv, client_timezone, dat
         parameters <- parameters[!(grepl("sort_vector", names(parameters)))]
     }
 
+    if ("fixed_columns" %in% names(parameters)) {
+        parameters <- parameters[!(grepl("fixed_columns", names(parameters)))]
+    }
+
+    if ("column_defs" %in% names(parameters)) {
+        parameters <- parameters[!(grepl("column_defs", names(parameters)))]
+    }
+
     if ("goals_added_variation" %in% names(parameters)) {
         if (parameters$goals_added_variation == "Above Replacement") {
             parameters$above_replacement <- TRUE
@@ -298,15 +306,15 @@ tables_rv_to_df <- function(page, league_config, tables_rv, client_timezone, dat
 
     }
 
-    if ("date_time_et" %in% names(df)) {
+    if ("date_time_utc" %in% names(df)) {
 
         df <- df %>%
             rowwise() %>%
-            mutate(date_time_et = as.POSIXct(date_time_et, tz = database_timezone),
-                   date = format(date_time_et, "%Y-%m-%d", tz = client_timezone),
-                   time = format(date_time_et, "%H:%M", tz = client_timezone, usetz = TRUE)) %>%
+            mutate(date_time_utc = as.POSIXct(date_time_utc, tz = database_timezone),
+                   date = format(date_time_utc, "%Y-%m-%d", tz = client_timezone),
+                   time = format(date_time_utc, "%H:%M", tz = client_timezone, usetz = TRUE)) %>%
             ungroup() %>%
-            select(date, time, everything(), -date_time_et)
+            select(date, time, everything(), -date_time_utc)
 
     }
 
