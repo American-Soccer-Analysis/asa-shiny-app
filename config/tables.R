@@ -431,6 +431,67 @@ tables_config <- list(
     Shooting_count_actions = list(
         app_name = "Shooting Actions"
     ),
+
+
+    Shotstopping_goals_added_above_avg = list(
+        app_name = "Shotstopping",
+        normalize = TRUE
+    ),
+    Shotstopping_count_actions = list(
+        app_name = "Shotstopping Actions"
+    ),
+    Handling_goals_added_above_avg = list(
+        app_name = "Handling",
+        normalize = TRUE
+    ),
+    Handling_count_actions = list(
+        app_name = "Handling Actions"
+    ),
+    Claiming_goals_added_above_avg = list(
+        app_name = "Claiming",
+        normalize = TRUE
+    ),
+    Claiming_count_actions = list(
+        app_name = "Claiming Actions"
+    ),
+    Sweeping_goals_added_above_avg = list(
+        app_name = "Sweeping",
+        normalize = TRUE
+    ),
+    Sweeping_count_actions = list(
+        app_name = "Sweeping Actions"
+    ),
+
+    Shotstopping_goals_added_raw = list(
+        app_name = "Shotstopping",
+        normalize = TRUE
+    ),
+    Shotstopping_count_actions = list(
+        app_name = "Shotstopping Actions"
+    ),
+    Handling_goals_added_raw = list(
+        app_name = "Handling",
+        normalize = TRUE
+    ),
+    Handling_count_actions = list(
+        app_name = "Handling Actions"
+    ),
+    Claiming_goals_added_raw = list(
+        app_name = "Claiming",
+        normalize = TRUE
+    ),
+    Claiming_count_actions = list(
+        app_name = "Claiming Actions"
+    ),
+    Sweeping_goals_added_raw = list(
+        app_name = "Sweeping",
+        normalize = TRUE
+    ),
+    Sweeping_count_actions = list(
+        app_name = "Sweeping Actions"
+    ),
+
+
     total_goals_added_above_avg = list(
         app_name = "Goals Added",
         tooltip_text = "Calculated each game against the position at which the player lined up.",

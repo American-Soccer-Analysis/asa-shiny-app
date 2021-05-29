@@ -346,6 +346,27 @@ tables_controlbar <- function(page, league_config, tables_rv) {
                        tables_cb_refresh()
                 )
             )
+        } else if(any(grepl("goalkeepers", subheader))){
+            div(
+                column(12,
+                       h4("Player Settings"),
+                       tables_cb_numeric(page, league_config, tables_rv,
+                                         "Minimum Minutes Played", "minimum_minutes", 25),,
+                       tables_cb_picker(page, league_config, tables_rv, "Teams", "team_id",
+                                        all_teams[[league]]$team_id, all_teams[[league]]$team_abbreviation),
+                       tables_cb_date_filter(page, league_config, tables_rv, all_seasons[[league]]),
+                       tables_cb_picker(page, league_config, tables_rv, "Competition Stages", "stage_name", league_config[[league]][["stages"]]),
+                       p(class = "control-label", "Group Results"),
+                       tables_cb_switch(page, league_config, tables_rv, "Split by Teams", "split_by_teams"),
+                       tables_cb_switch(page, league_config, tables_rv, "Split by Seasons", "split_by_seasons"),
+                       tables_cb_radio(page, league_config, tables_rv, "g+ Variation", "goals_added_variation",
+                                       c("Raw", "Above Average", "Above Replacement")),
+                       tables_cb_radio(page, league_config, tables_rv, "Normalize Results By", "normalize_by",
+                                       c("None", "96 Minutes")),
+                       tables_cb_refresh()
+                )
+            )
+
         } else if(any(grepl("teams", subheader))){
             div(
                 column(12,
