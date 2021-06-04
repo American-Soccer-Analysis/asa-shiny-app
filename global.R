@@ -18,8 +18,8 @@ library(tidyverse)
 
 # Set universal variables -----------------------
 STAGE <- ifelse(grepl("stage", getwd()), "stage/", "")
-#API_PATH <- paste0("https://app.americansocceranalysis.com/", STAGE, "api/v1")
-API_PATH <- "http://127.0.0.1:8001/__swagger__/"
+API_PATH <- paste0("https://app.americansocceranalysis.com/", STAGE, "api/v1")
+#API_PATH <- "http://127.0.0.1:8001"
 
 VIOLIN_HEIGHT <- "400px"
 VIOLIN_WIDTH <- "96%"
