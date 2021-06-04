@@ -461,36 +461,34 @@ tables_config <- list(
     Sweeping_count_actions = list(
         app_name = "Sweeping Actions"
     ),
+    Fielding_goals_added_above_avg = list(
+        app_name = "Fielding",
+        normalize = TRUE
+    ),
+    Fielding_count_actions = list(
+        app_name = "Fielding Actions"
+    ),
 
     Shotstopping_goals_added_raw = list(
         app_name = "Shotstopping",
         normalize = TRUE
     ),
-    Shotstopping_count_actions = list(
-        app_name = "Shotstopping Actions"
-    ),
     Handling_goals_added_raw = list(
         app_name = "Handling",
         normalize = TRUE
-    ),
-    Handling_count_actions = list(
-        app_name = "Handling Actions"
     ),
     Claiming_goals_added_raw = list(
         app_name = "Claiming",
         normalize = TRUE
     ),
-    Claiming_count_actions = list(
-        app_name = "Claiming Actions"
-    ),
     Sweeping_goals_added_raw = list(
         app_name = "Sweeping",
         normalize = TRUE
     ),
-    Sweeping_count_actions = list(
-        app_name = "Sweeping Actions"
+    Fielding_goals_added_raw = list(
+        app_name = "Fielding",
+        normalize = TRUE
     ),
-
 
     total_goals_added_above_avg = list(
         app_name = "Goals Added",
