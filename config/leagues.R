@@ -23,7 +23,7 @@ league_config <- list(
                     display_name = "Goals Added (g+)",
                     route_link = "goals-added",
                     icon = "google-plus-g",
-                    subheaders = c("Players", "Teams"),
+                    subheaders = c("Players", "Teams", "Goalkeepers"),
                     ui = "tables_ui",
                     server = NA
                 ),
@@ -71,7 +71,7 @@ league_config <- list(
                     display_name = "Goals Added (g+)",
                     route_link = "goals-added",
                     icon = "google-plus-g",
-                    subheaders = c("Players", "Teams"),
+                    subheaders = c("Players", "Teams", "Goalkeepers"),
                     ui = "tables_ui",
                     server = NA
                 )
@@ -111,7 +111,7 @@ league_config <- list(
                     display_name = "Goals Added (g+)",
                     route_link = "goals-added",
                     icon = "google-plus-g",
-                    subheaders = c("Players", "Teams"),
+                    subheaders = c("Players", "Teams", "Goalkeepers"),
                     ui = "tables_ui",
                     server = NA
                 )
@@ -151,7 +151,7 @@ league_config <- list(
                     display_name = "Goals Added (g+)",
                     route_link = "goals-added",
                     icon = "google-plus-g",
-                    subheaders = c("Players", "Teams"),
+                    subheaders = c("Players", "Teams", "Goalkeepers"),
                     ui = "tables_ui",
                     server = NA
                 )
@@ -191,7 +191,7 @@ league_config <- list(
                     display_name = "Goals Added (g+)",
                     route_link = "goals-added",
                     icon = "google-plus-g",
-                    subheaders = c("Players", "Teams"),
+                    subheaders = c("Players", "Teams", "Goalkeepers"),
                     ui = "tables_ui",
                     server = NA
                 )

@@ -146,6 +146,26 @@ for (l in league_schemas) {
                            list(className = "min-tablet-p", targets = 0))
     )
 
+    tables_rv[[paste0(l, "/goals-added/goalkeepers")]] <- list(
+        minimum_minutes = 0,
+        date_type = "Season",
+        season_name = max(all_seasons[[l]]),
+        start_date = paste0(max(all_seasons[[l]]), "-01-01"),
+        end_date = paste0(max(all_seasons[[l]]), "-12-31"),
+        general_position = "GK",
+        team_id = all_teams[[l]]$team_id,
+        split_by_teams = FALSE,
+        split_by_seasons = TRUE,
+        stage_name = stage_name_rv,
+        goals_added_variation = "Above Average",
+        normalize_by = "None",
+        sort_vector = list(list("Goals Added", "desc")),
+        fixed_columns = list(leftColumns = 2),
+        column_defs = list(list(width = "55px", targets = 0),
+                           list(orderable = FALSE, targets = 0),
+                           list(className = "min-tablet-p", targets = 0))
+    )
+
     tables_rv[[paste0(l, "/goals-added/teams")]] <- list(
         season_name = max(all_seasons[[l]]),
         zone = FIELD_ZONES,
