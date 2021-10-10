@@ -36,7 +36,7 @@ for (key in league_schemas) {
                                   sort(general_positions[[key]]$general_position[!grepl("(B|M|GK)", general_positions[[key]]$general_position)], decreasing = TRUE))
 
     # Import teams ----------------------------------
-    all_teams[[key]] <- try(api_request(endpoint =assemble_endpoint(key, subheader = "teams")) %>% arrange(team_abbreviation))
+    all_teams[[key]] <- try(api_request(endpoint = assemble_endpoint(key, subheader = "teams")) %>% arrange(team_abbreviation))
 
     # Import game data ------------------------------
     all_games[[key]] <- try(api_request(endpoint = assemble_endpoint(key, subheader = "games")))
