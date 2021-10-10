@@ -152,7 +152,6 @@ for (l in league_schemas) {
         season_name = max(all_seasons[[l]]),
         start_date = paste0(max(all_seasons[[l]]), "-01-01"),
         end_date = paste0(max(all_seasons[[l]]), "-12-31"),
-        general_position = "GK",
         team_id = all_teams[[l]]$team_id,
         split_by_teams = FALSE,
         split_by_seasons = TRUE,
