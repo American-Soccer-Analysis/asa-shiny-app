@@ -188,6 +188,32 @@ tables_rv_to_df <- function(page, league_config, tables_rv, client_timezone, dat
 
         }
 
+    } else if(grepl("goals-added/goalkeepers", rv_key)){
+
+        if (tables_rv[[rv_key]][["goals_added_variation"]] %in% c("Raw", "Above Average")) {
+
+            df <- df %>% unnest(data)
+
+            if (tables_rv[[rv_key]][["goals_added_variation"]] == "Raw") {
+                df <- df %>% select(-goals_added_above_avg)
+            } else if (tables_rv[[rv_key]][["goals_added_variation"]] == "Above Average") {
+                df <- df %>% select(-goals_added_raw)
+            }
+
+            df <- df %>%
+                gather(variable, value, -(player_id:action_type)) %>%
+                pivot_wider(names(df)[which(names(df) %in% c("player_id", "team_id", "season_name", "general_position", "minutes_played"))], names_from = c(action_type, variable), values_from = value)
+
+            df <- df %>%
+                mutate(total_goals_added_above_avg = rowSums(df %>% select(contains("goals_added"))),
+                       total_count_actions = rowSums(df %>% select(contains("count_actions"))))
+
+        } else if (tables_rv[[rv_key]][["goals_added_variation"]] == "Above Replacement") {
+
+            df <- df %>% select(-goals_added_raw)
+
+        }
+
     } else if (grepl("goals-added/teams", rv_key)) {
 
         df <- df %>% unnest(data)
