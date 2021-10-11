@@ -33,6 +33,9 @@ DATABASE_TIMEZONE <- "UTC"
 PATTERNS_OF_PLAY <- c("Corner", "Fastbreak", "Free kick", "Penalty", "Regular", "Set piece")
 THIRDS_OF_FIELD <- c("Attacking", "Middle", "Defensive")
 
+GOALS_ADDED_ACTION_TYPES <- c("Dribbling", "Fouling", "Interrupting", "Passing", "Receiving", "Shooting")
+GOALS_ADDED_GK_ACTION_TYPES <- c("Claiming", "Fielding", "Handling", "Passing", "Shotstopping", "Sweeping")
+
 TRUNCATED_GAMESTATES <- -2:2
 TRUNCATED_GAMESTATES_LABELS <- as.character(c("≤ -2", -1:1, "≥ 2"))
 FIELD_ZONES <- 30:1
