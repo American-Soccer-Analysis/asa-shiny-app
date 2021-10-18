@@ -19,7 +19,7 @@ library(tidyverse)
 # Set universal variables -----------------------
 STAGE <- ifelse(grepl("stage", getwd()), "stage/", "")
 API_PATH <- paste0("https://app.americansocceranalysis.com/", STAGE, "api/v1")
-#API_PATH <- "http://127.0.0.1:8001"
+# API_PATH <- "http://127.0.0.1:8001"
 
 VIOLIN_HEIGHT <- "400px"
 VIOLIN_WIDTH <- "96%"
@@ -33,11 +33,16 @@ DATABASE_TIMEZONE <- "UTC"
 PATTERNS_OF_PLAY <- c("Corner", "Fastbreak", "Free kick", "Penalty", "Regular", "Set piece")
 THIRDS_OF_FIELD <- c("Attacking", "Middle", "Defensive")
 
+GOALS_ADDED_ACTION_TYPES <- c("Dribbling", "Fouling", "Interrupting", "Passing", "Receiving", "Shooting")
+GOALS_ADDED_GK_ACTION_TYPES <- c("Claiming", "Fielding", "Handling", "Passing", "Shotstopping", "Sweeping")
+
 TRUNCATED_GAMESTATES <- -2:2
 TRUNCATED_GAMESTATES_LABELS <- as.character(c("≤ -2", -1:1, "≥ 2"))
 FIELD_ZONES <- 30:1
 
 MLSPA_POSITIONS <- c("GK", "D", "M", "F")
+
+MAX_API_LIMIT <- 1000
 
 
 # Source dashboard utils ------------------------
@@ -120,32 +125,40 @@ for (league in league_schemas) {
 
 
 # Utility functions -----------------------------
-api_request <- function(path = API_PATH, endpoint, parameters = NULL) {
-    parameters_array <- c()
-
-    if (length(parameters) > 0) {
-        for (i in 1:length(parameters)) {
-            tmp_name <- names(parameters[i])
-            tmp_value <- parameters[[tmp_name]]
-
-            if (all(!is.na(tmp_value)) & all(!is.null(tmp_value))) {
-                if (length(tmp_value) > 1) {
-                    tmp_value <- gsub("\\s+", "%20", paste0(tmp_value, collapse = ","))
-                } else {
-                    tmp_value <- gsub("\\s+", "%20", tmp_value)
-                }
-
-                parameters_array <- c(parameters_array, paste0(tmp_name, "=", tmp_value))
-            }
+single_request <- function(path, endpoint, parameters) {
+    for (param_name in names(parameters)) {
+        if (length(parameters[[param_name]]) > 1) {
+            parameters[[param_name]] <- paste0(parameters[[param_name]], collapse = ",")
         }
     }
 
-    parameters_array <- ifelse(length(parameters_array) > 0,
-                               paste0("?", paste0(parameters_array, collapse = "&")),
-                               "")
+    resp <- httr::GET(
+        url = paste0(path, endpoint),
+        query = parameters
+    ) %>%
+        httr::content(as = "text", encoding = "UTF-8") %>%
+        jsonlite::fromJSON()
 
-    return(fromJSON(content(GET(paste0(path, endpoint, parameters_array)),
-                            as = "text", encoding = "UTF-8")))
+    return(resp)
+}
+
+api_request <- function(path = API_PATH, endpoint, parameters = list()) {
+    tmp_resp <- single_request(path, endpoint, parameters)
+    resp <- tmp_resp
+
+    if (is.data.frame(tmp_resp)) {
+        offset <- MAX_API_LIMIT
+
+        while (nrow(tmp_resp) == MAX_API_LIMIT) {
+            parameters$offset <- offset
+            tmp_resp <- single_request(path, endpoint, parameters)
+
+            resp <- resp %>% bind_rows(tmp_resp)
+            offset <- offset + MAX_API_LIMIT
+        }
+    }
+
+    return(resp)
 }
 
 get_config_element <- function(league, sidebar_header, route_prefix, league_config, element) {
