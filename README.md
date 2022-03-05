@@ -8,6 +8,13 @@
 
 We built this interactive web application to give ASA's loyal readers more autonomy to sort, filter, and download our data. It features summary-level data of teams and players participating in [Major League Soccer](https://app.americansocceranalysis.com/mls/) and the [National Women's Soccer League](https://app.americansocceranalysis.com/nwsl/).
 
+## Running the app via Docker
+
+```sh
+docker build -t asa-shiny .
+docker run -p 80:80 asa-shiny
+```
+
 ## Contributing
 
 If you'd like to report a bug or request a new feature, please use the [Issues tab](https://github.com/American-Soccer-Analysis/asa-shiny-app/issues) in this repository.
@@ -36,9 +43,3 @@ This application was built and is maintained by [Matthias Kullowatz](https://git
 
 If you use any of the data we make publicly available, we kindly ask that you provide credit and link back to the [American Soccer Analysis website](https://www.americansocceranalysis.com/). Thanks!
 
-## Running the app via Docker
-
-```sh
-docker build -t asa-shiny .
-docker run -p 80:80 asa-shiny
-```
