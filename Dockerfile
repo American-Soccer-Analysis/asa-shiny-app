@@ -1,5 +1,6 @@
 # Base image https://hub.docker.com/u/rocker/
-FROM rocker/shiny-verse:latest
+# Match R version in renv.lock
+FROM rocker/r-ver:3.6.2
 
 RUN apt-get update -qq && apt-get -y --no-install-recommends install \
     libxml2-dev \
