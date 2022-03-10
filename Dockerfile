@@ -1,6 +1,6 @@
 # Base image https://hub.docker.com/u/rocker/
 # Match R version in renv.lock
-FROM rocker/r-ver:3.6.2
+FROM rocker/rstudio:3.6.2
 
 RUN apt-get update -qq && apt-get -y --no-install-recommends install \
     libxml2-dev \
@@ -27,6 +27,7 @@ COPY utils/ ./utils/
 
 # Install renv & restore packages
 RUN Rscript -e 'install.packages("renv")'
+RUN Rscript -e 'renv::consent(provided=TRUE)'
 RUN Rscript -e 'renv::restore()'
 
 # Expose port
