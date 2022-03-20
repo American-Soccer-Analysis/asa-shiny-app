@@ -1,7 +1,7 @@
 # Initialize dictionaries -----------------------
-vars_to_initialize <- c("all_seasons", "salaries_distinct", "salaries_seasons", "salaries_most_recent",
-                        "all_players_tmp", "general_positions", "all_teams", "all_games",
-                        "player_lookup", "all_players", "players_dropdown")
+vars_to_initialize <- c("all_seasons", "all_stages", "salaries_distinct", "salaries_seasons",
+                        "salaries_most_recent", "all_players_tmp", "general_positions",
+                        "all_teams", "all_games", "player_lookup", "all_players", "players_dropdown")
 
 for (v in vars_to_initialize) {
     assign(v, list())
@@ -14,7 +14,7 @@ for (key in league_schemas) {
     all_seasons[[key]] <- try(api_request(endpoint = assemble_endpoint(key, subheader = "games"), parameters = list(distinct_seasons = TRUE))$season_name)
 
     # Get distinct stages ---------------------------
-    league_config[[key]][["stages"]] <- try(api_request(endpoint = assemble_endpoint(key, subheader = "games"), parameters = list(distinct_stages = TRUE))$stage_name)
+    all_stages[[key]] <- try(api_request(endpoint = assemble_endpoint(key, subheader = "games"), parameters = list(distinct_stages = TRUE))$stage_name)
 
     # Get distinct seasons for salary releases ------
     if (key == "mls") {
