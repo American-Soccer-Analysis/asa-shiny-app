@@ -6,7 +6,14 @@
 
 ## About the App
 
-We built this interactive web application to give ASA's loyal readers more autonomy to sort, filter, and download our data. It features summary-level data of teams and players participating in [Major League Soccer](https://app.americansocceranalysis.com/mls/) and the [National Women's Soccer League](https://app.americansocceranalysis.com/nwsl/).
+We built this interactive web application to give ASA's loyal readers more autonomy to sort, filter, and download our data. It features summary-level data of teams and players participating in the following competitions: 
+
+- Major League Soccer (MLS)
+- National Women's Soccer League (NWSL)
+- USL Championship
+- USL League One
+- MLS Next Pro
+- North American Soccer League (NASL)
 
 ## Running the app via Docker
 
@@ -19,7 +26,7 @@ docker run -p 80:80 asa-shiny
 
 If you'd like to report a bug or request a new feature, please use the [Issues tab](https://github.com/American-Soccer-Analysis/asa-shiny-app/issues) in this repository.
 
-Alternatively, if you'd like to help us squash bugs or add new features, drop us a message first! From there, follow [these general guidelines](https://github.com/MarcDiethelm/contributing/blob/master/README.md) for making a clean pull request. When you clone the forked repository to your local machine, use [`renv::restore()`](https://rstudio.github.io/renv/articles/renv.html) to recreate the virtual R environment. (Note that there are currently multiple environments/projects/apps &mdash; one for each league.) Once you're ready to make the pull request, we ask that you target the `develop` branch.
+Alternatively, if you'd like to help us squash bugs or add new features, drop us a message first! From there, follow [these general guidelines](https://github.com/MarcDiethelm/contributing/blob/master/README.md) for making a clean pull request. When you clone the forked repository to your local machine, use [`renv::restore()`](https://rstudio.github.io/renv/articles/renv.html) to recreate the virtual R environment.
 
 ## Acknowledgments
 
@@ -39,7 +46,7 @@ Thanks to the developers of these integral, open source libraries:
 
 ## Attribution
 
-This application was built and is maintained by [Matthias Kullowatz](https://github.com/mattyanselmo), [Rory Pulvino](https://github.com/rvino), and [Tyler Richardett](https://github.com/tyler-richardett).
+This application was built and is maintained by [Brian Greenwood](https://github.com/bgrnwd), [Matthias Kullowatz](https://github.com/mattyanselmo), [Rory Pulvino](https://github.com/rvino), and [Tyler Richardett](https://github.com/tyler-richardett).
 
 If you use any of the data we make publicly available, we kindly ask that you provide credit and link back to the [American Soccer Analysis website](https://www.americansocceranalysis.com/). Thanks!
 
