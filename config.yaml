@@ -1,0 +1,659 @@
+leagues:
+    - schema: mls
+      name: Major League Soccer
+
+    - schema: nwsl
+      name: National Women's Soccer League
+
+    - schema: uslc
+      name: USL Championship
+
+    - schema: usl1
+      name: USL League One
+
+    - schema: mlsnp
+      name: MLS Next Pro
+
+    - schema: nasl
+      name: North American Soccer League
+
+tabs:
+    - Tables:
+        - route_link: xgoals
+          display_name: xGoals
+          icon: futbol-o
+          subheaders: [Players, Teams, Games, Goalkeepers]
+          ui: tables_ui
+          leagues: [mls, nwsl, uslc, usl1, mlsnp, nasl]
+
+        - route_link: xpass
+          display_name: xPass
+          icon: bullseye
+          subheaders: [Players, Teams]
+          ui: tables_ui
+          leagues: [mls, nwsl, uslc, usl1, mlsnp, nasl]
+
+        - route_link: goals-added
+          display_name: Goals Added (g+)
+          icon: google-plus-g
+          subheaders: [Players, Teams, Goalkeepers]
+          ui: tables_ui
+          leagues: [mls, nwsl, uslc, usl1, mlsnp, nasl]
+
+        - route_link: salaries
+          display_name: Salaries
+          icon: usd
+          subheaders: [Players, Teams]
+          ui: tables_ui
+          leagues: [mls]
+
+columns:
+    - api_name: player_id
+      app_name: "Player"
+
+    - api_name: player_headshot
+      app_name: ""
+
+    - api_name: team_id
+      app_name: "Team"
+
+    - api_name: club_logo
+      app_name: ""
+
+    - api_name: general_position
+      app_name: "Position"
+
+    - api_name: season_name
+      app_name: "Season"
+
+    - api_name: minutes_played
+      app_name: "Minutes"
+      tooltip_text: "Includes stoppage time."
+
+    - api_name: shots
+      app_name: "Shots"
+      normalize: true
+
+    - api_name: shots_on_target
+      app_name: "SoT"
+      tooltip_text: "Shots on Target"
+      normalize: true
+
+    - api_name: goals
+      app_name: "G"
+      tooltip_text: "Goals"
+      normalize: true
+
+    - api_name: xgoals
+      app_name: "xG"
+      tooltip_text: "xGoals"
+      normalize: true
+
+    - api_name: xplace
+      app_name: "xPlace"
+      tooltip_text: "Difference between post- and pre-shot xG models."
+      normalize: true
+
+    - api_name: goals_minus_xgoals
+      app_name: "G-xG"
+      normalize: true
+
+    - api_name: key_passes
+      app_name: "KeyP"
+      tooltip_text: "Key Passes"
+      normalize: true
+
+    - api_name: primary_assists
+      app_name: "A"
+      tooltip_text: "Primary Assists"
+      normalize: true
+
+    - api_name: xassists
+      app_name: "xA"
+      tooltip_text: "xAssists"
+      normalize: true
+
+    - api_name: primary_assists_minus_xassists
+      app_name: "A-xA"
+      normalize: true
+
+    - api_name: xgoals_plus_xassists
+      app_name: "xG+xA"
+      normalize: true
+
+    - api_name: points_added
+      app_name: "PA"
+      tooltip_text: "Expected points added through scoring goals."
+      normalize: true
+
+    - api_name: xpoints_added
+      app_name: "xPA"
+      tooltip_text: "Expected points added through taking shots."
+      normalize: true
+
+    - api_name: attempted_passes
+      app_name: "Passes"
+      normalize: true
+
+    - api_name: pass_completion_percentage
+      app_name: "Pass %"
+      tooltip_text: "Pass Completion"
+      percentage: true
+
+    - api_name: xpass_completion_percentage
+      app_name: "xPass %"
+      tooltip_text: "Expected pass completion percentage."
+      percentage: true
+
+    - api_name: passes_completed_over_expected
+      app_name: "Score"
+      tooltip_text: "Number of passes completed over/under expected."
+      normalize: true
+
+    - api_name: passes_completed_over_expected_p100
+      app_name: "Per100"
+      tooltip_text: "Passes completed over/under expected, measured per 100 passes."
+
+    - api_name: avg_distance_yds
+      app_name: "Distance"
+      tooltip_text: "Average distance of completed passes, measured in yards. Assumes 115x80 field dimensions."
+
+    - api_name: avg_vertical_distance_yds
+      app_name: "Vertical"
+      tooltip_text: "Average vertical distance of completed passes, measured in yards. Assumes 115x80 field dimensions."
+
+    - api_name: share_team_touches
+      app_name: "Touch %"
+      tooltip_text: "Players' share of their team's number of touches."
+      percentage: true
+
+    - api_name: position
+      app_name: "Position"
+
+    - api_name: base_salary
+      app_name: "Base Salary"
+      currency: true
+
+    - api_name: guaranteed_compensation
+      app_name: "Guaranteed Compensation"
+      currency: true
+
+    - api_name: mlspa_release
+      app_name: "Date"
+
+    - api_name: shots_faced
+      app_name: "Shots Faced"
+      normalize: true
+
+    - api_name: goals_conceded
+      app_name: "Goals Conceded"
+      normalize: true
+
+    - api_name: saves
+      app_name: "Saves"
+      normalize: true
+
+    - api_name: share_headed_shots
+      app_name: "Header %"
+      tooltip_text: "Share of shots on target faced that were headed."
+      percentage: true
+
+    - api_name: xgoals_gk_faced
+      app_name: "xG"
+      tooltip_text: "xGoals (post-shot)"
+      normalize: true
+
+    - api_name: goals_minus_xgoals_gk
+      app_name: "G-xG"
+      tooltip_text: "Negative values are better."
+      normalize: true
+
+    - api_name: goals_divided_by_xgoals_gk
+      app_name: "G/xG"
+      tooltip_text: "Values closer to zero are better."
+
+    - api_name: count_games
+      app_name: "Games"
+
+    - api_name: shots_for
+      app_name: "ShtF"
+      tooltip_text: "Shots For"
+      normalize: true
+
+    - api_name: shots_against
+      app_name: "ShtA"
+      tooltip_text: "Shots Against"
+      normalize: true
+
+    - api_name: goals_for
+      app_name: "GF"
+      tooltip_text: "Goals For (Own goals excluded.)"
+      normalize: true
+
+    - api_name: goals_against
+      app_name: "GA"
+      tooltip_text: "Goals Against (Own goals excluded.)"
+      normalize: true
+
+    - api_name: goal_difference
+      app_name: "GD"
+      tooltip_text: "Goal Difference (Own goals excluded.)"
+      normalize: true
+
+    - api_name: xgoals_for
+      app_name: "xGF"
+      tooltip_text: "xGoals For (Own goals excluded.)"
+      normalize: true
+
+    - api_name: xgoals_against
+      app_name: "xGA"
+      tooltip_text: "xGoals Against (Own goals excluded.)"
+      normalize: true
+
+    - api_name: xgoal_difference
+      app_name: "xGD"
+      tooltip_text: "xGoal Difference (Own goals excluded.)"
+      normalize: true
+
+    - api_name: goal_difference_minus_xgoal_difference
+      app_name: "GD-xGD"
+      normalize: true
+
+    - api_name: points
+      app_name: "Pts"
+      normalize: true
+
+    - api_name: xpoints
+      app_name: "xPts"
+      tooltip_text: "Expected points earned, given the same sample of shots over 1,000 simulations."
+      normalize: true
+
+    - api_name: attempted_passes_for
+      app_name: "PassF"
+      normalize: true
+
+    - api_name: pass_completion_percentage_for
+      app_name: "PctF"
+      tooltip_text: "Pass Completion"
+      percentage: true
+
+    - api_name: xpass_completion_percentage_for
+      app_name: "xPctF"
+      tooltip_text: "Expected pass completion percentage."
+      percentage: true
+
+    - api_name: passes_completed_over_expected_for
+      app_name: "ScoreF"
+      tooltip_text: "Number of passes completed over/under expected."
+      normalize: true
+
+    - api_name: passes_completed_over_expected_p100_for
+      app_name: "Per100F"
+      tooltip_text: "Passes completed over/under expected, measured per 100 passes."
+
+    - api_name: avg_vertical_distance_for
+      app_name: "VertF"
+      tooltip_text: "Average vertical distance of completed passes, measured in yards. Assumes 115x80 field dimensions."
+
+    - api_name: attempted_passes_against
+      app_name: "PassA"
+      normalize: true
+
+    - api_name: pass_completion_percentage_against
+      app_name: "PctA"
+      tooltip_text: "Pass Completion"
+      percentage: true
+
+    - api_name: xpass_completion_percentage_against
+      app_name: "xPctA"
+      tooltip_text: "Expected pass completion percentage."
+      percentage: true
+
+    - api_name: passes_completed_over_expected_against
+      app_name: "ScoreA"
+      tooltip_text: "Number of passes completed over/under expected."
+      normalize: true
+
+    - api_name: passes_completed_over_expected_p100_against
+      app_name: "Per100A"
+      tooltip_text: "Passes completed over/under expected, measured per 100 passes."
+
+    - api_name: avg_vertical_distance_against
+      app_name: "VertA"
+      tooltip_text: "Average vertical distance of completed passes, measured in yards. Assumes 115x80 field dimensions."
+
+    - api_name: passes_completed_over_expected_difference
+      app_name: "ScoreDiff"
+      tooltip_text: "Number of passes completed over/under expected."
+      normalize: true
+
+    - api_name: avg_vertical_distance_difference
+      app_name: "VertDiff"
+      tooltip_text: "Average vertical distance of completed passes, measured in yards. Assumes 115x80 field dimensions."
+
+    - api_name: count_players
+      app_name: "N"
+
+    - api_name: total_guaranteed_compensation
+      app_name: "TotalGuar"
+      tooltip_text: "Sum of Guaranteed Compensation"
+      currency: true
+
+    - api_name: avg_guaranteed_compensation
+      app_name: "AvgGuar"
+      tooltip_text: "Average Guaranteed Compensation"
+      currency: true
+
+    - api_name: median_guaranteed_compensation
+      app_name: "MedGuar"
+      tooltip_text: "Median Guaranteed Compensation"
+      currency: true
+
+    - api_name: std_dev_guaranteed_compensation
+      app_name: "StdDevGuar"
+      tooltip_text: "Standard Deviation of Guaranteed Compensation"
+      currency: true
+
+    - api_name: date
+      app_name: "Date"
+
+    - api_name: time
+      app_name: "Time"
+
+    - api_name: home_team_id
+      app_name: "Home"
+
+    - api_name: home_goals
+      app_name: "HG"
+      tooltip_text: "Goals (Own goals excluded.)"
+
+    - api_name: home_team_xgoals
+      app_name: "HxGt"
+      tooltip_text: "Team xGoals (Conditional probabilities are applied to ensure the xGoals value of a single possession never exceeds 1.)"
+
+    - api_name: home_player_xgoals
+      app_name: "HxGp"
+      tooltip_text: "Player xGoals"
+
+    - api_name: away_team_id
+      app_name: "Away"
+
+    - api_name: away_goals
+      app_name: "AG"
+      tooltip_text: "Goals (Own goals excluded.)"
+
+    - api_name: away_team_xgoals
+      app_name: "AxGt"
+      tooltip_text: "Team xGoals (Conditional probabilities are applied to ensure the xGoals value of a single possession never exceeds 1.)"
+
+    - api_name: away_player_xgoals
+      app_name: "AxGp"
+      tooltip_text: "Player xGoals"
+
+    - api_name: team_xgoal_difference
+      app_name: "xGDt"
+      tooltip_text: "Team xGoals (Conditional probabilities are applied to ensure the xGoals value of a single possession never exceeds 1.)"
+
+    - api_name: player_xgoal_difference
+      app_name: "xGDp"
+      tooltip_text: "Player xGoals"
+
+    - api_name: final_score_difference
+      app_name: "Final"
+      tooltip_text: "Final Score Difference (Own goals included.)"
+
+    - api_name: home_xpoints
+      app_name: "HxPts"
+      tooltip_text: "Expected points earned, given the same sample of shots over 1,000 simulations."
+
+    - api_name: away_xpoints
+      app_name: "AxPts"
+      tooltip_text: "Expected points earned, given the same sample of shots over 1,000 simulations."
+
+    - api_name: Dribbling_goals_added_raw
+      app_name: "Dribbling"
+      normalize: true
+
+    - api_name: Fouling_goals_added_raw
+      app_name: "Fouling"
+      normalize: true
+
+    - api_name: Interrupting_goals_added_raw
+      app_name: "Interrupting"
+      normalize: true
+
+    - api_name: Passing_goals_added_raw
+      app_name: "Passing"
+      normalize: true
+
+    - api_name: Receiving_goals_added_raw
+      app_name: "Receiving"
+      normalize: true
+
+    - api_name: Shooting_goals_added_raw
+      app_name: "Shooting"
+      normalize: true
+
+    - api_name: total_goals_added_raw
+      app_name: "Goals Added"
+      normalize: true
+
+    - api_name: Dribbling_goals_added_above_avg
+      app_name: "Dribbling"
+      normalize: true
+
+    - api_name: Dribbling_count_actions
+      app_name: "Dribbling Actions"
+
+    - api_name: Fouling_goals_added_above_avg
+      app_name: "Fouling"
+      normalize: true
+
+    - api_name: Fouling_count_actions
+      app_name: "Fouling Actions"
+
+    - api_name: Interrupting_goals_added_above_avg
+      app_name: "Interrupting"
+      normalize: true
+
+    - api_name: Interrupting_count_actions
+      app_name: "Interrupting Actions"
+
+    - api_name: Passing_goals_added_above_avg
+      app_name: "Passing"
+      normalize: true
+
+    - api_name: Passing_count_actions
+      app_name: "Passing Actions"
+
+    - api_name: Receiving_goals_added_above_avg
+      app_name: "Receiving"
+      normalize: true
+
+    - api_name: Receiving_count_actions
+      app_name: "Receiving Actions"
+
+    - api_name: Shooting_goals_added_above_avg
+      app_name: "Shooting"
+      normalize: true
+
+    - api_name: Shooting_count_actions
+      app_name: "Shooting Actions"
+
+    - api_name: Shotstopping_goals_added_above_avg
+      app_name: "Shotstopping"
+      normalize: true
+
+    - api_name: Shotstopping_count_actions
+      app_name: "Shotstopping Actions"
+
+    - api_name: Handling_goals_added_above_avg
+      app_name: "Handling"
+      normalize: true
+
+    - api_name: Handling_count_actions
+      app_name: "Handling Actions"
+
+    - api_name: Claiming_goals_added_above_avg
+      app_name: "Claiming"
+      normalize: true
+
+    - api_name: Claiming_count_actions
+      app_name: "Claiming Actions"
+
+    - api_name: Sweeping_goals_added_above_avg
+      app_name: "Sweeping"
+      normalize: true
+
+    - api_name: Sweeping_count_actions
+      app_name: "Sweeping Actions"
+
+    - api_name: Fielding_goals_added_above_avg
+      app_name: "Fielding"
+      normalize: true
+
+    - api_name: Fielding_count_actions
+      app_name: "Fielding Actions"
+
+    - api_name: Shotstopping_goals_added_raw
+      app_name: "Shotstopping"
+      normalize: true
+
+    - api_name: Handling_goals_added_raw
+      app_name: "Handling"
+      normalize: true
+
+    - api_name: Claiming_goals_added_raw
+      app_name: "Claiming"
+      normalize: true
+
+    - api_name: Sweeping_goals_added_raw
+      app_name: "Sweeping"
+      normalize: true
+
+    - api_name: Fielding_goals_added_raw
+      app_name: "Fielding"
+      normalize: true
+
+    - api_name: total_goals_added_above_avg
+      app_name: "Goals Added"
+      tooltip_text: "Calculated each game against the position at which the player lined up."
+      normalize: true
+
+    - api_name: total_count_actions
+      app_name: "All Actions"
+
+    - api_name: goals_added_above_replacement
+      app_name: "Goals Added"
+      normalize: true
+
+    - api_name: count_actions
+      app_name: "All Actions"
+
+    - api_name: minutes
+      app_name: "Minutes"
+
+    - api_name: goals_added_for_Dribbling
+      app_name: "DribblingF"
+      normalize: true
+
+    - api_name: num_actions_for_Dribbling
+      app_name: "Dribbling ActionsF"
+
+    - api_name: goals_added_for_Fouling
+      app_name: "FoulingF"
+      normalize: true
+
+    - api_name: num_actions_for_Fouling
+      app_name: "Fouling ActionsF"
+
+    - api_name: goals_added_for_Interrupting
+      app_name: "InterruptingF"
+      normalize: true
+
+    - api_name: num_actions_for_Interrupting
+      app_name: "Interrupting ActionsF"
+
+    - api_name: goals_added_for_Passing
+      app_name: "PassingF"
+      normalize: true
+
+    - api_name: num_actions_for_Passing
+      app_name: "Passing ActionsF"
+
+    - api_name: goals_added_for_Receiving
+      app_name: "ReceivingF"
+      normalize: true
+
+    - api_name: num_actions_for_Receiving
+      app_name: "Receiving ActionsF"
+
+    - api_name: goals_added_for_Shooting
+      app_name: "ShootingF"
+      normalize: true
+
+    - api_name: num_actions_for_Shooting
+      app_name: "Shooting ActionsF"
+
+    - api_name: total_goals_added_for
+      app_name: "Goals AddedF"
+      tooltip_text: "Ignores interrupting g+."
+      normalize: true
+
+    - api_name: total_count_actions_for
+      app_name: "All ActionsF"
+
+    - api_name: goals_added_against_Dribbling
+      app_name: "DribblingA"
+      normalize: true
+
+    - api_name: num_actions_against_Dribbling
+      app_name: "Dribbling ActionsA"
+
+    - api_name: goals_added_against_Fouling
+      app_name: "FoulingA"
+      normalize: true
+
+    - api_name: num_actions_against_Fouling
+      app_name: "Fouling ActionsA"
+
+    - api_name: goals_added_against_Interrupting
+      app_name: "InterruptingA"
+      normalize: true
+
+    - api_name: num_actions_against_Interrupting
+      app_name: "Interrupting ActionsA"
+
+    - api_name: goals_added_against_Passing
+      app_name: "PassingA"
+      normalize: true
+
+    - api_name: num_actions_against_Passing
+      app_name: "Passing ActionsA"
+
+    - api_name: goals_added_against_Receiving
+      app_name: "ReceivingA"
+      normalize: true
+
+    - api_name: num_actions_against_Receiving
+      app_name: "Receiving ActionsA"
+
+    - api_name: goals_added_against_Shooting
+      app_name: "ShootingA"
+      normalize: true
+
+    - api_name: num_actions_against_Shooting
+      app_name: "Shooting ActionsA"
+
+    - api_name: total_goals_added_against
+      app_name: "Goals AddedA"
+      tooltip_text: "Ignores interrupting g+."
+      normalize: true
+
+    - api_name: total_count_actions_against
+      app_name: "All ActionsA"
+
+    - api_name: total_goals_added_differential
+      app_name: "Goals Added diff"
+      tooltip_text: "Ignores interrupting g+."
+      normalize: true

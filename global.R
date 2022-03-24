@@ -53,22 +53,27 @@ lapply(utils_to_source, source)
 
 
 # Source all configs ----------------------------
-lapply(list.files("config", recursive = TRUE, full.names = TRUE), source)
+config_yaml <- yaml::read_yaml("config.yaml")
+
+league_config <- config_yaml$leagues
+tab_config <- config_yaml$tabs
+column_config <- config_yaml$columns
 
 # League configs --------------------------------
-league_schemas <- names(league_config)
+league_schemas <- sapply(league_config, "[[", "schema")
 
 # Table configs ---------------------------------
-tmp_tables <- do.call(bind_rows, tables_config) %>% mutate(api_name = names(tables_config))
+tmp_tables <- do.call(dplyr::bind_rows, column_config)
 
-tables_column_name_map <- tmp_tables %>% select(app_name, api_name)
-tables_column_tooltip_text <- tmp_tables %>% select(api_name, tooltip_text) %>% filter(!is.na(tooltip_text))
+tables_column_name_map <- tmp_tables %>% dplyr::select(app_name, api_name)
+tables_column_tooltip_text <- tmp_tables %>% dplyr::select(api_name, tooltip_text) %>% dplyr::filter(!is.na(tooltip_text))
 tables_percentage_columns <- unique(tmp_tables$app_name[!is.na(tmp_tables$percentage)])
 tables_currency_columns <- unique(tmp_tables$app_name[!is.na(tmp_tables$currency)])
 tables_normalize_columns <- unique(tmp_tables$api_name[!is.na(tmp_tables$normalize)])
 
 
 # Initialize shiny router -----------------------
+tab_groups <- sapply(tab_config, names)
 router_list_to_parse <- "router <- make_router(default = "
 
 for (league in league_schemas) {
@@ -76,42 +81,45 @@ for (league in league_schemas) {
                                    league, "\", ",
                                    "home_ui", ", ",
                                    NA, "), ")
-    tabs <- flatten(league_config[[league]][["tabs"]])
-    for (tab in tabs) {
-        header <- tab$route_link
-        subheaders <- tab$subheaders
-        if (!is.null(subheaders)) {
-            for (s in subheaders) {
-                router_list_to_parse <- paste0(router_list_to_parse, "route(\"",
-                                               paste0(league, "/", header, "/", tolower(s)), "\", ",
-                                               tab$ui, ", ",
-                                               tab$server,  "), ")
+    for (tab_group in tab_groups) {
+        i <- which(tab_groups == tab_group)
+        tabs <- tab_config[[i]][[tab_group]]
+        for (tab in tabs) {
+            if (league %in% tab$leagues) {
+                header <- tab$route_link
+                subheaders <- tab$subheaders
+                if (!is.null(subheaders)) {
+                    for (s in subheaders) {
+                        router_list_to_parse <- paste0(router_list_to_parse, "route(\"",
+                                                       paste0(league, "/", header, "/", tolower(s)), "\", ",
+                                                       tab$ui, ", ",
+                                                       tab$server,  "), ")
+                    }
+                } else {
+                    router_list_to_parse <- paste0(router_list_to_parse, "route(\"",
+                                                   paste0(league, "/", header), "\", ",
+                                                   tab$ui, ", ",
+                                                   tab$server,  "), ")
+                }
             }
-        } else {
-            router_list_to_parse <- paste0(router_list_to_parse, "route(\"",
-                                           paste0(league, "/", header), "\", ",
-                                           tab$ui, ", ",
-                                           tab$server,  "), ")
         }
     }
 }
 
 router_list_to_parse <- gsub(",\\s+$", ")", router_list_to_parse)
-
 eval(parse(text = router_list_to_parse))
 
 
 # Create lookup for controlbar panel ------------
 controlbar_lookup <- list()
 
-headers <- names(league_config[[league]][["tabs"]])
 for (league in league_schemas) {
-    for (h in headers) {
-        tab_header <- league_config[[league]][["tabs"]][[h]]
-        menu_items <- names(tab_header)
-        for (m in menu_items) {
-            tab_name_prefix <- tab_header[[m]][["route_link"]]
-            subheaders <- tab_header[[m]][["subheaders"]]
+    for (tab_group in tab_groups) {
+        i <- which(tab_groups == tab_group)
+        tabs <- tab_config[[i]][[tab_group]]
+        for (tab in tabs) {
+            tab_name_prefix <- tab$route_link
+            subheaders <- tab$subheaders
             if (!is.null(subheaders)) {
                 for (s in subheaders) {
                     controlbar_lookup[[paste0(league, "/", tab_name_prefix, "/", tolower(s))]] <- h
@@ -161,8 +169,15 @@ api_request <- function(path = API_PATH, endpoint, parameters = list()) {
     return(resp)
 }
 
-get_config_element <- function(league, sidebar_header, route_prefix, league_config, element) {
-    return(league_config[[league]][["tabs"]][[sidebar_header]][[route_prefix]][[element]])
+get_config_element <- function(league, tab_group, route_prefix, tab_config, element) {
+    tab_groups <- sapply(tab_config, names)
+    i <- which(tab_groups == tab_group)
+
+    tab <- tab_config[[i]][[tab_group]]
+    route_links <- sapply(tab, "[[", "route_link")
+    j <- which(route_links == route_prefix)
+
+    return(tab[[j]][[element]])
 }
 
 get_values_from_page <- function(page) {
