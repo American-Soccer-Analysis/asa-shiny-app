@@ -122,10 +122,10 @@ for (league in league_schemas) {
             subheaders <- tab$subheaders
             if (!is.null(subheaders)) {
                 for (s in subheaders) {
-                    controlbar_lookup[[paste0(league, "/", tab_name_prefix, "/", tolower(s))]] <- h
+                    controlbar_lookup[[paste0(league, "/", tab_name_prefix, "/", tolower(s))]] <- tab_group
                 }
             } else {
-                controlbar_lookup[[paste0(league, "/", tab_name_prefix)]] <- h
+                controlbar_lookup[[paste0(league, "/", tab_name_prefix)]] <- tab_group
             }
         }
     }
