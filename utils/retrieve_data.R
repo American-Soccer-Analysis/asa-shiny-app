@@ -36,7 +36,7 @@ for (key in league_schemas) {
                                   sort(general_positions[[key]]$general_position[!grepl("(B|M|GK)", general_positions[[key]]$general_position)], decreasing = TRUE))
 
     # Import teams ----------------------------------
-    all_teams[[key]] <- try(api_request(endpoint = assemble_endpoint(key, subheader = "teams")) %>% arrange(team_abbreviation))
+    all_teams[[key]] <- try(api_request(endpoint = assemble_endpoint(key, subheader = "teams")))
 
     # Import game data ------------------------------
     all_games[[key]] <- try(api_request(endpoint = assemble_endpoint(key, subheader = "games")))
@@ -46,21 +46,30 @@ for (key in league_schemas) {
         all(class(player_lookup[[key]]) == "try-error") | all(class(all_teams[[key]]) == "try-error") |
         all(class(all_games[[key]]) == "try-error")) {
 
-        stopApp()
+        shiny::stopApp()
 
     }
 
-    # Reshape player ID lookup ----------------------
-    player_lookup[[key]] <- all_players_tmp[[key]] %>% select(player_id, player_name)
+    if (length(all_teams[[key]]) > 0) {
+        all_teams[[key]] <- all_teams[[key]] %>%
+            dplyr::arrange(team_abbreviation)
+    }
 
-    # Reshape for dropdown menu ---------------------
-    all_players[[key]] <- all_players_tmp[[key]] %>%
-        select(-season_name) %>%
-        mutate(birth_date = as.Date(birth_date)) %>%
-        arrange(player_name)
+    if (length(all_players_tmp[[key]]) > 0) {
 
-    players_dropdown[[key]] <- all_players[[key]] %>%
-        select(value = player_id,
-               label = player_name)
+        # Reshape player ID lookup ----------------------
+        player_lookup[[key]] <- all_players_tmp[[key]] %>% select(player_id, player_name)
+
+        # Reshape for dropdown menu ---------------------
+        all_players[[key]] <- all_players_tmp[[key]] %>%
+            select(-season_name) %>%
+            mutate(birth_date = as.Date(birth_date)) %>%
+            arrange(player_name)
+
+        players_dropdown[[key]] <- all_players[[key]] %>%
+            select(value = player_id,
+                   label = player_name)
+
+    }
 
 }
