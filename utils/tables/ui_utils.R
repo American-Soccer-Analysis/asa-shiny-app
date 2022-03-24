@@ -7,10 +7,10 @@ tables_ui <- div(
 
 
 # Header ----------------------------------------
-tables_header <- function(page, league_config) {
+tables_header <- function(page, tab_config) {
     league <- get_values_from_page(page)$league
     route_prefix <- get_values_from_page(page)$route_prefix
-    display_name <- get_config_element(league, "Tables", route_prefix, league_config, "display_name")
+    display_name <- get_config_element(league, "Tables", route_prefix, tab_config, "display_name")
 
     if (is.null(display_name)) {
         return(div())
@@ -27,10 +27,10 @@ tables_header <- function(page, league_config) {
 
 
 # Subheader -------------------------------------
-tables_subheader <- function(page, league_config) {
+tables_subheader <- function(page, tab_config) {
     league <- get_values_from_page(page)$league
     route_prefix <- get_values_from_page(page)$route_prefix
-    subheaders <- get_config_element(league, "Tables", route_prefix, league_config, "subheaders")
+    subheaders <- get_config_element(league, "Tables", route_prefix, tab_config, "subheaders")
 
     if (is.null(subheaders)) {
         return(div())
@@ -60,7 +60,7 @@ tables_subheader <- function(page, league_config) {
 
 
 # Body ------------------------------------------
-tables_body <- function(page, league_config, client_timezone, tables_rv, filtering_hint_ind) {
+tables_body <- function(page, client_timezone, tables_rv, filtering_hint_ind) {
     league <- get_values_from_page(page)$league
     route_prefix <- get_values_from_page(page)$route_prefix
     subheader <- get_values_from_page(page)$subheader
@@ -72,7 +72,7 @@ tables_body <- function(page, league_config, client_timezone, tables_rv, filteri
     }
 
     if (is.null(tables_rv[[rv_key]][["data_frame"]])) {
-        tables_rv[[rv_key]][["data_frame"]] <- try(tables_rv_to_df(page, league_config, tables_rv, client_timezone))
+        tables_rv[[rv_key]][["data_frame"]] <- try(tables_rv_to_df(page, tables_rv, client_timezone))
     }
 
     df <- tables_rv[[rv_key]][["data_frame"]]
@@ -197,7 +197,7 @@ tables_body <- function(page, league_config, client_timezone, tables_rv, filteri
 
 
 # Controlbar ------------------------------------
-tables_controlbar <- function(page, league_config, tables_rv) {
+tables_controlbar <- function(page, tables_rv) {
     league <- get_values_from_page(page)$league
     route_prefix <- get_values_from_page(page)$route_prefix
     subheader <- get_values_from_page(page)$subheader
@@ -209,22 +209,22 @@ tables_controlbar <- function(page, league_config, tables_rv) {
             div(
                 column(12,
                        h4("Player Settings"),
-                       tables_cb_numeric(page, league_config, tables_rv,
+                       tables_cb_numeric(page, tables_rv,
                                          "Minimum Minutes Played", "minimum_minutes", 100),
-                       tables_cb_numeric(page, league_config, tables_rv,
+                       tables_cb_numeric(page, tables_rv,
                                          "Minimum Shots Taken", "minimum_shots", 5),
-                       tables_cb_numeric(page, league_config, tables_rv,
+                       tables_cb_numeric(page, tables_rv,
                                          "Minimum Key Passes", "minimum_key_passes", 5),
-                       tables_cb_picker(page, league_config, tables_rv, "Positions", "general_position", general_positions[[league]]),
-                       tables_cb_picker(page, league_config, tables_rv, "Teams", "team_id",
+                       tables_cb_picker(page, tables_rv, "Positions", "general_position", general_positions[[league]]),
+                       tables_cb_picker(page, tables_rv, "Teams", "team_id",
                                         all_teams[[league]]$team_id, all_teams[[league]]$team_abbreviation),
-                       tables_cb_picker(page, league_config, tables_rv, "Patterns of Play", "shot_pattern", PATTERNS_OF_PLAY),
-                       tables_cb_date_filter(page, league_config, tables_rv, all_seasons[[league]]),
-                       tables_cb_picker(page, league_config, tables_rv, "Competition Stages", "stage_name", league_config[[league]][["stages"]]),
+                       tables_cb_picker(page, tables_rv, "Patterns of Play", "shot_pattern", PATTERNS_OF_PLAY),
+                       tables_cb_date_filter(page, tables_rv, all_seasons[[league]]),
+                       tables_cb_picker(page, tables_rv, "Competition Stages", "stage_name", all_stages[[league]]),
                        p(class = "control-label", "Group Results"),
-                       tables_cb_switch(page, league_config, tables_rv, "Split by Teams", "split_by_teams"),
-                       tables_cb_switch(page, league_config, tables_rv, "Split by Seasons", "split_by_seasons"),
-                       tables_cb_radio(page, league_config, tables_rv, "Normalize Results By", "normalize_by",
+                       tables_cb_switch(page, tables_rv, "Split by Teams", "split_by_teams"),
+                       tables_cb_switch(page, tables_rv, "Split by Seasons", "split_by_seasons"),
+                       tables_cb_radio(page, tables_rv, "Normalize Results By", "normalize_by",
                                        c("None", "96 Minutes")),
                        tables_cb_refresh()
                 )
@@ -233,20 +233,20 @@ tables_controlbar <- function(page, league_config, tables_rv) {
             div(
                 column(12,
                        h4("Team Settings"),
-                       tables_cb_picker(page, league_config, tables_rv, "Patterns of Play", "shot_pattern", PATTERNS_OF_PLAY),
-                       tables_cb_date_filter(page, league_config, tables_rv, all_seasons[[league]]),
-                       tables_cb_picker(page, league_config, tables_rv, "Competition Stages", "stage_name", league_config[[league]][["stages"]]),
+                       tables_cb_picker(page, tables_rv, "Patterns of Play", "shot_pattern", PATTERNS_OF_PLAY),
+                       tables_cb_date_filter(page, tables_rv, all_seasons[[league]]),
+                       tables_cb_picker(page, tables_rv, "Competition Stages", "stage_name", all_stages[[league]]),
                        p(class = "control-label", "Group Results"),
-                       tables_cb_switch(page, league_config, tables_rv, "Split by Seasons", "split_by_seasons"),
+                       tables_cb_switch(page, tables_rv, "Split by Seasons", "split_by_seasons"),
                        p(class = "control-label", "Filter Results by Venue"),
-                       tables_cb_switch(page, league_config, tables_rv, "Home Only", "home_only"),
-                       tables_cb_switch(page, league_config, tables_rv, "Away Only", "away_only"),
+                       tables_cb_switch(page, tables_rv, "Home Only", "home_only"),
+                       tables_cb_switch(page, tables_rv, "Away Only", "away_only"),
                        conditionalPanel(condition = "input.tables_xgoals_teams_stage_name == 'Regular Season'",
                                         p(class = "control-label", "Home-Adjust Results"),
-                                        tables_cb_switch(page, league_config, tables_rv, "Home Adjustment", "home_adjusted")),
+                                        tables_cb_switch(page, tables_rv, "Home Adjustment", "home_adjusted")),
                        p(class = "control-label", "Filter Results by Game State"),
-                       tables_cb_switch(page, league_config, tables_rv, "Even Scoreline Only", "even_game_state"),
-                       tables_cb_radio(page, league_config, tables_rv, "Normalize Results By", "normalize_by",
+                       tables_cb_switch(page, tables_rv, "Even Scoreline Only", "even_game_state"),
+                       tables_cb_radio(page, tables_rv, "Normalize Results By", "normalize_by",
                                        c("None", "Game")),
                        tables_cb_refresh()
                 )
@@ -255,19 +255,19 @@ tables_controlbar <- function(page, league_config, tables_rv) {
             div(
                 column(12,
                        h4("Goalkeeper Settings"),
-                       tables_cb_numeric(page, league_config, tables_rv,
+                       tables_cb_numeric(page, tables_rv,
                                          "Minimum Minutes Played", "minimum_minutes", 100),
-                       tables_cb_numeric(page, league_config, tables_rv,
+                       tables_cb_numeric(page, tables_rv,
                                          "Minimum Shots Faced", "minimum_shots_faced", 5),
-                       tables_cb_picker(page, league_config, tables_rv, "Teams", "team_id",
+                       tables_cb_picker(page, tables_rv, "Teams", "team_id",
                                         all_teams[[league]]$team_id, all_teams[[league]]$team_abbreviation),
-                       tables_cb_picker(page, league_config, tables_rv, "Patterns of Play", "shot_pattern", PATTERNS_OF_PLAY),
-                       tables_cb_date_filter(page, league_config, tables_rv, all_seasons[[league]]),
-                       tables_cb_picker(page, league_config, tables_rv, "Competition Stages", "stage_name", league_config[[league]][["stages"]]),
+                       tables_cb_picker(page, tables_rv, "Patterns of Play", "shot_pattern", PATTERNS_OF_PLAY),
+                       tables_cb_date_filter(page, tables_rv, all_seasons[[league]]),
+                       tables_cb_picker(page, tables_rv, "Competition Stages", "stage_name", all_stages[[league]]),
                        p(class = "control-label", "Group Results"),
-                       tables_cb_switch(page, league_config, tables_rv, "Split by Teams", "split_by_teams"),
-                       tables_cb_switch(page, league_config, tables_rv, "Split by Seasons", "split_by_seasons"),
-                       tables_cb_radio(page, league_config, tables_rv, "Normalize Results By", "normalize_by",
+                       tables_cb_switch(page, tables_rv, "Split by Teams", "split_by_teams"),
+                       tables_cb_switch(page, tables_rv, "Split by Seasons", "split_by_seasons"),
+                       tables_cb_radio(page, tables_rv, "Normalize Results By", "normalize_by",
                                        c("None", "96 Minutes")),
                        tables_cb_refresh()
                 )
@@ -276,8 +276,8 @@ tables_controlbar <- function(page, league_config, tables_rv) {
             div(
                 column(12,
                        h4("Game Settings"),
-                       tables_cb_date_filter(page, league_config, tables_rv, all_seasons[[league]]),
-                       tables_cb_picker(page, league_config, tables_rv, "Competition Stages", "stage_name", league_config[[league]][["stages"]]),
+                       tables_cb_date_filter(page, tables_rv, all_seasons[[league]]),
+                       tables_cb_picker(page, tables_rv, "Competition Stages", "stage_name", all_stages[[league]]),
                        tables_cb_refresh()
                 )
             )
@@ -287,20 +287,20 @@ tables_controlbar <- function(page, league_config, tables_rv) {
             div(
                 column(12,
                        h4("Player Settings"),
-                       tables_cb_numeric(page, league_config, tables_rv,
+                       tables_cb_numeric(page, tables_rv,
                                          "Minimum Minutes Played", "minimum_minutes", 100),
-                       tables_cb_numeric(page, league_config, tables_rv,
+                       tables_cb_numeric(page, tables_rv,
                                          "Minimum Passes", "minimum_passes", 100),
-                       tables_cb_picker(page, league_config, tables_rv, "Positions", "general_position", general_positions[[league]]),
-                       tables_cb_picker(page, league_config, tables_rv, "Teams", "team_id",
+                       tables_cb_picker(page, tables_rv, "Positions", "general_position", general_positions[[league]]),
+                       tables_cb_picker(page, tables_rv, "Teams", "team_id",
                                         all_teams[[league]]$team_id, all_teams[[league]]$team_abbreviation),
-                       tables_cb_picker(page, league_config, tables_rv, "Passing Third", "pass_origin_third", THIRDS_OF_FIELD),
-                       tables_cb_date_filter(page, league_config, tables_rv, all_seasons[[league]]),
-                       tables_cb_picker(page, league_config, tables_rv, "Competition Stages", "stage_name", league_config[[league]][["stages"]]),
+                       tables_cb_picker(page, tables_rv, "Passing Third", "pass_origin_third", THIRDS_OF_FIELD),
+                       tables_cb_date_filter(page, tables_rv, all_seasons[[league]]),
+                       tables_cb_picker(page, tables_rv, "Competition Stages", "stage_name", all_stages[[league]]),
                        p(class = "control-label", "Group Results"),
-                       tables_cb_switch(page, league_config, tables_rv, "Split by Teams", "split_by_teams"),
-                       tables_cb_switch(page, league_config, tables_rv, "Split by Seasons", "split_by_seasons"),
-                       tables_cb_radio(page, league_config, tables_rv, "Normalize Results By", "normalize_by",
+                       tables_cb_switch(page, tables_rv, "Split by Teams", "split_by_teams"),
+                       tables_cb_switch(page, tables_rv, "Split by Seasons", "split_by_seasons"),
+                       tables_cb_radio(page, tables_rv, "Normalize Results By", "normalize_by",
                                        c("None", "96 Minutes")),
                        tables_cb_refresh()
                 )
@@ -309,15 +309,15 @@ tables_controlbar <- function(page, league_config, tables_rv) {
             div(
                 column(12,
                        h4("Team Settings"),
-                       tables_cb_picker(page, league_config, tables_rv, "Passing Third", "pass_origin_third", THIRDS_OF_FIELD),
-                       tables_cb_date_filter(page, league_config, tables_rv, all_seasons[[league]]),
-                       tables_cb_picker(page, league_config, tables_rv, "Competition Stages", "stage_name", league_config[[league]][["stages"]]),
+                       tables_cb_picker(page, tables_rv, "Passing Third", "pass_origin_third", THIRDS_OF_FIELD),
+                       tables_cb_date_filter(page, tables_rv, all_seasons[[league]]),
+                       tables_cb_picker(page, tables_rv, "Competition Stages", "stage_name", all_stages[[league]]),
                        p(class = "control-label", "Group Results"),
-                       tables_cb_switch(page, league_config, tables_rv, "Split by Seasons", "split_by_seasons"),
+                       tables_cb_switch(page, tables_rv, "Split by Seasons", "split_by_seasons"),
                        p(class = "control-label", "Filter Results by Venue"),
-                       tables_cb_switch(page, league_config, tables_rv, "Home Only", "home_only"),
-                       tables_cb_switch(page, league_config, tables_rv, "Away Only", "away_only"),
-                       tables_cb_radio(page, league_config, tables_rv, "Normalize Results By", "normalize_by",
+                       tables_cb_switch(page, tables_rv, "Home Only", "home_only"),
+                       tables_cb_switch(page, tables_rv, "Away Only", "away_only"),
+                       tables_cb_radio(page, tables_rv, "Normalize Results By", "normalize_by",
                                        c("None", "Game")),
                        tables_cb_refresh()
                 )
@@ -328,21 +328,21 @@ tables_controlbar <- function(page, league_config, tables_rv) {
             div(
                 column(12,
                        h4("Player Settings"),
-                       tables_cb_numeric(page, league_config, tables_rv,
+                       tables_cb_numeric(page, tables_rv,
                                          "Minimum Minutes Played", "minimum_minutes", 100),
-                       tables_cb_picker(page, league_config, tables_rv, "Positions", "general_position",
+                       tables_cb_picker(page, tables_rv, "Positions", "general_position",
                                         general_positions[[league]][general_positions[[league]] != "GK"]),
-                       tables_cb_picker(page, league_config, tables_rv, "Teams", "team_id",
+                       tables_cb_picker(page, tables_rv, "Teams", "team_id",
                                         all_teams[[league]]$team_id, all_teams[[league]]$team_abbreviation),
-                       tables_cb_picker(page, league_config, tables_rv, "g+ Action Types", "action_type", GOALS_ADDED_ACTION_TYPES),
-                       tables_cb_date_filter(page, league_config, tables_rv, all_seasons[[league]]),
-                       tables_cb_picker(page, league_config, tables_rv, "Competition Stages", "stage_name", league_config[[league]][["stages"]]),
+                       tables_cb_picker(page, tables_rv, "g+ Action Types", "action_type", GOALS_ADDED_ACTION_TYPES),
+                       tables_cb_date_filter(page, tables_rv, all_seasons[[league]]),
+                       tables_cb_picker(page, tables_rv, "Competition Stages", "stage_name", all_stages[[league]]),
                        p(class = "control-label", "Group Results"),
-                       tables_cb_switch(page, league_config, tables_rv, "Split by Teams", "split_by_teams"),
-                       tables_cb_switch(page, league_config, tables_rv, "Split by Seasons", "split_by_seasons"),
-                       tables_cb_radio(page, league_config, tables_rv, "g+ Variation", "goals_added_variation",
+                       tables_cb_switch(page, tables_rv, "Split by Teams", "split_by_teams"),
+                       tables_cb_switch(page, tables_rv, "Split by Seasons", "split_by_seasons"),
+                       tables_cb_radio(page, tables_rv, "g+ Variation", "goals_added_variation",
                                        c("Raw", "Above Average", "Above Replacement")),
-                       tables_cb_radio(page, league_config, tables_rv, "Normalize Results By", "normalize_by",
+                       tables_cb_radio(page, tables_rv, "Normalize Results By", "normalize_by",
                                        c("None", "96 Minutes")),
                        tables_cb_refresh()
                 )
@@ -351,19 +351,19 @@ tables_controlbar <- function(page, league_config, tables_rv) {
             div(
                 column(12,
                        h4("Player Settings"),
-                       tables_cb_numeric(page, league_config, tables_rv,
+                       tables_cb_numeric(page, tables_rv,
                                          "Minimum Minutes Played", "minimum_minutes", 100),
-                       tables_cb_picker(page, league_config, tables_rv, "Teams", "team_id",
+                       tables_cb_picker(page, tables_rv, "Teams", "team_id",
                                         all_teams[[league]]$team_id, all_teams[[league]]$team_abbreviation),
-                       tables_cb_picker(page, league_config, tables_rv, "g+ Action Types", "action_type", GOALS_ADDED_GK_ACTION_TYPES),
-                       tables_cb_date_filter(page, league_config, tables_rv, all_seasons[[league]]),
-                       tables_cb_picker(page, league_config, tables_rv, "Competition Stages", "stage_name", league_config[[league]][["stages"]]),
+                       tables_cb_picker(page, tables_rv, "g+ Action Types", "action_type", GOALS_ADDED_GK_ACTION_TYPES),
+                       tables_cb_date_filter(page, tables_rv, all_seasons[[league]]),
+                       tables_cb_picker(page, tables_rv, "Competition Stages", "stage_name", all_stages[[league]]),
                        p(class = "control-label", "Group Results"),
-                       tables_cb_switch(page, league_config, tables_rv, "Split by Teams", "split_by_teams"),
-                       tables_cb_switch(page, league_config, tables_rv, "Split by Seasons", "split_by_seasons"),
-                       tables_cb_radio(page, league_config, tables_rv, "g+ Variation", "goals_added_variation",
+                       tables_cb_switch(page, tables_rv, "Split by Teams", "split_by_teams"),
+                       tables_cb_switch(page, tables_rv, "Split by Seasons", "split_by_seasons"),
+                       tables_cb_radio(page, tables_rv, "g+ Variation", "goals_added_variation",
                                        c("Raw", "Above Average", "Above Replacement")),
-                       tables_cb_radio(page, league_config, tables_rv, "Normalize Results By", "normalize_by",
+                       tables_cb_radio(page, tables_rv, "Normalize Results By", "normalize_by",
                                        c("None", "96 Minutes")),
                        tables_cb_refresh()
                 )
@@ -373,15 +373,15 @@ tables_controlbar <- function(page, league_config, tables_rv) {
             div(
                 column(12,
                        h4("Team Settings"),
-                       tables_cb_pitch_zones(page, league_config, tables_rv, "Zones", "zone"),
-                       tables_cb_picker(page, league_config, tables_rv, "Scorelines", "gamestate_trunc",
+                       tables_cb_pitch_zones(page, tables_rv, "Zones", "zone"),
+                       tables_cb_picker(page, tables_rv, "Scorelines", "gamestate_trunc",
                                         TRUNCATED_GAMESTATES, TRUNCATED_GAMESTATES_LABELS),
-                       tables_cb_picker(page, league_config, tables_rv, "g+ Action Types", "action_type", GOALS_ADDED_ACTION_TYPES),
-                       tables_cb_date_filter(page, league_config, tables_rv, all_seasons[[league]], season_only = TRUE),
-                       tables_cb_picker(page, league_config, tables_rv, "Competition Stages", "stage_name", league_config[[league]][["stages"]]),
+                       tables_cb_picker(page, tables_rv, "g+ Action Types", "action_type", GOALS_ADDED_ACTION_TYPES),
+                       tables_cb_date_filter(page, tables_rv, all_seasons[[league]], season_only = TRUE),
+                       tables_cb_picker(page, tables_rv, "Competition Stages", "stage_name", all_stages[[league]]),
                        p(class = "control-label", "Group Results"),
-                       tables_cb_switch(page, league_config, tables_rv, "Split by Seasons", "split_by_seasons"),
-                       tables_cb_radio(page, league_config, tables_rv, "Normalize Results By", "normalize_by",
+                       tables_cb_switch(page, tables_rv, "Split by Seasons", "split_by_seasons"),
+                       tables_cb_radio(page, tables_rv, "Normalize Results By", "normalize_by",
                                        c("None", "96 Minutes")),
                        tables_cb_refresh()
                 )
@@ -392,10 +392,10 @@ tables_controlbar <- function(page, league_config, tables_rv) {
             div(
                 column(12,
                        h4("Player Settings"),
-                       tables_cb_picker(page, league_config, tables_rv, "Teams", "team_id",
+                       tables_cb_picker(page, tables_rv, "Teams", "team_id",
                                         all_teams[[league]]$team_id, all_teams[[league]]$team_abbreviation),
-                       tables_cb_picker(page, league_config, tables_rv, "Position", "position", MLSPA_POSITIONS),
-                       tables_cb_date_filter(page, league_config, tables_rv, all_seasons[[league]]),
+                       tables_cb_picker(page, tables_rv, "Position", "position", MLSPA_POSITIONS),
+                       tables_cb_date_filter(page, tables_rv, all_seasons[[league]]),
                        tables_cb_refresh()
                 )
             )
@@ -403,11 +403,11 @@ tables_controlbar <- function(page, league_config, tables_rv) {
             div(
                 column(12,
                        h4("Team Settings"),
-                       tables_cb_picker(page, league_config, tables_rv, "Seasons", "season_name", salaries_seasons[[league]]),
+                       tables_cb_picker(page, tables_rv, "Seasons", "season_name", salaries_seasons[[league]]),
                        p(class = "control-label", "Group Results"),
-                       tables_cb_switch(page, league_config, tables_rv, "Split by Teams", "split_by_teams"),
-                       tables_cb_switch(page, league_config, tables_rv, "Split by Seasons", "split_by_seasons"),
-                       tables_cb_switch(page, league_config, tables_rv, "Split by Positions", "split_by_positions"),
+                       tables_cb_switch(page, tables_rv, "Split by Teams", "split_by_teams"),
+                       tables_cb_switch(page, tables_rv, "Split by Seasons", "split_by_seasons"),
+                       tables_cb_switch(page, tables_rv, "Split by Positions", "split_by_positions"),
                        tables_cb_refresh()
                 )
             )
@@ -417,7 +417,7 @@ tables_controlbar <- function(page, league_config, tables_rv) {
 
 
 # Controlbar inputs -----------------------------
-tables_cb_slider <- function(page, league_config, tables_rv, max_value, label_name, variable_name, step) {
+tables_cb_slider <- function(page, tables_rv, max_value, label_name, variable_name, step) {
     league <- get_values_from_page(page)$league
     route_prefix <- get_values_from_page(page)$route_prefix
     subheader <- get_values_from_page(page)$subheader
@@ -432,7 +432,7 @@ tables_cb_slider <- function(page, league_config, tables_rv, max_value, label_na
                 width = "100%")
 }
 
-tables_cb_date_filter <- function(page, league_config, tables_rv, all_seasons, season_only = FALSE) {
+tables_cb_date_filter <- function(page, tables_rv, all_seasons, season_only = FALSE) {
     league <- get_values_from_page(page)$league
     route_prefix <- get_values_from_page(page)$route_prefix
     subheader <- get_values_from_page(page)$subheader
@@ -473,7 +473,7 @@ tables_cb_date_filter <- function(page, league_config, tables_rv, all_seasons, s
     }
 }
 
-tables_cb_picker <- function(page, league_config, tables_rv, label_name, variable_name, available_values, available_names = NULL) {
+tables_cb_picker <- function(page, tables_rv, label_name, variable_name, available_values, available_names = NULL) {
     league <- get_values_from_page(page)$league
     route_prefix <- get_values_from_page(page)$route_prefix
     subheader <- get_values_from_page(page)$subheader
@@ -491,7 +491,7 @@ tables_cb_picker <- function(page, league_config, tables_rv, label_name, variabl
                                `actions-box` = TRUE))
 }
 
-tables_cb_pitch_zones <- function(page, league_config, tables_rv, label_name, variable_name) {
+tables_cb_pitch_zones <- function(page, tables_rv, label_name, variable_name) {
     league <- get_values_from_page(page)$league
     route_prefix <- get_values_from_page(page)$route_prefix
     subheader <- get_values_from_page(page)$subheader
@@ -513,7 +513,7 @@ tables_cb_pitch_zones <- function(page, league_config, tables_rv, label_name, va
     )
 }
 
-tables_cb_switch <- function(page, league_config, tables_rv, label_name, variable_name) {
+tables_cb_switch <- function(page, tables_rv, label_name, variable_name) {
     league <- get_values_from_page(page)$league
     route_prefix <- get_values_from_page(page)$route_prefix
     subheader <- get_values_from_page(page)$subheader
@@ -524,7 +524,7 @@ tables_cb_switch <- function(page, league_config, tables_rv, label_name, variabl
                    icon = icon("check"))
 }
 
-tables_cb_home_away <- function(page, league_config, tables_rv) {
+tables_cb_home_away <- function(page, tables_rv) {
     league <- get_values_from_page(page)$league
     route_prefix <- get_values_from_page(page)$route_prefix
     subheader <- get_values_from_page(page)$subheader
@@ -543,7 +543,7 @@ tables_cb_home_away <- function(page, league_config, tables_rv) {
                          selected = selected_options)
 }
 
-tables_cb_radio <- function(page, league_config, tables_rv, label_name, variable_name, available_values, available_names = NULL) {
+tables_cb_radio <- function(page, tables_rv, label_name, variable_name, available_values, available_names = NULL) {
     league <- get_values_from_page(page)$league
     route_prefix <- get_values_from_page(page)$route_prefix
     subheader <- get_values_from_page(page)$subheader
@@ -558,7 +558,7 @@ tables_cb_radio <- function(page, league_config, tables_rv, label_name, variable
                  selected = tables_rv[[assemble_key(league, route_prefix, subheader)]][[variable_name]])
 }
 
-tables_cb_numeric <- function(page, league_config, tables_rv, label_name, variable_name, step = NA, max_value = NA) {
+tables_cb_numeric <- function(page, tables_rv, label_name, variable_name, step = NA, max_value = NA) {
     league <- get_values_from_page(page)$league
     route_prefix <- get_values_from_page(page)$route_prefix
     subheader <- get_values_from_page(page)$subheader

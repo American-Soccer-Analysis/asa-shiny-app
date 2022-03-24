@@ -1,5 +1,5 @@
 # Set behavior on refresh -----------------------
-tables_refresh <- function(refresh_button_id, input, tables_rv, page, league_config) {
+tables_refresh <- function(refresh_button_id, input, tables_rv, page) {
     shinyjs::disable(refresh_button_id)
 
     league <- get_values_from_page(page)$league
@@ -87,7 +87,7 @@ tables_refresh <- function(refresh_button_id, input, tables_rv, page, league_con
             }
         })
 
-        tables_rv[[rv_key]][["data_frame"]] <- tables_rv_to_df(page, league_config, tables_rv, input$client_timezone)
+        tables_rv[[rv_key]][["data_frame"]] <- tables_rv_to_df(page, tables_rv, input$client_timezone)
 
         shinyjs::enable(refresh_button_id)
 
@@ -96,7 +96,7 @@ tables_refresh <- function(refresh_button_id, input, tables_rv, page, league_con
 
 
 # Make API request ------------------------------
-tables_rv_to_df <- function(page, league_config, tables_rv, client_timezone, database_timezone = DATABASE_TIMEZONE) {
+tables_rv_to_df <- function(page, tables_rv, client_timezone, database_timezone = DATABASE_TIMEZONE) {
     league <- get_values_from_page(page)$league
     route_prefix <- get_values_from_page(page)$route_prefix
     subheader <- get_values_from_page(page)$subheader

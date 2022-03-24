@@ -5,15 +5,15 @@ pipeline {
             steps {
                 sh '''
                     # Pull changes from GitHub
-					cd /srv/shiny-server/prod
-					git fetch origin
-                    git reset --hard origin/master
+                    cd /srv/shiny-server/prod
+                    git fetch origin
+                    git reset --hard origin/main
 
-					# Add virtual environment changes
+                    # Add virtual environment changes
                     R -e "renv::restore()"
 
-					# Restart the Shiny Server service
-					sudo service shiny-server restart
+                    # Restart the Shiny Server service
+                    sudo service shiny-server restart
                 '''
             }
         }

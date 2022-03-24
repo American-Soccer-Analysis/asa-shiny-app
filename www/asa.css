@@ -978,6 +978,14 @@ th:hover .tables_helper_icon {
     }
 }
 
+.shiny-spinner-hidden.load-container {
+    display: none;
+}
+
+shiny-spinner-placeholder.shiny-spinner-placeholder {
+    visibility: hidden;
+}
+
 
 /************************/
 /*******  PLAYERS  ******/
