@@ -10,25 +10,30 @@ sidebar_ui <- function(page, tab_config, subheaders_rv) {
         j <- which(tab_groups == tab_group)
         tabs <- tab_config[[j]][[tab_group]]
 
-        menu_list[[i]] <- tags$li(class = "nav-header", tab_group); i <- i + 1
+        menu_list[[i]] <- tags$li(class = "nav-header", tab_group)
+        i <- i + 1
 
         for (tab in tabs) {
-            tab_name_prefix <- tab$route_link
-            subheader <- subheaders_rv[[assemble_key(league, tab_name_prefix)]]
+            if (league %in% tab$leagues) {
+                tab_name_prefix <- tab$route_link
+                subheader <- subheaders_rv[[assemble_key(league, tab_name_prefix)]]
 
-            menu_list[[i]] <- tags$li(
-                class = "nav-item",
-                a(
-                    class = ifelse(assemble_key(league, route_prefix) == assemble_key(league, tab_name_prefix), "nav-link active", "nav-link"),
-                    id = paste0("tab-", assemble_key(league, tab_name_prefix, subheader)),
-                    href = route_link_patched(assemble_key(league, tab_name_prefix, subheader)),
-                    icon(
-                        tab$icon,
-                        class = "nav-icon"
-                        ),
-                    p(tab$display_name)
+                menu_list[[i]] <- tags$li(
+                    class = "nav-item",
+                    a(
+                        class = ifelse(assemble_key(league, route_prefix) == assemble_key(league, tab_name_prefix), "nav-link active", "nav-link"),
+                        id = paste0("tab-", assemble_key(league, tab_name_prefix, subheader)),
+                        href = route_link_patched(assemble_key(league, tab_name_prefix, subheader)),
+                        icon(
+                            tab$icon,
+                            class = "nav-icon"
+                            ),
+                        p(tab$display_name)
+                    )
                 )
-            ); i <- i + 1
+
+                i <- i + 1
+            }
         }
     }
 
