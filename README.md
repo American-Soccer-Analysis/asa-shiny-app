@@ -18,8 +18,8 @@ We built this interactive web application to give ASA's loyal readers more auton
 ## Running the app via Docker
 
 ```sh
-docker build -t asa-shiny .
-docker run -p 80:80 asa-shiny
+docker build -t asa-app .
+docker run -p 3838:3838 asa-app
 ```
 
 ## Contributing

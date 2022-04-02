@@ -1,5 +1,6 @@
 # Base image https://hub.docker.com/u/rocker/
-FROM rocker/shiny-verse:latest
+# Match R version in renv.lock
+FROM rocker/r-ver:3.6.2
 
 RUN apt-get update -qq && apt-get -y --no-install-recommends install \
     libxml2-dev \
@@ -25,10 +26,13 @@ COPY www/ ./www/
 COPY utils/ ./utils/
 
 # Install renv & restore packages
-RUN Rscript -e 'install.packages("renv")'
+RUN R -e "install.packages('devtools', repos = c(CRAN = 'https://cloud.r-project.org'))"
+ENV RENV_VERSION 0.9.3
+RUN R -e "devtools::install_version('renv', '${RENV_VERSION}', repos = c(CRAN = 'https://cloud.r-project.org'))"
+RUN Rscript -e 'renv::consent(provided=TRUE)'
 RUN Rscript -e 'renv::restore()'
 
 # Expose port
-EXPOSE 80
+EXPOSE 3838
 
-CMD ["R", "-e", "shiny::runApp(host = '0.0.0.0', port = 80)"]
+CMD ["R", "-e", "shiny::runApp(host = '0.0.0.0', port = 3838)"]
