@@ -20,10 +20,10 @@ RUN apt-get update && \
 COPY server.R ./server.R
 COPY ui.R ./ui.R
 COPY global.R ./global.R
-COPY config/ ./config/
+COPY config ./config/
 COPY renv.lock ./renv.lock
-COPY www/ ./www/
-COPY utils/ ./utils/
+COPY www ./www/
+COPY utils ./utils/
 
 # Install renv & restore packages
 RUN R -e "install.packages('devtools', repos = c(CRAN = 'https://cloud.r-project.org'))"
