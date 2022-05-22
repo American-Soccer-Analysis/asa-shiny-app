@@ -20,7 +20,7 @@ RUN apt-get update && \
 COPY server.R ./server.R
 COPY ui.R ./ui.R
 COPY global.R ./global.R
-COPY config/ ./config/
+COPY config.yaml ./config.yaml
 COPY renv.lock ./renv.lock
 COPY www/ ./www/
 COPY utils/ ./utils/
