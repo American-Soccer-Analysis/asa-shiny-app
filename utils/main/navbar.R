@@ -1,7 +1,7 @@
 navbar_ui <- function(page, league_config, leagues_rv) {
     league <- gsub("/.*$", "", gsub("^/", "", page))
     div(
-        lapply(names(league_config), function(l) {
+        lapply(sapply(league_config, "[[", "schema"), function(l) {
             div(
                 id = paste0("nav_", l),
                 class = ifelse(l == league, "nav_league nav_league_active", "nav_league"),

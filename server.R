@@ -10,12 +10,14 @@ server <- function(input, output, session) {
     # Initialize reactive value objects -------------
     subheaders_rv <- reactiveValues()
     for (l in league_schemas) {
-        headers <- league_config[[l]][["tabs"]]
-        for (h in headers) {
-            for (m in h) {
-                if (!is.null(m$subheaders)) {
-                    rv_key <- paste0(l, "/", m$route_link)
-                    subheaders_rv[[rv_key]] <- tolower(m$subheaders[1])
+        tab_groups <- sapply(tab_config, names)
+        for (tab_group in tab_groups) {
+            i <- which(tab_groups == tab_group)
+            tabs <- tab_config[[i]][[tab_group]]
+            for (tab in tabs) {
+                if (!is.null(tab$subheaders)) {
+                    rv_key <- paste0(l, "/", tab$route_link)
+                    subheaders_rv[[rv_key]] <- tolower(tab$subheaders[1])
                 }
             }
         }
@@ -41,7 +43,7 @@ server <- function(input, output, session) {
         subheader <- get_values_from_page(page)$subheader
         subheaders_rv[[assemble_key(league, route_prefix)]] <- subheader
 
-        sidebar_ui(page, league_config, subheaders_rv)
+        sidebar_ui(page, tab_config, subheaders_rv)
     })
 
     # Navbar settings -------------------------------
@@ -68,7 +70,7 @@ server <- function(input, output, session) {
         page_key <- gsub("\\?.*$", "", page)
 
         if (any(controlbar_lookup[[page_key]] == "Tables")) {
-            tables_controlbar(page, league_config, tables_rv)
+            tables_controlbar(page, tables_rv)
         } else if (any(controlbar_lookup[[page_key]] == "Profiles")) {
             if (get_values_from_page(page)$route_prefix == "players") {
                 profiles_players_controlbar(page, players_rv, players_dropdown)
@@ -89,19 +91,19 @@ server <- function(input, output, session) {
     # Header element --------------------------------
     output$tables_header <- renderUI({
         page <- get_page(session)
-        tables_header(page, league_config)
+        tables_header(page, tab_config)
     })
 
     # Subheader element -----------------------------
     output$tables_subheader <- renderUI({
         page <- get_page(session)
-        tables_subheader(page, league_config)
+        tables_subheader(page, tab_config)
     })
 
     # Body element ----------------------------------
     output$tables_body <- renderUI({
         page <- get_page(session)
-        tables_body(page, league_config, input$client_timezone, tables_rv, filtering_hint_ind)
+        tables_body(page, input$client_timezone, tables_rv, filtering_hint_ind)
     })
 
     lapply(1:30, function(i) {

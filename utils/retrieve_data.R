@@ -1,7 +1,7 @@
 # Initialize dictionaries -----------------------
-vars_to_initialize <- c("all_seasons", "salaries_distinct", "salaries_seasons", "salaries_most_recent",
-                        "all_players_tmp", "general_positions", "all_teams", "all_games",
-                        "player_lookup", "all_players", "players_dropdown")
+vars_to_initialize <- c("all_seasons", "all_stages", "salaries_distinct", "salaries_seasons",
+                        "salaries_most_recent", "all_players_tmp", "general_positions",
+                        "all_teams", "all_games", "player_lookup", "all_players", "players_dropdown")
 
 for (v in vars_to_initialize) {
     assign(v, list())
@@ -14,7 +14,7 @@ for (key in league_schemas) {
     all_seasons[[key]] <- try(api_request(endpoint = assemble_endpoint(key, subheader = "games"), parameters = list(distinct_seasons = TRUE))$season_name)
 
     # Get distinct stages ---------------------------
-    league_config[[key]][["stages"]] <- try(api_request(endpoint = assemble_endpoint(key, subheader = "games"), parameters = list(distinct_stages = TRUE))$stage_name)
+    all_stages[[key]] <- try(api_request(endpoint = assemble_endpoint(key, subheader = "games"), parameters = list(distinct_stages = TRUE))$stage_name)
 
     # Get distinct seasons for salary releases ------
     if (key == "mls") {
@@ -36,7 +36,7 @@ for (key in league_schemas) {
                                   sort(general_positions[[key]]$general_position[!grepl("(B|M|GK)", general_positions[[key]]$general_position)], decreasing = TRUE))
 
     # Import teams ----------------------------------
-    all_teams[[key]] <- try(api_request(endpoint = assemble_endpoint(key, subheader = "teams")) %>% arrange(team_abbreviation))
+    all_teams[[key]] <- try(api_request(endpoint = assemble_endpoint(key, subheader = "teams")))
 
     # Import game data ------------------------------
     all_games[[key]] <- try(api_request(endpoint = assemble_endpoint(key, subheader = "games")))
@@ -46,21 +46,30 @@ for (key in league_schemas) {
         all(class(player_lookup[[key]]) == "try-error") | all(class(all_teams[[key]]) == "try-error") |
         all(class(all_games[[key]]) == "try-error")) {
 
-        stopApp()
+        shiny::stopApp()
 
     }
 
-    # Reshape player ID lookup ----------------------
-    player_lookup[[key]] <- all_players_tmp[[key]] %>% select(player_id, player_name)
+    if (length(all_teams[[key]]) > 0) {
+        all_teams[[key]] <- all_teams[[key]] %>%
+            dplyr::arrange(team_abbreviation)
+    }
 
-    # Reshape for dropdown menu ---------------------
-    all_players[[key]] <- all_players_tmp[[key]] %>%
-        select(-season_name) %>%
-        mutate(birth_date = as.Date(birth_date)) %>%
-        arrange(player_name)
+    if (length(all_players_tmp[[key]]) > 0) {
 
-    players_dropdown[[key]] <- all_players[[key]] %>%
-        select(value = player_id,
-               label = player_name)
+        # Reshape player ID lookup ----------------------
+        player_lookup[[key]] <- all_players_tmp[[key]] %>% select(player_id, player_name)
+
+        # Reshape for dropdown menu ---------------------
+        all_players[[key]] <- all_players_tmp[[key]] %>%
+            select(-season_name) %>%
+            mutate(birth_date = as.Date(birth_date)) %>%
+            arrange(player_name)
+
+        players_dropdown[[key]] <- all_players[[key]] %>%
+            select(value = player_id,
+                   label = player_name)
+
+    }
 
 }
