@@ -254,13 +254,13 @@ tables_rv_to_df <- function(page, tables_rv, client_timezone, database_timezone 
     if (names(df)[1] == "player_id") {
 
         df <- df %>%
-            mutate(player_headshot = paste0("<div class = 'tables_player_headshot'><img src = 'player_headshots/", player_id, ".png'></div>")) %>%
+            mutate(player_headshot = paste0("<div class = 'tables_player_headshot'><img src = 'https://american-soccer-analysis-headshots.s3.amazonaws.com/player_headshots/", player_id, ".png'></div>")) %>%
             select(player_headshot, everything())
 
     } else if (names(df)[1] == "team_id") {
 
         df <- df %>%
-            mutate(club_logo = ifelse(!is.na(team_id), paste0("<div class = 'tables_club_logo'><img src = 'club_logos/", team_id, ".png'></div>"), "")) %>%
+            mutate(club_logo = ifelse(!is.na(team_id), paste0("<div class = 'tables_club_logo'><img src = 'https://american-soccer-analysis-headshots.s3.amazonaws.com/club_logos/", team_id, ".png'></div>"), "")) %>%
             select(club_logo, everything())
     }
 
