@@ -15,6 +15,10 @@ library(DT)
 library(stringi)
 library(tidyverse)
 
+httr_config <- switch(Sys.info()["sysname"],
+                      "Linux" = config(ssl_cipher_list = "DEFAULT@SECLEVEL=1"),
+                      config())
+
 
 # Set universal variables -----------------------
 STAGE <- ifelse(grepl("stage", getwd()), "stage/", "")
@@ -140,10 +144,10 @@ single_request <- function(path, endpoint, parameters) {
         }
     }
 
-    resp <- httr::GET(
+    resp <- httr::with_config(httr_config, GET(
         url = paste0(path, endpoint),
         query = parameters
-    ) %>%
+    )) %>%
         httr::content(as = "text", encoding = "UTF-8") %>%
         jsonlite::fromJSON()
 
