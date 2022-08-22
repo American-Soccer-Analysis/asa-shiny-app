@@ -49,4 +49,3 @@ Thanks to the developers of these integral, open source libraries:
 This application was built and is maintained by [Brian Greenwood](https://github.com/bgrnwd), [Matthias Kullowatz](https://github.com/mattyanselmo), [Rory Pulvino](https://github.com/rvino), and [Tyler Richardett](https://github.com/tyler-richardett).
 
 If you use any of the data we make publicly available, we kindly ask that you provide credit and link back to the [American Soccer Analysis website](https://www.americansocceranalysis.com/). Thanks!
-
