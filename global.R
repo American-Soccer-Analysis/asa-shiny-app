@@ -160,17 +160,37 @@ api_request <- function(path = API_PATH, endpoint, parameters = list()) {
 
     if (is.data.frame(tmp_resp)) {
         offset <- MAX_API_LIMIT
+        addtl_resps <- list()
 
         while (nrow(tmp_resp) == MAX_API_LIMIT) {
             parameters$offset <- offset
             tmp_resp <- single_request(path, endpoint, parameters)
+            tmp_resp <- .cast_lists_to_vectors(tmp_resp)
 
-            resp <- resp %>% bind_rows(tmp_resp)
+            addtl_resps <- append(addtl_resps, list(tmp_resp))
             offset <- offset + MAX_API_LIMIT
         }
     }
 
+    if (length(addtl_resps) > 0) {
+        resp <- data.table::rbindlist(
+            append(list(resp), addtl_resps),
+            fill = TRUE
+        )
+    }
+
     return(resp)
+}
+
+.cast_lists_to_vectors <- function(df) {
+    target_cols <- names(which(sapply(df, mode) == "list"))
+
+    for (target_col in target_cols) {
+        idx <- which(sapply(df[[target_col]], class) == "list")
+        df[[target_col]][idx] <- lapply(df[[target_col]][idx], unlist)
+    }
+
+    return(df)
 }
 
 get_config_element <- function(league, tab_group, route_prefix, tab_config, element) {
