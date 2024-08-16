@@ -11,6 +11,9 @@ leagues:
     - schema: usl1
       name: USL League One
 
+    - schema: usls
+      name: USL Super League
+      
     - schema: mlsnp
       name: MLS Next Pro
 
@@ -24,21 +27,21 @@ tabs:
           icon: futbol-o
           subheaders: [Players, Teams, Games, Goalkeepers]
           ui: tables_ui
-          leagues: [mls, nwsl, uslc, usl1, mlsnp, nasl]
+          leagues: [mls, nwsl, uslc, usl1, usls, mlsnp, nasl]
 
         - route_link: xpass
           display_name: xPass
           icon: bullseye
           subheaders: [Players, Teams]
           ui: tables_ui
-          leagues: [mls, nwsl, uslc, usl1, mlsnp, nasl]
+          leagues: [mls, nwsl, uslc, usl1, usls, mlsnp, nasl]
 
         - route_link: goals-added
           display_name: Goals Added (g+)
           icon: google-plus-g
           subheaders: [Players, Teams, Goalkeepers]
           ui: tables_ui
-          leagues: [mls, nwsl, uslc, usl1, mlsnp, nasl]
+          leagues: [mls, nwsl, uslc, usl1, usls, mlsnp, nasl]
 
         - route_link: salaries
           display_name: Salaries
