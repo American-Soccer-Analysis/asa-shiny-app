@@ -13,7 +13,7 @@ leagues:
 
     - schema: usl1
       name: USL League One
-      
+
     - schema: mlsnp
       name: MLS Next Pro
 
