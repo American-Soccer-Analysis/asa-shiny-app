@@ -16,7 +16,8 @@ RUN apt-get update -qq && apt-get -y --no-install-recommends install \
     libfreetype6-dev \
     libpng-dev \
     libtiff5-dev \
-    libjpeg-dev
+    libjpeg-dev \
+    default-jdk
 
 RUN apt-get update && \
     apt-get upgrade -y && \
@@ -32,9 +33,7 @@ COPY www/ ./www/
 COPY utils/ ./utils/
 
 # Install renv & restore packages
-RUN R -e "install.packages('devtools', repos = c(CRAN = 'https://cloud.r-project.org'))"
-ENV RENV_VERSION 0.9.3
-RUN R -e "devtools::install_version('renv', '${RENV_VERSION}', repos = c(CRAN = 'https://cloud.r-project.org'))"
+RUN R -e "install.packages('renv', repos = c(CRAN = 'https://cloud.r-project.org'))"
 RUN Rscript -e 'renv::consent(provided=TRUE)'
 RUN Rscript -e 'renv::restore()'
 
