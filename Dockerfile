@@ -1,7 +1,7 @@
 # Base image https://hub.docker.com/u/rocker/
 # Match R version in renv.lock
-FROM rocker/r-ver:3.6.2
-
+FROM rocker/r-ver:3.6.3 AS deps
+WORKDIR /code
 RUN apt-get update -qq && apt-get -y --no-install-recommends install \
     libxml2-dev \
     libcairo2-dev \
@@ -24,18 +24,29 @@ RUN apt-get update && \
     apt-get clean
 
 # Copy project files
-COPY server.R ./server.R
-COPY ui.R ./ui.R
-COPY global.R ./global.R
-COPY config.yaml ./config.yaml
+RUN mkdir -p renv
 COPY renv.lock ./renv.lock
-COPY www/ ./www/
-COPY utils/ ./utils/
+COPY renv/activate.R renv/activate.R
+COPY renv/settings.dcf renv/settings.dcf
+
+# change default location of cache to project folder
+RUN mkdir renv/.cache
+ENV RENV_PATHS_CACHE renv/.cache
 
 # Install renv & restore packages
 RUN R -e "install.packages('renv', repos = c(CRAN = 'https://cloud.r-project.org'))"
 RUN Rscript -e 'renv::consent(provided=TRUE)'
+ENV RENV_CONFIG_REPOS_OVERRIDE https://packagemanager.rstudio.com/cran/latest
 RUN Rscript -e 'renv::restore()'
+
+FROM deps
+COPY --from=deps /code .
+COPY server.R ./server.R
+COPY ui.R ./ui.R
+COPY global.R ./global.R
+COPY config.yaml ./config.yaml
+COPY www/ ./www/
+COPY utils/ ./utils/
 
 # Expose port
 EXPOSE 3838
