@@ -15,12 +15,9 @@ We built this interactive web application to give ASA's loyal readers more auton
 - MLS Next Pro
 - North American Soccer League (NASL)
 
-## Running the app via Docker
+## Running the app
 
-```sh
-docker build -t asa-app .
-docker run -p 3838:3838 asa-app
-```
+If you want to get started with the app quickly, we recommend using Docker. We've provided a build/run script for you in `./build.sh` that will run the app under the same memory constraints as it does in production. Please note: the first time you run this script, `renv` will have to install all dependencies, which can take _a while_ (~35 minutes). However, because of how we have setup [multi-stage Docker builds using renv](https://rstudio.github.io/renv/articles/docker.html), this should not be a problem afterward (unless you update the dependencies or renv.lock via `renv::snapshot()`).
 
 ## Contributing
 
