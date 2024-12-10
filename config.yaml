@@ -223,9 +223,19 @@ columns:
       tooltip_text: "Shots For"
       normalize: true
 
+    - api_name: shots_on_target_for
+      app_name: "SoTF"
+      tooltip_text: "Shots on Target For"
+      normalize: true
+
     - api_name: shots_against
       app_name: "ShtA"
       tooltip_text: "Shots Against"
+      normalize: true
+
+    - api_name: shots_on_target_against
+      app_name: "SoTA"
+      tooltip_text: "Shots on Target Against"
       normalize: true
 
     - api_name: goals_for

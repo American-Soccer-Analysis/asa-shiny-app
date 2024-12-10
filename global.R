@@ -24,6 +24,8 @@ httr_config <- switch(Sys.info()["sysname"],
 STAGE <- ifelse(grepl("stage", getwd()), "stage/", "")
 API_PATH <- paste0("https://app.americansocceranalysis.com/", STAGE, "api/v1")
 # API_PATH <- "http://127.0.0.1:8001"
+# if using Docker for both the app and API:
+# API_PATH <- "http://host.docker.internal:8001"
 
 VIOLIN_HEIGHT <- "400px"
 VIOLIN_WIDTH <- "96%"
