@@ -124,6 +124,10 @@ columns:
       app_name: "xG+xA"
       normalize: true
 
+    - api_name: goals_plus_primary_assists
+      app_name: "G+A"
+      normalize: true
+
     - api_name: points_added
       app_name: "PA"
       tooltip_text: "Expected points added through scoring goals."
