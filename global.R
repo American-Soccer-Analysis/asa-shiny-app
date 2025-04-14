@@ -167,6 +167,11 @@ api_request <- function(path = API_PATH, endpoint, parameters = list()) {
         while (nrow(tmp_resp) == MAX_API_LIMIT) {
             parameters$offset <- offset
             tmp_resp <- single_request(path, endpoint, parameters)
+            # if we get an empty list or data.frame we should probably break
+            if (length(tmp_resp) == 0) {
+                break
+            }
+
             tmp_resp <- .cast_lists_to_vectors(tmp_resp)
 
             addtl_resps <- append(addtl_resps, list(tmp_resp))
