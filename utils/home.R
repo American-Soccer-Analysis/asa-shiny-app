@@ -7,7 +7,7 @@ home_ui <- div(
                          lead = "We built this interactive web application to give ASA's loyal readers more autonomy to sort, filter, and download our data. It's constantly evolving, and we'd love your input along the way.",
                          btn_name = NULL),
             fluidRow(
-                bs4Box(title = "Methodology Resources",
+                bs4TabCard(title = "Methodology Resources",
                        bs4ListGroup(
                            bs4ListGroupItem(
                                "American Soccer Analysis",
@@ -30,7 +30,7 @@ home_ui <- div(
                            width = 12
                        ),
                        width = 6),
-                bs4Box(title = "App Resources",
+                bs4TabCard(title = "App Resources",
                        bs4ListGroup(
                            bs4ListGroupItem(
                                "GitHub",

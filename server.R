@@ -29,7 +29,7 @@ server <- function(input, output, session) {
     }
 
     # Initialize router -----------------------------
-    router(input, output, session)
+    router_server("mls")
 
     # Hide loading page -----------------------------
     hide(id = "loader_page", anim = TRUE, animType = "fade", time = 2)

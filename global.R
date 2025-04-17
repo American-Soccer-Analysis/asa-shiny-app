@@ -80,13 +80,13 @@ tables_normalize_columns <- unique(tmp_tables$api_name[!is.na(tmp_tables$normali
 
 # Initialize shiny router -----------------------
 tab_groups <- sapply(tab_config, names)
-router_list_to_parse <- "router <- make_router(default = "
+router_list_to_parse <- "router <- router_ui("
 
 for (league in league_schemas) {
     router_list_to_parse <- paste0(router_list_to_parse, "route(\"",
                                    league, "\", ",
-                                   "home_ui", ", ",
-                                   NA, "), ")
+                                   "home_ui",
+                                   "), ")
     for (tab_group in tab_groups) {
         i <- which(tab_groups == tab_group)
         tabs <- tab_config[[i]][[tab_group]]
@@ -98,14 +98,12 @@ for (league in league_schemas) {
                     for (s in subheaders) {
                         router_list_to_parse <- paste0(router_list_to_parse, "route(\"",
                                                        paste0(league, "/", header, "/", tolower(s)), "\", ",
-                                                       tab$ui, ", ",
-                                                       tab$server,  "), ")
+                                                       tab$ui, "), ")
                     }
                 } else {
                     router_list_to_parse <- paste0(router_list_to_parse, "route(\"",
                                                    paste0(league, "/", header), "\", ",
-                                                   tab$ui, ", ",
-                                                   tab$server,  "), ")
+                                                   tab$ui, "), ")
                 }
             }
         }

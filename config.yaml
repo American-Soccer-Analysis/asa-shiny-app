@@ -24,7 +24,7 @@ tabs:
     - Tables:
         - route_link: xgoals
           display_name: xGoals
-          icon: futbol-o
+          icon: futbol
           subheaders: [Players, Teams, Games, Goalkeepers]
           ui: tables_ui
           leagues: [mls, nwsl, usls, uslc, usl1, mlsnp, nasl]

@@ -1,6 +1,6 @@
 # Base image https://hub.docker.com/u/rocker/
 # Match R version in renv.lock
-FROM rocker/r-ver:3.6.3 AS deps
+FROM rocker/r-ver:4.5.0 AS deps
 WORKDIR /code
 RUN apt-get update -qq && apt-get -y --no-install-recommends install \
     libxml2-dev \
@@ -31,12 +31,12 @@ COPY renv/settings.dcf renv/settings.dcf
 
 # change default location of cache to project folder
 RUN mkdir renv/.cache
-ENV RENV_PATHS_CACHE renv/.cache
+ENV RENV_PATHS_CACHE=renv/.cache
 
 # Install renv & restore packages
 RUN R -e "install.packages('renv', repos = c(CRAN = 'https://cloud.r-project.org'))"
 RUN Rscript -e 'renv::consent(provided=TRUE)'
-ENV RENV_CONFIG_REPOS_OVERRIDE https://packagemanager.rstudio.com/cran/latest
+ENV RENV_CONFIG_REPOS_OVERRIDE=https://packagemanager.rstudio.com/cran/latest
 RUN Rscript -e 'renv::restore()'
 
 FROM deps
