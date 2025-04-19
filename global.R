@@ -111,6 +111,7 @@ for (league in league_schemas) {
 }
 
 router_list_to_parse <- gsub(",\\s+$", ")", router_list_to_parse)
+print(paste("Router list to parse: ", router_list_to_parse))
 eval(parse(text = router_list_to_parse))
 
 
@@ -199,12 +200,23 @@ api_request <- function(path = API_PATH, endpoint, parameters = list()) {
 }
 
 get_config_element <- function(league, tab_group, route_prefix, tab_config, element) {
+    print(paste("Tab Config:",tab_config))
+    print(paste ("Tab Group:", tab_group))
     tab_groups <- sapply(tab_config, names)
     i <- which(tab_groups == tab_group)
 
     tab <- tab_config[[i]][[tab_group]]
     route_links <- sapply(tab, "[[", "route_link")
+    print(paste("Route links:", route_links))
+    print(length(route_links))
+    print(paste("Route prefix:", route_prefix))
     j <- which(route_links == route_prefix)
+    print(paste("J:", j))
+    if (length(j) == 0) {
+        print(paste("Element:", element))
+        print(paste("Tab:", tab))
+        return(tab[[1]][[element]])
+    }
 
     return(tab[[j]][[element]])
 }

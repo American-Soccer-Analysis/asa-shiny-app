@@ -176,7 +176,7 @@ tables_rv_to_df <- function(page, tables_rv, client_timezone, database_timezone 
 
             df <- df %>%
                 gather(variable, value, -(player_id:action_type)) %>%
-                pivot_wider(names(df)[which(names(df) %in% c("player_id", "team_id", "season_name", "general_position", "minutes_played"))], names_from = c(action_type, variable), values_from = value)
+                pivot_wider(id_cols = names(df)[which(names(df) %in% c("player_id", "team_id", "season_name", "general_position", "minutes_played"))], names_from = c(action_type, variable), values_from = value)
 
             df <- df %>%
                 mutate(total_goals_added_above_avg = rowSums(df %>% select(contains("goals_added"))),
@@ -202,7 +202,7 @@ tables_rv_to_df <- function(page, tables_rv, client_timezone, database_timezone 
 
             df <- df %>%
                 gather(variable, value, -(player_id:action_type)) %>%
-                pivot_wider(names(df)[which(names(df) %in% c("player_id", "team_id", "season_name", "general_position", "minutes_played"))], names_from = c(action_type, variable), values_from = value)
+                pivot_wider(id_cols = names(df)[which(names(df) %in% c("player_id", "team_id", "season_name", "general_position", "minutes_played"))], names_from = c(action_type, variable), values_from = value)
 
             df <- df %>%
                 mutate(total_goals_added_above_avg = rowSums(df %>% select(contains("goals_added"))),

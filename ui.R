@@ -30,12 +30,10 @@ shinyUI(
                 skin = "dark",
                 status = "primary",
                 title = "American Soccer Analysis",
-                badgeColor = "primary",
-                image = "asa_assets/asa_icon_white.png",
                 elevation = 0,
                 collapsed = TRUE,
                 minified = TRUE,
-                expandOnHover = FALSE,
+                expandOnHover = TRUE,
                 uiOutput("asa_sidebar_reactive")
             ),
             footer = bs4DashFooter(
