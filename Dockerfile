@@ -2,6 +2,7 @@
 # Match R version in renv.lock
 FROM rocker/r-ver:3.6.3 AS deps
 WORKDIR /code
+# Install system dependencies
 RUN apt-get update -qq && apt-get -y --no-install-recommends install \
     libxml2-dev \
     libcairo2-dev \
