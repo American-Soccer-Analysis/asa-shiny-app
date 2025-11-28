@@ -20,6 +20,7 @@ RUN apt-get update -qq && apt-get -y --no-install-recommends install \
     libjpeg-dev \
     default-jdk
 
+# Update all system packages
 RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get clean
