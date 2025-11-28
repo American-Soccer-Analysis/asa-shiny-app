@@ -1,0 +1,22 @@
+name: Build Docker Image 🐋
+on:
+  push:
+    branches:
+      - '**'
+      - main
+    paths:
+      - Dockerfile
+  workflow_dispatch:
+jobs:
+  dockerbuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          push: false
+          file: ./Dockerfile
+          context: .
