@@ -1,6 +1,6 @@
 # Base image https://hub.docker.com/u/rocker/
 # Match R version in renv.lock
-FROM rocker/r-ver:4.5.0 AS deps
+FROM rocker/r-ver:4.5.2 AS deps
 WORKDIR /code
 RUN apt-get update -qq && apt-get -y --no-install-recommends install \
     libxml2-dev \
@@ -17,7 +17,8 @@ RUN apt-get update -qq && apt-get -y --no-install-recommends install \
     libpng-dev \
     libtiff5-dev \
     libjpeg-dev \
-    default-jdk
+    default-jdk \
+    cmake
 
 RUN apt-get update && \
     apt-get upgrade -y && \
