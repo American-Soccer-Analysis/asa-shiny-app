@@ -96,14 +96,26 @@ for (league in league_schemas) {
                 subheaders <- tab$subheaders
                 if (!is.null(subheaders)) {
                     for (s in subheaders) {
-                        router_list_to_parse <- paste0(router_list_to_parse, "route(\"",
-                                                       paste0(league, "/", header, "/", tolower(s)), "\", ",
-                                                       tab$ui, "), ")
+                        route_path <- paste0(league, "/", header, "/", tolower(s))
+                        route_id <- gsub("/", "_", route_path)
+
+                        router_list_to_parse <- paste0(
+                            router_list_to_parse,
+                            "route(\"", route_path, "\", ",
+                            tab$ui, "(id = \"", route_id, "\")",
+                            "), "
+                        )
                     }
                 } else {
-                    router_list_to_parse <- paste0(router_list_to_parse, "route(\"",
-                                                   paste0(league, "/", header), "\", ",
-                                                   tab$ui, "), ")
+                    route_path <- paste0(league, "/", header)
+                    route_id <- gsub("/", "_", route_path)
+
+                    router_list_to_parse <- paste0(
+                        router_list_to_parse,
+                        "route(\"", route_path, "\", ",
+                        tab$ui, "(id = \"", route_id, "\")",
+                        "), "
+                    )
                 }
             }
         }
@@ -111,7 +123,6 @@ for (league in league_schemas) {
 }
 
 router_list_to_parse <- gsub(",\\s+$", ")", router_list_to_parse)
-print(paste("Router list to parse: ", router_list_to_parse))
 eval(parse(text = router_list_to_parse))
 
 
@@ -200,22 +211,18 @@ api_request <- function(path = API_PATH, endpoint, parameters = list()) {
 }
 
 get_config_element <- function(league, tab_group, route_prefix, tab_config, element) {
-    print(paste("Tab Config:",tab_config))
-    print(paste ("Tab Group:", tab_group))
     tab_groups <- sapply(tab_config, names)
     i <- which(tab_groups == tab_group)
 
+    if (length(i) == 0) {
+        return(NULL)
+    }
+
     tab <- tab_config[[i]][[tab_group]]
     route_links <- sapply(tab, "[[", "route_link")
-    print(paste("Route links:", route_links))
-    print(length(route_links))
-    print(paste("Route prefix:", route_prefix))
     j <- which(route_links == route_prefix)
-    print(paste("J:", j))
     if (length(j) == 0) {
-        print(paste("Element:", element))
-        print(paste("Tab:", tab))
-        return(tab[[1]][[element]])
+        return(NULL)
     }
 
     return(tab[[j]][[element]])
