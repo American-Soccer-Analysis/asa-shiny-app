@@ -88,23 +88,36 @@ server <- function(input, output, session) {
     # Initialize reactive value objects -------------
     source("utils/tables/reactive_values.R", local = TRUE)
 
-    # Header element --------------------------------
-    output$tables_header <- renderUI({
-        page <- get_page(session)
-        tables_header(page, tab_config)
-    })
+    # Generate module server calls for all table routes
+    parent_input <- input
 
-    # Subheader element -----------------------------
-    output$tables_subheader <- renderUI({
-        page <- get_page(session)
-        tables_subheader(page, tab_config)
-    })
+    for (league in league_schemas) {
+        tab_groups <- sapply(tab_config, names)
+        for (tab_group in tab_groups) {
+            i <- which(tab_groups == tab_group)
+            tabs <- tab_config[[i]][[tab_group]]
+            for (tab in tabs) {
+                if (league %in% tab$leagues && !is.null(tab$subheaders)) {
+                    for (s in tab$subheaders) {
+                        local({
+                            route_path <- paste0(league, "/", tab$route_link, "/", tolower(s))
+                            route_id <- gsub("/", "_", route_path)
 
-    # Body element ----------------------------------
-    output$tables_body <- renderUI({
-        page <- get_page(session)
-        tables_body(page, input$client_timezone, tables_rv, filtering_hint_ind)
-    })
+                            tables_server(
+                                route_id,
+                                route_path,
+                                tab_config,
+                                tables_rv,
+                                filtering_hint_ind,
+                                parent_input
+                            )
+                        })
+                    }
+                }
+            }
+        }
+    }
+
 
     lapply(1:30, function(i) {
         onevent("mouseenter", paste0("tables_header_", i), shinyjs::addCssClass(selector = paste0("#tables_header_", i, " .tables_helper_tooltip"), class = "visible"))
