@@ -236,8 +236,8 @@ get_values_from_page <- function(page) {
 
     return(list(
         league = league,
-        route_prefix = ifelse(nchar(route_prefix) == 0, NA, route_prefix),
-        subheader = ifelse(nchar(subheader) == 0, NA, subheader)
+        route_prefix = if (nchar(route_prefix) == 0) NA_character_ else route_prefix,
+        subheader = if (nchar(subheader) == 0) NA_character_ else subheader
     ))
 }
 

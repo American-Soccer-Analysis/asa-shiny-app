@@ -11,7 +11,9 @@ tables_ui <- function(id) {
 tables_header <- function(page, tab_config) {
     league <- get_values_from_page(page)$league
     route_prefix <- get_values_from_page(page)$route_prefix
-    print(paste("TH RP:", route_prefix))
+
+    req(league, route_prefix, tab_config)
+
     display_name <- get_config_element(league, "Tables", route_prefix, tab_config, "display_name")
 
     if (is.null(display_name)) {
@@ -32,6 +34,9 @@ tables_header <- function(page, tab_config) {
 tables_subheader <- function(page, tab_config) {
     league <- get_values_from_page(page)$league
     route_prefix <- get_values_from_page(page)$route_prefix
+
+    req(league, route_prefix, tab_config)
+
     subheaders <- get_config_element(league, "Tables", route_prefix, tab_config, "subheaders")
 
     if (is.null(subheaders)) {
@@ -68,7 +73,6 @@ tables_body <- function(page, client_timezone, tables_rv, filtering_hint_ind) {
     subheader <- get_values_from_page(page)$subheader
 
     rv_key <- assemble_key(league, route_prefix, subheader)
-    print(paste("Tables RV Key:", rv_key))
 
     if (is.null(tables_rv[[rv_key]])) {
         return(div())
