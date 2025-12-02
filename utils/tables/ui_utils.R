@@ -1,10 +1,11 @@
-# Wrapper div -----------------------------------
-tables_ui <- div(
-    uiOutput("tables_header"),
-    uiOutput("tables_subheader"),
-    uiOutput("tables_body") %>% withSpinner(color = "#27aae1")
-)
-
+# # Wrapper div -----------------------------------
+tables_ui <- function(id) {
+    ns <- NS(id)
+    div(
+        uiOutput(ns("tables_header")),
+        uiOutput(ns("tables_subheader")),
+        uiOutput(ns("tables_body")) %>% withSpinner(color = "#27aae1")
+    )
 
 # Header ----------------------------------------
 tables_header <- function(page, tab_config) {
