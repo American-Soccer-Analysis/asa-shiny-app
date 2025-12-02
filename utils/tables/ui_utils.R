@@ -6,6 +6,7 @@ tables_ui <- function(id) {
         uiOutput(ns("tables_subheader")),
         uiOutput(ns("tables_body")) %>% withSpinner(color = "#27aae1")
     )
+}
 
 # Header ----------------------------------------
 tables_header <- function(page, tab_config) {
