@@ -16,6 +16,8 @@ shinyUI(
         ),
         dashboardPage(
             title = "American Soccer Analysis | App",
+            dark = NULL,
+            help = NULL,
             header = bs4DashNavbar(
                 skin = "dark",
                 status = "white",
