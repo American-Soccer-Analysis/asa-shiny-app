@@ -19,19 +19,24 @@ shinyUI(
             dark = NULL,
             help = NULL,
             header = bs4DashNavbar(
-                skin = "dark",
-                status = "white",
+                title = bs4DashBrand(
+                    title = "American Soccer Analysis",
+                    color = "gray",
+                    href = "#!/mls",
+                    image = "asa_assets/asa_icon_white.png"
+                ),
+                skin = "light",
+                status = "dark",
                 border = TRUE,
                 sidebarIcon = shiny::icon("bars"),
                 controlbarIcon = shiny::icon("gear"),
-                fixed = FALSE,
+                fixed = TRUE,
                 compact = TRUE,
                 rightUi = uiOutput("asa_navbar")
             ),
             sidebar = bs4DashSidebar(
                 skin = "dark",
                 status = "primary",
-                title = "American Soccer Analysis",
                 elevation = 0,
                 collapsed = TRUE,
                 minified = TRUE,
