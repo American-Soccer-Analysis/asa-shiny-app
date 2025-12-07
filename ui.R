@@ -30,7 +30,7 @@ shinyUI(
                 border = TRUE,
                 sidebarIcon = shiny::icon("bars"),
                 controlbarIcon = shiny::icon("gear"),
-                fixed = TRUE,
+                fixed = FALSE,
                 compact = TRUE,
                 rightUi = uiOutput("asa_navbar")
             ),
@@ -41,6 +41,7 @@ shinyUI(
                 collapsed = TRUE,
                 minified = TRUE,
                 expandOnHover = TRUE,
+                fixed = FALSE,
                 uiOutput("asa_sidebar_reactive")
             ),
             footer = bs4DashFooter(
