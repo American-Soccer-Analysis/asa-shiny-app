@@ -23,15 +23,16 @@ shinyUI(
                     title = "American Soccer Analysis",
                     color = "gray",
                     href = "#!/mls",
-                    image = "asa_assets/asa_icon_white.png"
+                    image = "asa_assets/asa_icon_white.png",
+                    opacity = 1
                 ),
                 skin = "light",
                 status = "dark",
                 border = TRUE,
                 sidebarIcon = shiny::icon("bars"),
                 controlbarIcon = shiny::icon("gear"),
-                fixed = FALSE,
-                compact = TRUE,
+                fixed = TRUE,
+                compact = FALSE,
                 rightUi = uiOutput("asa_navbar")
             ),
             sidebar = bs4DashSidebar(
