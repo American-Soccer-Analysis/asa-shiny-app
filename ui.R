@@ -15,27 +15,35 @@ shinyUI(
                 p("Loading..."))
         ),
         dashboardPage(
-            old_school = FALSE,
-            sidebar_collapsed = TRUE,
-            controlbar_collapsed = TRUE,
             title = "American Soccer Analysis | App",
-            navbar = bs4DashNavbar(
-                skin = "dark",
-                status = "white",
+            dark = NULL,
+            help = NULL,
+            header = bs4DashNavbar(
+                title = bs4DashBrand(
+                    title = "American Soccer Analysis",
+                    color = "gray",
+                    href = "#!/mls",
+                    image = "asa_assets/asa_icon_white.png",
+                    opacity = 1
+                ),
+                skin = "light",
+                status = "dark",
                 border = TRUE,
-                sidebarIcon = "bars",
-                controlbarIcon = "th",
+                sidebarIcon = shiny::icon("bars"),
+                controlbarIcon = shiny::icon("gear"),
                 fixed = FALSE,
+                compact = FALSE,
                 rightUi = uiOutput("asa_navbar")
             ),
             sidebar = bs4DashSidebar(
                 skin = "dark",
                 status = "primary",
-                title = "American Soccer Analysis",
-                brandColor = "primary",
-                src = "asa_assets/asa_icon_white.png",
                 elevation = 0,
-                opacity = 1,
+                width = "300px",
+                collapsed = TRUE,
+                minified = TRUE,
+                expandOnHover = TRUE,
+                fixed = TRUE,
                 uiOutput("asa_sidebar_reactive")
             ),
             footer = bs4DashFooter(
@@ -44,7 +52,7 @@ shinyUI(
             body = bs4DashBody(
                 div(
                     id = "asa_body",
-                    router_ui()
+                    router
                 )
             ),
             controlbar = bs4DashControlbar(

@@ -80,13 +80,13 @@ tables_normalize_columns <- unique(tmp_tables$api_name[!is.na(tmp_tables$normali
 
 # Initialize shiny router -----------------------
 tab_groups <- sapply(tab_config, names)
-router_list_to_parse <- "router <- make_router(default = "
+router_list_to_parse <- "router <- router_ui("
 
 for (league in league_schemas) {
     router_list_to_parse <- paste0(router_list_to_parse, "route(\"",
                                    league, "\", ",
-                                   "home_ui", ", ",
-                                   NA, "), ")
+                                   "home_ui",
+                                   "), ")
     for (tab_group in tab_groups) {
         i <- which(tab_groups == tab_group)
         tabs <- tab_config[[i]][[tab_group]]
@@ -96,16 +96,26 @@ for (league in league_schemas) {
                 subheaders <- tab$subheaders
                 if (!is.null(subheaders)) {
                     for (s in subheaders) {
-                        router_list_to_parse <- paste0(router_list_to_parse, "route(\"",
-                                                       paste0(league, "/", header, "/", tolower(s)), "\", ",
-                                                       tab$ui, ", ",
-                                                       tab$server,  "), ")
+                        route_path <- paste0(league, "/", header, "/", tolower(s))
+                        route_id <- gsub("/", "_", route_path)
+
+                        router_list_to_parse <- paste0(
+                            router_list_to_parse,
+                            "route(\"", route_path, "\", ",
+                            tab$ui, "(id = \"", route_id, "\")",
+                            "), "
+                        )
                     }
                 } else {
-                    router_list_to_parse <- paste0(router_list_to_parse, "route(\"",
-                                                   paste0(league, "/", header), "\", ",
-                                                   tab$ui, ", ",
-                                                   tab$server,  "), ")
+                    route_path <- paste0(league, "/", header)
+                    route_id <- gsub("/", "_", route_path)
+
+                    router_list_to_parse <- paste0(
+                        router_list_to_parse,
+                        "route(\"", route_path, "\", ",
+                        tab$ui, "(id = \"", route_id, "\")",
+                        "), "
+                    )
                 }
             }
         }
@@ -204,9 +214,16 @@ get_config_element <- function(league, tab_group, route_prefix, tab_config, elem
     tab_groups <- sapply(tab_config, names)
     i <- which(tab_groups == tab_group)
 
+    if (length(i) == 0) {
+        return(NULL)
+    }
+
     tab <- tab_config[[i]][[tab_group]]
     route_links <- sapply(tab, "[[", "route_link")
     j <- which(route_links == route_prefix)
+    if (length(j) == 0) {
+        return(NULL)
+    }
 
     return(tab[[j]][[element]])
 }
@@ -219,8 +236,8 @@ get_values_from_page <- function(page) {
 
     return(list(
         league = league,
-        route_prefix = ifelse(nchar(route_prefix) == 0, NA, route_prefix),
-        subheader = ifelse(nchar(subheader) == 0, NA, subheader)
+        route_prefix = if (nchar(route_prefix) == 0) NA_character_ else route_prefix,
+        subheader = if (nchar(subheader) == 0) NA_character_ else subheader
     ))
 }
 

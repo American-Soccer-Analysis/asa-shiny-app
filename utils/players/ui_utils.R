@@ -20,7 +20,7 @@ profiles_players_header <- function(page, players_rv, all_players) {
                                player_dict$primary_general_position,
                                paste(player_dict$primary_general_position, player_dict$secondary_general_position, sep = ", "))
 
-    bs4Box(
+    bs4Card(
         div(class = "header_background",
             div(class = "profiles_players_headshot",
                 img(src = paste0("player_headshots/", selected_player_id, ".png"))),
@@ -152,12 +152,12 @@ violin_plots_profiles_players <- function(page, players_rv) {
     df <- players_rv[[league]][[player_id]][["data_frame"]]
 
     if (!is.data.frame(df)) {
-        bs4Box(
+        bs4Card(
             p("Search yielded zero results."),
             width = 12
         )
     } else {
-        bs4Box(
+        bs4Card(
             h3("p96 Performance Metrics", class = "card_header"),
             bs4TabSetPanel(
                 id = "profiles_players_violin_tabs",
