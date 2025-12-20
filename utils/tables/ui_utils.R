@@ -1,22 +1,27 @@
-# Wrapper div -----------------------------------
-tables_ui <- div(
-    uiOutput("tables_header"),
-    uiOutput("tables_subheader"),
-    uiOutput("tables_body") %>% withSpinner(color = "#27aae1")
-)
-
+# # Wrapper div -----------------------------------
+tables_ui <- function(id) {
+    ns <- NS(id)
+    div(
+        uiOutput(ns("tables_header")),
+        uiOutput(ns("tables_subheader")),
+        uiOutput(ns("tables_body")) %>% withSpinner(color = "#27aae1")
+    )
+}
 
 # Header ----------------------------------------
 tables_header <- function(page, tab_config) {
     league <- get_values_from_page(page)$league
     route_prefix <- get_values_from_page(page)$route_prefix
+
+    req(league, route_prefix, tab_config)
+
     display_name <- get_config_element(league, "Tables", route_prefix, tab_config, "display_name")
 
     if (is.null(display_name)) {
         return(div())
     }
 
-    bs4Box(
+    bs4Card(
         div(
             class = "header_background",
             h2(display_name)
@@ -30,13 +35,16 @@ tables_header <- function(page, tab_config) {
 tables_subheader <- function(page, tab_config) {
     league <- get_values_from_page(page)$league
     route_prefix <- get_values_from_page(page)$route_prefix
+
+    req(league, route_prefix, tab_config)
+
     subheaders <- get_config_element(league, "Tables", route_prefix, tab_config, "subheaders")
 
     if (is.null(subheaders)) {
         return(div())
     }
 
-    bs4Box(
+    bs4Card(
         div(
             id = "tables_subheader",
             class = "radioGroupButtons shiny-bound-input",
@@ -76,9 +84,8 @@ tables_body <- function(page, client_timezone, tables_rv, filtering_hint_ind) {
     }
 
     df <- tables_rv[[rv_key]][["data_frame"]]
-
     if (!is.data.frame(df)) {
-        bs4Box(
+        bs4Card(
             p("Search yielded zero results."),
             width = 12
         )
@@ -177,7 +184,7 @@ tables_body <- function(page, client_timezone, tables_rv, filtering_hint_ind) {
         }
 
         if (filtering_hint_ind()) {
-            bs4Box(
+            bs4Card(
                 div(id = "filtering_hint_wrapper",
                     panel(p("Click the settings option (the gear icon) in the top-right corner to tailor your results."),
                           actionButton("filtering_hint_disable", "Got it!"),
@@ -187,7 +194,7 @@ tables_body <- function(page, client_timezone, tables_rv, filtering_hint_ind) {
                 width = 12
             )
         } else {
-            bs4Box(
+            bs4Card(
                 div(class = "datatable_wrapper", dt),
                 width = 12
             )

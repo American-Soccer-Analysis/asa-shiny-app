@@ -176,7 +176,7 @@ tables_rv_to_df <- function(page, tables_rv, client_timezone, database_timezone 
 
             df <- df %>%
                 gather(variable, value, -(player_id:action_type)) %>%
-                pivot_wider(names(df)[which(names(df) %in% c("player_id", "team_id", "season_name", "general_position", "minutes_played"))], names_from = c(action_type, variable), values_from = value)
+                pivot_wider(id_cols = names(df)[which(names(df) %in% c("player_id", "team_id", "season_name", "general_position", "minutes_played"))], names_from = c(action_type, variable), values_from = value)
 
             df <- df %>%
                 mutate(total_goals_added_above_avg = rowSums(df %>% select(contains("goals_added"))),
@@ -202,7 +202,7 @@ tables_rv_to_df <- function(page, tables_rv, client_timezone, database_timezone 
 
             df <- df %>%
                 gather(variable, value, -(player_id:action_type)) %>%
-                pivot_wider(names(df)[which(names(df) %in% c("player_id", "team_id", "season_name", "general_position", "minutes_played"))], names_from = c(action_type, variable), values_from = value)
+                pivot_wider(id_cols = names(df)[which(names(df) %in% c("player_id", "team_id", "season_name", "general_position", "minutes_played"))], names_from = c(action_type, variable), values_from = value)
 
             df <- df %>%
                 mutate(total_goals_added_above_avg = rowSums(df %>% select(contains("goals_added"))),
@@ -366,4 +366,54 @@ tables_rv_to_df <- function(page, tables_rv, client_timezone, database_timezone 
     }
 
     return(df)
+}
+
+#' Tables Module Server
+#'
+#' Server-side logic for a single table route. This module renders table headers,
+#' subheaders, and body content for a specific route, only when that route is active.
+#'
+#' @param route_id Character string. Unique identifier for this module instance,
+#' typically in the format "league_metric_category" (e.g., "mls_xgoals_players").
+#' Used to create namespaced output IDs.
+#' @param route_path Character string. The URL path for this route
+#' (e.g., "mls/xgoals/players"). Used to determine if this module should render
+#' based on the current page.
+#' @param tab_config List. Configuration object containing tab metadata including
+#' route links, display names, and subheaders.
+#' @param tables_rv Reactive values object.
+#' @param filtering_hint_ind Reactive value. Boolean indicating whether to show
+#' the filtering hint panel to users.
+#' @param parent_input Shiny input object from parent session. Provides access to
+#' global inputs like client_timezone that aren't namespaced to this module.
+#'
+#' @details
+#' This module only renders content when the current page (from shiny.router)
+#' matches its assigned route_path. This prevents all 65+ table route modules from
+#' rendering simultaneously and creating duplicate output ID conflicts.
+#'
+#' @return None (creates reactive outputs as a side effect)
+tables_server <- function(route_id, route_path, tab_config, tables_rv, filtering_hint_ind, parent_input) {
+    shiny::moduleServer(route_id, function(input, output, session) {
+        # Compare current page URL to this module's route path
+        is_active <- shiny::reactive({
+            shiny.router::get_page(session) == route_path
+        })
+
+        # Header element --------------------------------
+        output$tables_header <- shiny::renderUI({
+            shiny::req(is_active())
+            tables_header(route_path, tab_config)
+        })
+        # Subheader element -----------------------------
+        output$tables_subheader <- shiny::renderUI({
+            shiny::req(is_active())
+            tables_subheader(route_path, tab_config)
+        })
+        # Body element ----------------------------------
+        output$tables_body <- shiny::renderUI({
+            shiny::req(is_active())
+            tables_body(route_path, parent_input$client_timezone, tables_rv, filtering_hint_ind)
+        })
+    })
 }

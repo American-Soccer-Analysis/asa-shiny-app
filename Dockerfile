@@ -1,6 +1,6 @@
 # Base image https://hub.docker.com/u/rocker/
 # Match R version in renv.lock
-FROM rocker/r-ver:4.0.0 AS deps
+FROM rocker/r-ver:4.5.2 AS deps
 WORKDIR /code
 # Install system dependencies
 RUN apt-get update -qq && apt-get -y --no-install-recommends install \
@@ -18,7 +18,8 @@ RUN apt-get update -qq && apt-get -y --no-install-recommends install \
     libpng-dev \
     libtiff5-dev \
     libjpeg-dev \
-    default-jdk
+    default-jdk \
+    cmake
 
 # Update all system packages
 RUN apt-get update && \
