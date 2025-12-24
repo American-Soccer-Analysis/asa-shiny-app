@@ -49,7 +49,7 @@ players_rv_to_violins_df <- function(page, players_rv) {
 
     if (all(class(df) == "try-error")) {
         stopApp()
-    } else if (class(df) == "list") {
+    } else if ("list" %in% class(df)) {
         return(df)
     }
 

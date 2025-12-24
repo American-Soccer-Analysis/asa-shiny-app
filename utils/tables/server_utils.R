@@ -158,7 +158,7 @@ tables_rv_to_df <- function(page, tables_rv, client_timezone, database_timezone 
 
     if (all(class(df) == "try-error")) {
         stopApp()
-    } else if (class(df) == "list") {
+    } else if ("list" %in% class(df)) {
         return(df)
     }
 
