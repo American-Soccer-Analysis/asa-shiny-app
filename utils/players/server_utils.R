@@ -60,8 +60,7 @@ players_rv_to_violins_df <- function(page, players_rv) {
             unnest(team_id) %>%
             mutate(team_id = all_teams[[league]]$team_abbreviation[match(team_id, all_teams[[league]]$team_id)]) %>%
             group_by(player_id) %>%
-            summarize(team_id = paste0(team_id, collapse = ", ")) %>%
-            ungroup()
+            summarize(team_id = paste0(team_id, collapse = ", "), .groups = "drop")
 
         df <- df %>%
             mutate(team_id = player_teams$team_id[match(player_id, player_teams$player_id)])
