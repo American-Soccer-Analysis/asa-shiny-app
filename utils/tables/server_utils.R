@@ -320,10 +320,9 @@ tables_rv_to_df <- function(page, tables_rv, client_timezone, database_timezone 
     }
 
     if ("player_id" %in% names(df)) {
-
-        df <- df %>%
-            mutate(player_id = player_lookup[[league]]$player_name[match(player_id, player_lookup[[league]]$player_id)])
-
+        df <- df |>
+            dplyr::mutate(player_id = player_lookup[[league]]$player_name[match(player_id, player_lookup[[league]]$player_id)]) |>
+            dplyr::filter(!is.na(player_id))
     }
 
     if ("game_id" %in% names(df)) {
