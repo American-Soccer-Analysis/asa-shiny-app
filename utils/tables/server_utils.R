@@ -158,7 +158,7 @@ tables_rv_to_df <- function(page, tables_rv, client_timezone, database_timezone 
 
     if (all(class(df) == "try-error")) {
         stopApp()
-    } else if (class(df) == "list") {
+    } else if ("list" %in% class(df)) {
         return(df)
     }
 
@@ -276,8 +276,7 @@ tables_rv_to_df <- function(page, tables_rv, client_timezone, database_timezone 
                     unnest(team_id) %>%
                     mutate(team_id = all_teams[[league]]$team_abbreviation[match(team_id, all_teams[[league]]$team_id)]) %>%
                     group_by(player_id, season_name) %>%
-                    summarize(team_id = paste0(team_id, collapse = ", ")) %>%
-                    ungroup()
+                    summarize(team_id = paste0(team_id, collapse = ", "), .groups = "drop")
 
                 df <- df %>%
                     rowwise() %>%
@@ -291,8 +290,7 @@ tables_rv_to_df <- function(page, tables_rv, client_timezone, database_timezone 
                     unnest(team_id) %>%
                     mutate(team_id = all_teams[[league]]$team_abbreviation[match(team_id, all_teams[[league]]$team_id)]) %>%
                     group_by(player_id) %>%
-                    summarize(team_id = paste0(team_id, collapse = ", ")) %>%
-                    ungroup()
+                    summarize(team_id = paste0(team_id, collapse = ", "), .groups = "drop")
 
                 df <- df %>%
                     mutate(team_id = player_teams$team_id[match(player_id, player_teams$player_id)])
@@ -320,10 +318,9 @@ tables_rv_to_df <- function(page, tables_rv, client_timezone, database_timezone 
     }
 
     if ("player_id" %in% names(df)) {
-
-        df <- df %>%
-            mutate(player_id = player_lookup[[league]]$player_name[match(player_id, player_lookup[[league]]$player_id)])
-
+        df <- df |>
+            dplyr::mutate(player_id = player_lookup[[league]]$player_name[match(player_id, player_lookup[[league]]$player_id)]) |>
+            dplyr::filter(!is.na(player_id))
     }
 
     if ("game_id" %in% names(df)) {
