@@ -2,6 +2,7 @@
 # Match R version in renv.lock
 FROM rocker/r-ver:4.5.2 AS deps
 WORKDIR /code
+# Install system dependencies
 RUN apt-get update -qq && apt-get -y --no-install-recommends install \
     libxml2-dev \
     libcairo2-dev \
@@ -20,6 +21,7 @@ RUN apt-get update -qq && apt-get -y --no-install-recommends install \
     default-jdk \
     cmake
 
+# Update all system packages
 RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get clean
