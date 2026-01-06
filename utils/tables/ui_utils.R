@@ -120,7 +120,6 @@ tables_body <- function(page, client_timezone, tables_rv, filtering_hint_ind) {
             df,
             extensions = c("Buttons", "FixedColumns", "Responsive"),
             plugins = "diacritics-neutralise",
-            callback = JS("setTimeout(function() { table.columns.adjust().fixedColumns().relayout(); }, 500);"),
             options = list(pageLength = 30,
                            autoWidth = FALSE,
                            dom = "lBfrtip",
