@@ -1,29 +1,40 @@
+<!-- omit in toc -->
 # American Soccer Analysis | Shiny App
 
 <p align="center">
 <img src="www/asa_assets/asa_github_header.png" align="center" width="100%" alt="American Soccer Analysis logo">
 </p>
 
-## About the App
+- [About](#about)
+- [Development](#development)
+- [Contributing](#contributing)
+- [Acknowledgments](#acknowledgments)
+- [Attribution](#attribution)
+- [License](#license)
+
+## About
 
 We built this interactive web application to give ASA's loyal readers more autonomy to sort, filter, and download our data. It features summary-level data of teams and players participating in the following competitions: 
 
 - Major League Soccer (MLS)
 - National Women's Soccer League (NWSL)
-- USL Championship
-- USL League One
-- MLS Next Pro
+- USL Championship (USLC)
+- USL League One (USL1)
+- USL Super League (USLS)
+- MLS Next Pro (MLSNP)
 - North American Soccer League (NASL)
 
-## Running the app
+## Development
 
-If you want to get started with the app quickly, we recommend using Docker. We've provided a build/run script for you in `./build.sh` that will run the app under the same memory constraints as it does in production. Please note: the first time you run this script, `renv` will have to install all dependencies, which can take _a while_ (~35 minutes). However, because of how we have setup [multi-stage Docker builds using renv](https://rstudio.github.io/renv/articles/docker.html), this should not be a problem afterward (unless you update the dependencies or renv.lock via `renv::snapshot()`).
+If you want to get started with the app quickly, we recommend using Docker. We've provided a build/run script for you in `./build.sh` that will run the app under the same memory constraints as it does in production. Please note: the first time you run this script, `renv` will have to install all dependencies, which can take _a while_ (~35 minutes). However, because of how we have setup [multi-stage Docker builds using renv](https://rstudio.github.io/renv/articles/docker.html), this should not be a problem afterward (unless you update the dependencies or `renv.lock` via `renv::snapshot()`).
 
 ## Contributing
 
 If you'd like to report a bug or request a new feature, please use the [Issues tab](https://github.com/American-Soccer-Analysis/asa-shiny-app/issues) in this repository.
 
 Alternatively, if you'd like to help us squash bugs or add new features, drop us a message first! From there, follow [these general guidelines](https://github.com/MarcDiethelm/contributing/blob/master/README.md) for making a clean pull request. When you clone the forked repository to your local machine, use [`renv::restore()`](https://rstudio.github.io/renv/articles/renv.html) to recreate the virtual R environment.
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for more information.
 
 ## Acknowledgments
 
@@ -43,6 +54,8 @@ Thanks to the developers of these integral, open source libraries:
 
 ## Attribution
 
-This application was built and is maintained by [Brian Greenwood](https://github.com/bgrnwd), [Matthias Kullowatz](https://github.com/mattyanselmo), [Rory Pulvino](https://github.com/rvino), and [Tyler Richardett](https://github.com/tyler-richardett).
-
 If you use any of the data we make publicly available, we kindly ask that you provide credit and link back to the [American Soccer Analysis website](https://www.americansocceranalysis.com/). Thanks!
+
+## License
+
+See license in [LICENSE.md](./LICENSE.md)
