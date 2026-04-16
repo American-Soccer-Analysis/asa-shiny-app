@@ -515,6 +515,14 @@ div.datatable_wrapper, div.datatable_wrapper table {
     margin-top: -5px;
 }
 
+div.dataTables_wrapper div.dataTables_scroll {
+	margin-bottom: 0.85em;
+}
+
+div.dataTables_scroll div.dataTables_scrollBody {
+	border-left: 0 !important;
+}
+
 #filtering_hint_wrapper {
     margin-bottom: 75px;
 }
@@ -556,10 +564,8 @@ div.datatable_wrapper {
     height: 38px;
 }
 
-div.dataTables_paginate {
-    position: absolute;
-    bottom: 15px;
-    right: 20px;
+div.dataTables_wrapper div.dataTables_paginate {
+    float: right;
 }
 
 .dataTables_wrapper .btn-group {
@@ -590,10 +596,8 @@ div.dataTables_paginate {
     border-color: #27aae1;
 }
 
-.dataTables_wrapper .dataTables_info {
-    position: absolute;
-    bottom: 25px;
-    left: 20px;
+div.dataTables_wrapper div.dataTables_info {
+    float: left;
 }
 
 table.dataTable thead .sorting:before, table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:before, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:before, table.dataTable thead .sorting_desc_disabled:after {
@@ -1047,7 +1051,7 @@ shiny-spinner-placeholder.shiny-spinner-placeholder {
     background-size: cover;
 }
 
-#tables_header h2 {
+.header_background h2 {
     color: white;
     font-weight: bold;
     font-size: 55px;
