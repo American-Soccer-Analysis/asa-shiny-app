@@ -557,9 +557,9 @@ div.datatable_wrapper {
 }
 
 div.dataTables_paginate {
-    position: absolute;
-    bottom: 15px;
-    right: 20px;
+    float: right;
+    margin-top: 0.5em;
+    padding-right: 20px;
 }
 
 .dataTables_wrapper .btn-group {
@@ -591,9 +591,9 @@ div.dataTables_paginate {
 }
 
 .dataTables_wrapper .dataTables_info {
-    position: absolute;
-    bottom: 25px;
-    left: 20px;
+    float: left;
+    padding-top: 0.5em;
+    padding-left: 20px;
 }
 
 table.dataTable thead .sorting:before, table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:before, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:before, table.dataTable thead .sorting_desc_disabled:after {
