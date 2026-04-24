@@ -26,7 +26,8 @@ tables_header <- function(page, tab_config) {
             class = "header_background",
             h2(display_name)
         ),
-        width = 12
+        width = 12,
+        collapsible = FALSE
     )
 }
 
@@ -62,7 +63,8 @@ tables_subheader <- function(page, tab_config) {
                 })
             )
         ),
-        width = 12
+        width = 12,
+        collapsible = FALSE
     )
 }
 
@@ -87,7 +89,8 @@ tables_body <- function(page, client_timezone, tables_rv, filtering_hint_ind) {
     if (!is.data.frame(df)) {
         bs4Card(
             p("Search yielded zero results."),
-            width = 12
+            width = 12,
+            collapsible = FALSE
         )
     } else {
         df <- df %>% select(-contains("actions"))
@@ -118,7 +121,7 @@ tables_body <- function(page, client_timezone, tables_rv, filtering_hint_ind) {
 
         dt <- DT::datatable(
             df,
-            extensions = c("Buttons", "FixedColumns", "Responsive"),
+            extensions = c("Buttons", "FixedColumns"),
             plugins = "diacritics-neutralise",
             options = list(pageLength = 30,
                            autoWidth = FALSE,
@@ -190,12 +193,14 @@ tables_body <- function(page, client_timezone, tables_rv, filtering_hint_ind) {
                           status = "info",
                           heading = HTML("<span class=\"glyphicon\">&#xe086;</span>Filtering"))),
                 div(class = "datatable_wrapper", dt),
-                width = 12
+                width = 12,
+                collapsible = FALSE
             )
         } else {
             bs4Card(
                 div(class = "datatable_wrapper", dt),
-                width = 12
+                width = 12,
+                collapsible = FALSE
             )
         }
     }

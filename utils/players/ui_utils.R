@@ -32,7 +32,8 @@ profiles_players_header <- function(page, players_rv, all_players) {
                               ifelse(is.na(player_dict$weight_lb), "", paste0(" &nbsp;|&nbsp; Weight: ", player_dict$weight_lb, " lbs"))))),
                 p(player_dict$home_town, player_dict$birth_place))
         ),
-        width = 12
+        width = 12,
+        collapsible = FALSE
     )
 }
 
@@ -154,7 +155,8 @@ violin_plots_profiles_players <- function(page, players_rv) {
     if (!is.data.frame(df)) {
         bs4Card(
             p("Search yielded zero results."),
-            width = 12
+            width = 12,
+            collapsible = FALSE
         )
     } else {
         bs4Card(
@@ -303,7 +305,8 @@ violin_plots_profiles_players <- function(page, players_rv) {
                               league)
                 )
             ),
-            width = 12
+            width = 12,
+            collapsible = FALSE
         )
     }
 }
