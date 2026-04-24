@@ -27,7 +27,7 @@ for (l in league_schemas) {
         fixed_columns = list(leftColumns = 2),
         column_defs = list(list(width = "55px", targets = 0),
                            list(orderable = FALSE, targets = 0),
-                           list(className = "min-tablet-p", targets = 0))
+                           list(className = "all", targets = 0))
     )
 
     tables_rv[[paste0(l, "/xgoals/teams")]] <- list(
@@ -48,7 +48,7 @@ for (l in league_schemas) {
         fixed_columns = list(leftColumns = 2),
         column_defs = list(list(width = "40px", targets = 0),
                            list(orderable = FALSE, targets = 0),
-                           list(className = "min-tablet-p", targets = 0))
+                           list(className = "all", targets = 0))
     )
 
     tables_rv[[paste0(l, "/xgoals/games")]] <- list(
@@ -80,7 +80,7 @@ for (l in league_schemas) {
         fixed_columns = list(leftColumns = 2),
         column_defs = list(list(width = "55px", targets = 0),
                            list(orderable = FALSE, targets = 0),
-                           list(className = "min-tablet-p", targets = 0))
+                           list(className = "all", targets = 0))
     )
 
 
@@ -103,7 +103,7 @@ for (l in league_schemas) {
         fixed_columns = list(leftColumns = 2),
         column_defs = list(list(width = "55px", targets = 0),
                            list(orderable = FALSE, targets = 0),
-                           list(className = "min-tablet-p", targets = 0))
+                           list(className = "all", targets = 0))
     )
 
     tables_rv[[paste0(l, "/xpass/teams")]] <- list(
@@ -121,7 +121,7 @@ for (l in league_schemas) {
         fixed_columns = list(leftColumns = 2),
         column_defs = list(list(width = "40px", targets = 0),
                            list(orderable = FALSE, targets = 0),
-                           list(className = "min-tablet-p", targets = 0))
+                           list(className = "all", targets = 0))
     )
 
 
@@ -144,7 +144,7 @@ for (l in league_schemas) {
         fixed_columns = list(leftColumns = 2),
         column_defs = list(list(width = "55px", targets = 0),
                            list(orderable = FALSE, targets = 0),
-                           list(className = "min-tablet-p", targets = 0))
+                           list(className = "all", targets = 0))
     )
 
     tables_rv[[paste0(l, "/goals-added/goalkeepers")]] <- list(
@@ -164,7 +164,7 @@ for (l in league_schemas) {
         fixed_columns = list(leftColumns = 2),
         column_defs = list(list(width = "55px", targets = 0),
                            list(orderable = FALSE, targets = 0),
-                           list(className = "min-tablet-p", targets = 0))
+                           list(className = "all", targets = 0))
     )
 
     tables_rv[[paste0(l, "/goals-added/teams")]] <- list(
@@ -179,7 +179,7 @@ for (l in league_schemas) {
         fixed_columns = list(leftColumns = 2),
         column_defs = list(list(width = "40px", targets = 0),
                            list(orderable = FALSE, targets = 0),
-                           list(className = "min-tablet-p", targets = 0))
+                           list(className = "all", targets = 0))
     )
 
 
@@ -196,7 +196,7 @@ for (l in league_schemas) {
             fixed_columns = list(leftColumns = 2),
             column_defs = list(list(width = "55px", targets = 0),
                                list(orderable = FALSE, targets = 0),
-                               list(className = "min-tablet-p", targets = 0))
+                               list(className = "all", targets = 0))
         )
 
         tables_rv[[paste0(l, "/salaries/teams")]] <- list(
@@ -208,7 +208,7 @@ for (l in league_schemas) {
             fixed_columns = list(leftColumns = 2),
             column_defs = list(list(width = "40px", targets = 0),
                                list(orderable = FALSE, targets = 0),
-                               list(className = "min-tablet-p", targets = 0))
+                               list(className = "all", targets = 0))
         )
     }
 }
