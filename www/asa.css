@@ -224,7 +224,7 @@ body {
 }
 **/
 
-#home_wrapper .jumbotron {
+[id$="home_wrapper"] .jumbotron {
     background-image: url(asa_assets/asa_header_background.png);
     background-repeat: no-repeat;
     background-position: center top;
@@ -236,17 +236,17 @@ body {
     background-size: cover;
 }
 
-#home_wrapper .jumbotron a.btn {
+[id$="home_wrapper"] .jumbotron a.btn {
     visibility: hidden;
     height: 0;
     padding: 0;
 }
 
-#home_wrapper .card-header {
+[id$="home_wrapper"] .card-header {
     padding: 1.75rem 1.75rem 0.25rem 1.75rem !important;
 }
 
-#home_wrapper .card-header h3 {
+[id$="home_wrapper"] .card-header h3 {
     font-size: 24px !important;
 }
 
@@ -373,12 +373,12 @@ body {
 /*******  TABLES  *******/
 /************************/
 
-#tables_subheader input {
+[id$="tables_subheader"] input {
     visibility: hidden;
     width: 0;
 }
 
-#tables_subheader .btn-default {
+[id$="tables_subheader"] .btn-default {
     background-color: transparent;
     border: none;
     font-size: 18px;
@@ -388,7 +388,7 @@ body {
     transition: all .2s ease-in-out;
 }
 
-#tables_subheader .btn-default:before {
+[id$="tables_subheader"] .btn-default:before {
     content: "";
     width: 100%;
     background: #27aae1;
@@ -401,24 +401,24 @@ body {
     height: 0;
 }
 
-#tables_subheader .btn-default.active, #tables_subheader .btn-default:hover {
+[id$="tables_subheader"] .btn-default.active, [id$="tables_subheader"] .btn-default:hover {
     font-weight: bold;
 }
 
-#tables_subheader .btn-default.active:before, #tables_subheader .btn-default:hover:before {
+[id$="tables_subheader"] .btn-default.active:before, [id$="tables_subheader"] .btn-default:hover:before {
     height: 4px;
     background: #27aae1;
 }
 
-#tables_subheader .card-body {
+[id$="tables_subheader"] .card-body {
     padding: 0;
 }
 
-#tables_subheader .form-group, #tables_subheader .shiny-bound-input {
+[id$="tables_subheader"] .form-group, [id$="tables_subheader"] .shiny-bound-input {
     margin-bottom: 0 !important;
 }
 
-#tables_subheader .btn-group {
+[id$="tables_subheader"] .btn-group {
     display: -webkit-box;
 }
 
@@ -523,17 +523,17 @@ div.dataTables_scroll div.dataTables_scrollBody {
 	border-left: 0 !important;
 }
 
-#filtering_hint_wrapper {
+[id$="filtering_hint_wrapper"] {
     margin-bottom: 75px;
 }
 
-#filtering_hint_wrapper button {
+[id$="filtering_hint_wrapper"] button {
     background-color: #d9edf7;
     border-color: #bce8f1;
     color: #31708f;
 }
 
-#filtering_hint_wrapper button:hover {
+[id$="filtering_hint_wrapper"] button:hover {
     background-color: #bce8f1;
 }
 
@@ -945,7 +945,7 @@ th:hover .tables_helper_icon {
         margin-bottom: 50px;
     }
 
-    #filtering_hint_wrapper {
+    [id$="filtering_hint_wrapper"] {
         margin-bottom: 55px;
     }
 
