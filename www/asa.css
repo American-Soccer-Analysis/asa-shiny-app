@@ -157,6 +157,10 @@ button.label-primary:focus {
     margin-bottom: 0.5rem;
 }
 
+#asa_controlbar {
+	padding: 2rem 1rem !important;
+}
+
 #asa_controlbar h4 {
     margin-bottom: 0;
 }
@@ -250,10 +254,10 @@ body {
     font-size: 24px !important;
 }
 
-.panel-info>.panel-heading {
-    color: #31708f;
-    background-color: #d9edf7;
-    border-color: #bce8f1;
+.panel-info > .panel-heading {
+    color: #31708f !important;
+    background-color: #d9edf7 !important;
+    border-color: #bce8f1 !important;
 }
 
 .panel-group .panel-heading {
@@ -261,7 +265,7 @@ body {
 }
 
 .panel-heading {
-    padding: 10px 15px;
+    padding: 10px 15px !important;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
 }
@@ -277,7 +281,7 @@ body {
 }
 
 .panel-info .panel-heading {
-    border-bottom: 1px solid #bce8f1;
+    border-bottom: 1px solid #bce8f1 !important;
 }
 
 .panel-body {
@@ -294,15 +298,15 @@ body {
 }
 
 .panel-info {
-    border: 1px solid #bce8f1;
+    border: 1px solid #bce8f1 !important;
 }
 
 .panel {
-    margin-bottom: 30px;
-    background-color: #fff;
-    border-radius: 4px;
-    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
-    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    margin-bottom: 30px !important;
+    background-color: #fff !important;
+    border-radius: 4px !important;
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05) !important;
+    box-shadow: 0 1px 1px rgba(0,0,0,.05) !important;
 }
 
 
