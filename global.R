@@ -48,7 +48,7 @@ FIELD_ZONES <- 30:1
 
 MLSPA_POSITIONS <- c("GK", "D", "M", "F")
 
-MAX_API_LIMIT <- 1000
+MAX_API_LIMIT <- 10000
 
 
 # Source dashboard utils ------------------------
