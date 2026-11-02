@@ -54,7 +54,11 @@ Thanks to the developers of these integral, open source libraries:
 
 ## Attribution
 
-If you use any of the data we make publicly available, we kindly ask that you provide credit and link back to the [American Soccer Analysis website](https://www.americansocceranalysis.com/). Thanks!
+If you use any of the data we make publicly available, we kindly ask that you provide credit and link back to the [American Soccer Analysis website](https://www.americansocceranalysis.com/).
+
+Data is licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+
+Thanks!
 
 ## License
 
